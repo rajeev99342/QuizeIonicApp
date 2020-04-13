@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <!-- <ion-title>Home</ion-title> -->
+    <!-- <ion-list >
+      <ion-item>
+        <ion-select placeholder="Standard" multiple="false" [(ngModel)]="selectedValue" (ionChange)="onChangeClass($event)" cancelText="Nah" okText="Okay!">
+          <ion-select-option *ngFor="let item of cities2" [value]="item.name">{{item.name}}</ion-select-option>
+          
+        </ion-select>
+      </ion-item>
+    </ion-list> -->
+
+
+      
+  </ion-toolbar>
+  <ion-icon slot="end" name="star"></ion-icon>
+</ion-header>
+
+<ion-content  [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">er }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+    
+    <p *ngIf="selectedValue == null">Select You Standard/Class/Level</p>
+
+    <ion-grid *ngIf="selectedValue" >
+      <ion-row no-padding>
+        <ion-col col-6 *ngFor="let k of cities2">
+          <ion-card>
+           <ion-item>
+
+              <ion-checkbox checked="true"></ion-checkbox>
+              <ion-label>{{k.name}}</ion-label>
+            </ion-item>
+          
+            <ion-card-content (click)="onClickSubject()"   >
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+               Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+              
+              <img  src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg">
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+   
+   
+      </ion-row>
+    
+    </ion-grid>
+
+  </div>
+
+  <ion-router-outlet></ion-router-outlet>
+
+</ion-content>
+<ion-footer>
+  <ion-toolbar  style=" --background: #54d61c; text-align: center;" class="home-footer">
+    <ion-button (click)="onClickNext()"   color="light">Next</ion-button>
+
+  </ion-toolbar>
+</ion-footer>
