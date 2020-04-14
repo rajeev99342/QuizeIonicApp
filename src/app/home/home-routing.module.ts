@@ -11,6 +11,30 @@ const routes: Routes = [
   {
     path: 'subject-list',
     loadChildren: () => import('./subject-list/subject-list.module').then( m => m.SubjectListPageModule)
+  },
+  {
+    path: 'topic',
+    loadChildren: () => import('./topic/topic.module').then( m => m.TopicPageModule)
+  },
+  {
+    path: 'subject-confirm',
+    loadChildren: () => import('./subject-confirm/subject-confirm.module').then( m => m.SubjectConfirmPageModule)
+  },
+  {
+    path: 'sign-up',
+    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'payment',
+    loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
+  },
+  {
+    path: 'thankyou',
+    loadChildren: () => import('./thankyou/thankyou.module').then( m => m.ThankyouPageModule)
   }
 ];
 

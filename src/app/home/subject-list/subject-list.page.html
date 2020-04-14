@@ -1,9 +1,22 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button  defaultHref="home"></ion-back-button>
+    </ion-buttons>
     <ion-title>subject-list</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list inset>
+        
+    <ion-item *ngFor="let cat of cities2" (click)="sample()">
+        <ion-avatar item-left>
+          <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg" alt="{{cat.altName}}">
+        </ion-avatar>
+        <h2>{{cat.name}}</h2>
+        <p>{{cat.description}}</p>
+    </ion-item>
+    
+</ion-list>
 </ion-content>
