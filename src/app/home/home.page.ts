@@ -9,6 +9,9 @@ import { SignUpPage } from './sign-up/sign-up.page';
 import { CreateGroupPage } from './create-group/create-group.page';
 import { UserInfo } from './constants/userInfo';
 import { Storage } from '@ionic/storage';
+import { HomeApiServiceService } from './services/home-api-service.service';
+import { StorageService } from './storage.service';
+import { AppService } from '../app.service';
 
 interface City {
   name: string;
@@ -31,12 +34,25 @@ export class HomePage implements OnInit {
   
   constructor(public popoverController: PopoverController,
     private messageService : MesssageServicesService,
+    private homeApiServiceService :HomeApiServiceService,
     public modalController: ModalController,
     private router : Router,
+    private appService :AppService,
+    private storageService:StorageService,
     private storage : Storage
     ) { }
 
   ngOnInit() {
+
+
+    console.log('TTHIS IS BASE URL',this.appService.getBaseURL())
+    
+    this.appService.getBaseURL().subscribe((url)=>{
+        console.log('TTHIS IS BASE URL',url["baserURL"])
+    })
+    this.homeApiServiceService.getApi().subscribe((data)=>{
+      console.log('getting data from api',data);
+    })
 
     this.storage.get('kidder_user').then((username)=>{
         if(username)
@@ -68,6 +84,8 @@ export class HomePage implements OnInit {
   onClickSubject(event)
   {
 
+    
+
     console.log('go to subject list');
     this.router.navigate(['/topic']);
 
@@ -83,9 +101,11 @@ export class HomePage implements OnInit {
      
     });
     this.popover.onDidDismiss().then(dataReturned => {
-      if (dataReturned.data == "success") {
+      if (dataReturned.data) {
           console.log('Register successfully');
           this.authenticated= true;
+          this.storageService.changeStorageValue(dataReturned.data);
+          
         } else {
           console.log('Register failure');
       }

@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomePageModule } from './home/home.module';
 import { IonicStorageModule } from '@ionic/storage';
 
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,8 @@ import { IonicStorageModule } from '@ionic/storage';
     AppRoutingModule,
     HomePageModule,
     RouterModule,
+    HttpClientModule,
+
     IonicStorageModule.forRoot()
 
   ],

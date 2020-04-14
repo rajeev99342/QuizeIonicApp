@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 import { UserInfo } from './home/constants/userInfo';
+import { StorageService } from './home/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -27,9 +28,23 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private storageService : StorageService,
     private storage : Storage
   ) {
+      this.storageService.storage.subscribe((newValue) => {
+      // This code will execute when the property has changed and also
+      // you'll have access to the object with the information that
+      // your service sent in the next() call.
+      this.updateUserName(newValue);
+    });
     this.initializeApp();
+  }
+
+
+  updateUserName(username){
+
+      this.username = username
+
   }
 
   initializeApp() {
