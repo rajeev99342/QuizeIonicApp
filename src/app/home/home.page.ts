@@ -5,6 +5,10 @@ import { ModalController } from '@ionic/angular';
 import { SubjectConfirmPage } from './subject-confirm/subject-confirm.page';
 import { PopoverController } from '@ionic/angular';
 import { MesssageServicesService } from './services/messsage-services.service';
+import { SignUpPage } from './sign-up/sign-up.page';
+import { CreateGroupPage } from './create-group/create-group.page';
+import { UserInfo } from './constants/userInfo';
+import { Storage } from '@ionic/storage';
 
 interface City {
   name: string;
@@ -21,14 +25,26 @@ export class HomePage implements OnInit {
   selectedValue : any;
   subjectListPage : SubjectListPage;
    popover : any;
-
+   popoverForCreateGroup: any;
+   authenticated : boolean = false;
+   groupCreatedByYou : boolean = false;
   
   constructor(public popoverController: PopoverController,
     private messageService : MesssageServicesService,
     public modalController: ModalController,
-    private router : Router) { }
+    private router : Router,
+    private storage : Storage
+    ) { }
 
   ngOnInit() {
+
+    this.storage.get('kidder_user').then((username)=>{
+        if(username)
+        {
+            this.authenticated = true;
+        }
+    })
+
     this.cities2 = [
       {name: 'New York', code: 'NY'},
       {name: 'Rome', code: 'RM'},
@@ -58,13 +74,21 @@ export class HomePage implements OnInit {
   }
 
 
-  async presentPopover(ev: any) {
+  async OpenSignUpPopUP(ev: any) {
     this.popover = await this.popoverController.create({
-      component: SubjectConfirmPage,
+      component: SignUpPage,
       event: ev,
       animated:true,
       showBackdrop: true,
      
+    });
+    this.popover.onDidDismiss().then(dataReturned => {
+      if (dataReturned.data == "success") {
+          console.log('Register successfully');
+          this.authenticated= true;
+        } else {
+          console.log('Register failure');
+      }
     });
     return await this.popover.present();
   }
@@ -73,6 +97,28 @@ export class HomePage implements OnInit {
   {
     
       this.messageService.onFirstComponentButtonClick(this.popover);
+  }
+
+  async createGroup(ev: any)
+  {
+    this.cities2 = [];
+    this.popoverForCreateGroup = await this.popoverController.create({
+      component: CreateGroupPage,
+     
+      event: ev,
+      animated:true,
+      showBackdrop: true,
+     
+    });
+    this.popoverForCreateGroup.onDidDismiss().then(dataReturned => {
+      if (dataReturned.data ==true) {
+          this.groupCreatedByYou = true;
+          this.cities2.push({name: 'New York', code: 'NY'})
+        } else {
+          console.log('Data return 2');
+      }
+    });
+    return await this.popoverForCreateGroup.present();
   }
 
 }

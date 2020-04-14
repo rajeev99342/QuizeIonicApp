@@ -9,6 +9,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { SubjectConfirmPage } from './subject-confirm/subject-confirm.page';
 import { SignUpPage } from './sign-up/sign-up.page';
+import { CreateGroupPage } from './create-group/create-group.page';
 
 @NgModule({
   imports: [
@@ -18,8 +19,8 @@ import { SignUpPage } from './sign-up/sign-up.page';
     HomePageRoutingModule,
     
   ],
-  entryComponents:[SubjectConfirmPage,SignUpPage],
-  declarations: [HomePage,SubjectConfirmPage,SignUpPage],
+  entryComponents:[SubjectConfirmPage,SignUpPage,CreateGroupPage],
+  declarations: [HomePage,SubjectConfirmPage,SignUpPage,CreateGroupPage],
   exports:[]
 })
 export class HomePageModule {}

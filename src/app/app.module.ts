@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageModule } from './home/home.module';
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -20,7 +21,9 @@ import { HomePageModule } from './home/home.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     HomePageModule,
-    RouterModule
+    RouterModule,
+    IonicStorageModule.forRoot()
+
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,20 @@
+
+
+<ion-content>
+  
+  <ion-list>
+    <p>You have choosen 4 subjects</p>
+    <ion-item *ngFor="let cat of cities2" (click)="sample()">
+     
+        <p>{{cat.name}} = 8:30 pm </p>
+    </ion-item>
+    
+</ion-list>
+
+<ion-row>
+  <ion-button (click)="clickOnOK()">Ok</ion-button>
+  <ion-button>Cancel</ion-button>
+
+</ion-row>
+
+</ion-content>

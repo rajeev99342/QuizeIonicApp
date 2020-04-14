@@ -3,15 +3,15 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <!-- <ion-title>Home</ion-title> -->
-     <ion-list >
+    <ion-title>Groups</ion-title>
+     <!-- <ion-list >
       <ion-item>
         <ion-select placeholder="Standard" multiple="false" [(ngModel)]="selectedValue" (ionChange)="onChangeClass($event)" cancelText="Nah" okText="Okay!">
           <ion-select-option *ngFor="let item of cities2" [value]="item.name">{{item.name}}</ion-select-option>
           
         </ion-select>
       </ion-item>
-    </ion-list> 
+    </ion-list>  -->
 
 
       
@@ -22,25 +22,47 @@
 <ion-content padding  [fullscreen]="true">
 
     
-    <p *ngIf="selectedValue == null">Select You Standard/Class/Level</p>
 
-          <ion-card tappable *ngFor="let k of cities2">
-           <ion-item >
+      <div *ngIf="authenticated == false">
+        <ion-card tappable *ngFor="let k of cities2">
+          <ion-item >
 
-              <ion-checkbox checked="true"></ion-checkbox>
-              <ion-label>{{k.name}}</ion-label>
-              <ion-button  (click)="onClickSubject($event)"    >View</ion-button>
-            </ion-item>
-          
-            <ion-card-content >
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-               Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-              
-            </ion-card-content>
-            <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg">
+             <ion-checkbox checked="true"></ion-checkbox>
+             <ion-label>{{k.name}}</ion-label>
+             <ion-button  (click)="onClickSubject($event)"    >View</ion-button>
+           </ion-item>
+         
+           <ion-card-content >
+             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+             
+           </ion-card-content>
+           <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg">
 
-          </ion-card>
+         </ion-card>
 
+      </div>
+
+      <div *ngIf="authenticated == true">
+        <p *ngIf="groupCreatedByYou == false">You are not in any group</p>
+        <ion-card tappable *ngFor="let k of cities2">
+          <ion-item >
+
+             <ion-checkbox checked="true"></ion-checkbox>
+             <ion-label>{{k.name}}</ion-label>
+             <ion-button  (click)="onClickSubject($event)"    >View</ion-button>
+           </ion-item>
+         
+           <ion-card-content >
+             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+             
+           </ion-card-content>
+           <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg">
+
+         </ion-card>
+      </div>
+    
    
  
 
@@ -49,7 +71,8 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar  style=" --background: #54d61c; text-align: center;" class="home-footer">
-    <ion-button (click)="presentPopover()"   color="light">Next</ion-button>
+    <ion-button *ngIf="!authenticated" (click)="OpenSignUpPopUP()"   color="light">Sign Up</ion-button>
+    <ion-button *ngIf="authenticated" (click)="createGroup()"   color="light">Create Group</ion-button>
 
   </ion-toolbar>
 </ion-footer>

@@ -35,6 +35,10 @@ const routes: Routes = [
   {
     path: 'thankyou',
     loadChildren: () => import('./thankyou/thankyou.module').then( m => m.ThankyouPageModule)
+  },
+  {
+    path: 'create-group',
+    loadChildren: () => import('./create-group/create-group.module').then( m => m.CreateGroupPageModule)
   }
 ];
 
