@@ -10,6 +10,7 @@ import { HomePage } from './home.page';
 import { SubjectConfirmPage } from './subject-confirm/subject-confirm.page';
 import { SignUpPage } from './sign-up/sign-up.page';
 import { CreateGroupPage } from './create-group/create-group.page';
+import {GroupInfoPageModule} from "./group-info/group-info.module"
 
 @NgModule({
   imports: [
@@ -18,10 +19,11 @@ import { CreateGroupPage } from './create-group/create-group.page';
     IonicModule,
     HomePageRoutingModule,
     ReactiveFormsModule,
+    GroupInfoPageModule
     
   ],
   entryComponents:[SubjectConfirmPage,SignUpPage,CreateGroupPage],
   declarations: [HomePage,SubjectConfirmPage,SignUpPage,CreateGroupPage],
-  exports:[ReactiveFormsModule,FormsModule]
+  exports:[ReactiveFormsModule,FormsModule,GroupInfoPageModule]
 })
 export class HomePageModule {}

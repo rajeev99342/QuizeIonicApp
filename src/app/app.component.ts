@@ -20,6 +20,10 @@ export class AppComponent implements OnInit {
       title: 'Home',
       url: '/home',
       icon: 'home'
+    },{
+      title : 'Explore Group',
+      url : '/explore',
+      icon : 'search'
     }
   ];
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

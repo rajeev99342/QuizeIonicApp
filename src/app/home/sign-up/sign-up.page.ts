@@ -14,6 +14,7 @@ import {
 
 import { MesssageServicesService } from '../services/messsage-services.service';
 import { userModel } from '../user/userModel';
+import { UserService } from '../user/user.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -42,7 +43,9 @@ export class SignUpPage implements OnInit {
   user_is_Competator :FormControl
   myform: FormGroup;
    user_model: userModel ;
-  constructor(private pop : PopoverController,
+  constructor(
+    private userService : UserService,
+    private pop : PopoverController,
     private storage : Storage,
     
      private messageEventEmitterService: MesssageServicesService ) { }
@@ -99,11 +102,17 @@ export class SignUpPage implements OnInit {
         console.log('Password not matches')
     }else
     {
-  
+
+      this.userService.saveUserData(this.user_model).subscribe((result)=>{
+          console.log('save user information',result);
+          
       this.storage.set("kidder_user",this.username);
       console.log('Fomr submitted');
       
-       await this.pop.dismiss(this.username);
+      })
+      
+      await this.pop.dismiss(this.username);
+
     }
     
   

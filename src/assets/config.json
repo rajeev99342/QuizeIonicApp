@@ -1,5 +1,4 @@
 
 {
-    "baserURL": "http://localhost:8080/RestApi/kidder/main"
+    "baserURL": "http://localhost:8080/kidder/main"
 }
-  

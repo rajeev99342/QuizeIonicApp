@@ -43,6 +43,10 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () => import('./user/user.module').then( m => m.UserPageModule)
+  },
+  {
+    path: 'group-info',
+    loadChildren: () => import('./group-info/group-info.module').then( m => m.GroupInfoPageModule)
   }
 ];
 

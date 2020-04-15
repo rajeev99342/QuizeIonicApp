@@ -81,13 +81,13 @@ export class HomePage implements OnInit {
   //     // this.navCtrl.push(SubjectListPage);
   // }
     
-  onClickSubject(event)
+  onClickGroup(event)
   {
 
     
 
     console.log('go to subject list');
-    this.router.navigate(['/topic']);
+    this.router.navigate(['/group-info']);
 
   }
 

@@ -8,7 +8,7 @@ export class userModel
     user_referal_threshold : number;
     user_institute : string;
     user_address : string;
-    user_type : string ;
+    user_type : number ;
     user_refer_code : string;
     user_refer_from : string;
     user_isCompetator : number;
