@@ -10,6 +10,7 @@ import { GroupInfoPage } from './group-info.page';
 import { ParticipantPage } from './participant/participant.page';
 import { QuizeInfoPage } from './quize-info/quize-info.page';
 import { AddParticipantPage } from './add-participant/add-participant.page';
+import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { AddParticipantPage } from './add-participant/add-participant.page';
     IonicModule,
     GroupInfoPageRoutingModule
   ],
-  declarations: [GroupInfoPage,ParticipantPage,QuizeInfoPage,AddParticipantPage],
-  entryComponents : [ParticipantPage,QuizeInfoPage,AddParticipantPage]
+  declarations: [GroupInfoPage,ParticipantPage,QuizeInfoPage,AddParticipantPage,ParticipantRequestListPage],
+  entryComponents : [ParticipantPage,QuizeInfoPage,AddParticipantPage,ParticipantRequestListPage]
 })
 export class GroupInfoPageModule {}

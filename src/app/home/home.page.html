@@ -27,9 +27,10 @@
         <ion-card tappable *ngFor="let k of cities2">
           <ion-item >
 
-             <ion-checkbox checked="true"></ion-checkbox>
+             <!-- <ion-checkbox checked="true"></ion-checkbox> -->
              <ion-label>{{k.name}}</ion-label>
-             <ion-button  (click)="onClickGroup($event)"    >View</ion-button>
+             <ion-icon  (click)="onClickGroup($event)" name="eye-outline"></ion-icon>
+             <!-- <ion-button >View</ion-button> -->
            </ion-item>
          
            <ion-card-content >
@@ -50,7 +51,7 @@
 
              <ion-checkbox checked="true"></ion-checkbox>
              <ion-label>{{k.name}}</ion-label>
-             <ion-button  (click)="onClickSubject($event)"    >View</ion-button>
+             <ion-button  (click)="onClickSubject($event)" >View</ion-button>
            </ion-item>
          
            <ion-card-content >

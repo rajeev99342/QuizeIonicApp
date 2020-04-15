@@ -3,8 +3,8 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-searchbar  placeholder="Search by username" showCancelButton="never"></ion-searchbar>
-    <!-- <ion-list >
+    <ion-title>Groups</ion-title>
+     <!-- <ion-list >
       <ion-item>
         <ion-select placeholder="Standard" multiple="false" [(ngModel)]="selectedValue" (ionChange)="onChangeClass($event)" cancelText="Nah" okText="Okay!">
           <ion-select-option *ngFor="let item of cities2" [value]="item.name">{{item.name}}</ion-select-option>
@@ -20,5 +20,40 @@
 </ion-header>
 
 <ion-content>
+  <ion-searchbar  placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar>
+  <!-- <ion-list *ngFor="let k of cities2">
+    <ion-item>
+        <img src="https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/cat-icon.png" height="30px" width="30px">
+      <ion-label>{{k.name}}</ion-label>
+    </ion-item>
+  </ion-list> -->
+  <ion-card tappable *ngFor="let k of cities2">
+    <ion-item >
+
+
+       <!-- <ion-checkbox checked="true"></ion-checkbox> -->
+       <ion-label>{{k.name}}</ion-label>
+       
+        <ion-buttons class="request">
+          <ion-tab-button (click)="addParticipantInThisGroup()">
+            <ion-icon name="people-outline"></ion-icon>
+            <ion-badge color="primary">11</ion-badge>
+          </ion-tab-button>
+      </ion-buttons>
+       <ion-icon  (click)="onClickGroup($event)" name="caret-up-circle-outline"></ion-icon>
+
+       <!-- <ion-icon  name="eye-outline"></ion-icon> -->
+     </ion-item>
+ 
+
+
+     <ion-card-content >
+       Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+       
+     </ion-card-content>
+     <!-- <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg"> -->
+
+   </ion-card>
 
 </ion-content>

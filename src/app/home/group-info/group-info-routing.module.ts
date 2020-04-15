@@ -23,6 +23,10 @@ const routes: Routes = [
   {
     path: 'add-participant',
     loadChildren: () => import('./add-participant/add-participant.module').then( m => m.AddParticipantPageModule)
+  },
+  {
+    path: 'participant-request-list',
+    loadChildren: () => import('./participant-request-list/participant-request-list.module').then( m => m.ParticipantRequestListPageModule)
   }
 ];
 

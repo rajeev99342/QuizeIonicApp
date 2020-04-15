@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-explore-groups',
-  templateUrl: './explore-groups.page.html',
-  styleUrls: ['./explore-groups.page.scss'],
+  selector: 'app-participant-request-list',
+  templateUrl: './participant-request-list.page.html',
+  styleUrls: ['./participant-request-list.page.scss'],
 })
-export class ExploreGroupsPage implements OnInit {
+export class ParticipantRequestListPage implements OnInit {
 
   cities2 : any = [];
-
   constructor() { }
 
   ngOnInit() {
@@ -18,7 +17,7 @@ export class ExploreGroupsPage implements OnInit {
       {name: 'London', code: 'LDN'},
       {name: 'Istanbul', code: 'IST'},
       {name: 'Paris', code: 'PRS'}
-  ];
+    ];
   }
 
   filterGroup(ent)

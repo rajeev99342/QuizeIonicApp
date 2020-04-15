@@ -4,6 +4,7 @@ import { ParticipantPage } from './participant/participant.page';
 import { PopoverController } from '@ionic/angular';
 import { QuizeInfoPage } from './quize-info/quize-info.page';
 import { AddParticipantPage } from './add-participant/add-participant.page';
+import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
 
 @Component({
   selector: 'app-group-info',
@@ -16,6 +17,8 @@ export class GroupInfoPage implements OnInit {
   popoverQuizInfo : any;
 
   popoverAddParticipant : any;
+
+  popoverParticipantRqstList : any;
   cities2 : any = [];
   constructor(private popoverController: PopoverController, private router : Router) { }
 
@@ -84,12 +87,12 @@ export class GroupInfoPage implements OnInit {
 
     }
 
-   async addParticipantInThisGroup()
+   async participantInThisGroup()
     {
       
             
       this.popoverAddParticipant = await this.popoverController.create({
-        component: AddParticipantPage,
+        component: ParticipantPage,
         animated:true,
         showBackdrop: true,
         
@@ -106,6 +109,30 @@ export class GroupInfoPage implements OnInit {
         }
       });
       return await this.popoverAddParticipant.present();
+    }
+
+   async onClickParticipantRequestList()
+    {
+            
+            
+      this.popoverParticipantRqstList = await this.popoverController.create({
+        component: ParticipantRequestListPage,
+        animated:true,
+        showBackdrop: true,
+        
+       
+      });
+      this.popoverParticipantRqstList.onDidDismiss().then(dataReturned => {
+        if (dataReturned.data) {
+            // console.log('Register successfully');
+            // this.authenticated= true;
+            // this.storageService.changeStorageValue(dataReturned.data);
+            
+          } else {
+            console.log('Register failure');
+        }
+      });
+      return await this.popoverParticipantRqstList.present();
     }
 
 }
