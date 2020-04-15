@@ -1,15 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>create-group</ion-title>
+    <ion-title class="center">Create Group</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-input placeholder="Enter Input"></ion-input>
+  <ion-input :class="paddingLeft" placeholder="Enter Group Name"  required></ion-input>
+  <ion-item >
+    <ion-label class="noBottomPadding textColor">Notes</ion-label>
+  </ion-item>
   <ion-item>
-    <ion-label>Notes</ion-label>
     <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
   </ion-item>
   
-  <ion-button (click)="createGroup()">Ok</ion-button>
+  <ion-button (click)="createGroup()" class="fullWidth btn">Submit</ion-button>
 </ion-content>
