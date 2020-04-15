@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class UserService {
 
-  baserURL = "http://localhost:8080/RestApi/Kidder/main";
+  baserURL = "http://127.0.0.1:9090/RestApi/kidder/main";
   constructor(private http :HttpClient, private apService : AppService) {
         //  apService.getBaseURL().subscribe((baseURL)=>{
         //   this.baserURL =  this.baserURL["baserURL"];
@@ -17,7 +17,7 @@ export class UserService {
 
    saveUserData(userData : userModel)
    {
-    const headers = new HttpHeaders({ 'Content-Type': ''});  
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json'});  
 
       return   this.http.post(this.baserURL+"/saveUserData",userData,{responseType: 'json', headers})
    }
