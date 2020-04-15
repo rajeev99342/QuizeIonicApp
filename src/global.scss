@@ -53,3 +53,11 @@ ion-popover{
     font-size: 40px;
     color: red;
 }
+
+.modal-wrapper.sc-ion-modal-md {
+    -webkit-transform: translate3d(0, 40px, 0);
+    transform: translate3d(0, 40px, 0);
+    opacity: 0.01;
+    height: 26rem;
+    width: 21rem;
+}

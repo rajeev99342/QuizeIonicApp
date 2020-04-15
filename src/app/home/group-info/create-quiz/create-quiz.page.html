@@ -2,10 +2,60 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button  defaultHref="home"></ion-back-button>
+      <ion-input placeholder="Enter Quiz Name"></ion-input>
+      <ion-icon (click)="addYourOwnQuestioin()" name="add-circle-outline"></ion-icon>
+            <ion-icon name="reorder-four-outline"></ion-icon>      
+      <ion-icon slot="end" name="save-outline"></ion-icon>
     </ion-buttons>
-    <ion-title>Create Quiz</ion-title>
+
   </ion-toolbar>
 </ion-header>
 <ion-content>
 
+  <ion-row>
+    <ion-col size="4">
+      <ion-label>Exam</ion-label>
+
+      <ion-item>
+        <ion-select [(ngModel)]="selectedFriendsArray" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
+          <ion-select-option *ngFor="let friend of cities2; let i = index" [value]="{name: friend.name, code: friend.code}" selected="false">
+            {{friend.name}}
+
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col size="4">
+      <ion-label>Subject</ion-label>
+
+      <ion-item>
+        <ion-select [(ngModel)]="selectedFriendsArray" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
+          <ion-select-option *ngFor="let friend of cities2; let i = index" [value]="{name: friend.name, code: friend.code}" selected="false">
+            {{friend.name}}
+
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+    <ion-col size="4">
+      <ion-label>Topic</ion-label>
+
+      <ion-item>
+        <ion-select [(ngModel)]="selectedFriendsArray" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
+          <ion-select-option *ngFor="let friend of cities2; let i = index" [value]="{name: friend.name, code: friend.code}" selected="false">
+            {{friend.name}}
+
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
 </ion-content>
+<!-- <ion-footer>
+  <ion-toolbar  style=" --background: #54d61c; text-align: center;" class="home-footer">
+    <ion-button (click)="OpenSignUpPopUP()"   color="light">Create Quiz</ion-button>
+
+  </ion-toolbar>
+</ion-footer> -->

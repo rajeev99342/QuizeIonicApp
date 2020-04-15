@@ -7,6 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: CreateQuizPage
+  },
+  {
+    path: 'add-image-question',
+    loadChildren: () => import('./add-image-question/add-image-question.module').then( m => m.AddImageQuestionPageModule)
+  },
+  {
+    path: 'add-ques-bank-question',
+    loadChildren: () => import('./add-ques-bank-question/add-ques-bank-question.module').then( m => m.AddQuesBankQuestionPageModule)
   }
 ];
 
