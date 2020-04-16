@@ -5,13 +5,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-input :class="paddingLeft" placeholder="Enter Group Name"  required></ion-input>
+  <form  [formGroup]="groupForm" >
+  <ion-input formControlName="grp_name" :class="paddingLeft" placeholder="Enter Group Name"  required></ion-input>
   <ion-item >
     <ion-label class="noBottomPadding textColor">Notes</ion-label>
   </ion-item>
   <ion-item>
-    <ion-textarea rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
+    <ion-textarea formControlName="grp_desc" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
   </ion-item>
   
   <ion-button (click)="createGroup()" class="fullWidth btn">Submit</ion-button>
+  </form>
+
 </ion-content>
