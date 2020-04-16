@@ -7,7 +7,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 })
 export class AddImageQuestionPage implements OnInit {
   capturedSnapURL:string;
- 
+  isImageAvailable : boolean = false;
   cameraOptions: CameraOptions = {
     quality: 20,
     destinationType: this.camera.DestinationType.DATA_URL,
@@ -23,10 +23,12 @@ export class AddImageQuestionPage implements OnInit {
   }
   
 
-  takeSnap() {
+  getFromCamera() {
+
+    this.isImageAvailable = true; 
+
     this.camera.getPicture(this.cameraOptions).then((imageData) => {
-      // this.camera.DestinationType.FILE_URI gives file URI saved in local
-      // this.camera.DestinationType.DATA_URL gives base64 URI
+      
       
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.capturedSnapURL = base64Image;
@@ -37,6 +39,21 @@ export class AddImageQuestionPage implements OnInit {
     });
   }
 
+  getFromGallary()
+  {
+      console.log('get from gallary')
+  }
 
+  cropImage()
+  {
+    console.log('crop iamge');
+
+  }
   
+
+  rotateImage()
+  {
+    console.log('rotate image')
+  }
+
 }

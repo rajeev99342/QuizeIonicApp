@@ -28,7 +28,9 @@ export class CreateQuizPage implements OnInit {
   async addYourOwnQuestioin()
   {
       const modal = await this.modalController.create({
-        component: AddImageQuestionPage
+        component: AddImageQuestionPage,
+        backdropDismiss:false,
+
       });
       return await modal.present();
     
