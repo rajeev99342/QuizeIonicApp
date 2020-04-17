@@ -1,0 +1,17 @@
+.header {
+    overflow: hidden;
+    background-color: #72ceb7;
+    padding: 8px 10px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+
+  }
+
+  .cropped-image{
+    display: flex;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }

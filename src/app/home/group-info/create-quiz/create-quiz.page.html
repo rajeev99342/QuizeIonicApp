@@ -4,8 +4,8 @@
       <ion-back-button  defaultHref="home"></ion-back-button>
       <ion-input placeholder="Enter Quiz Name"></ion-input>
       <ion-icon (click)="addYourOwnQuestioin()" name="add-circle-outline"></ion-icon>
-            <ion-icon name="reorder-four-outline"></ion-icon>      
-      <ion-icon slot="end" name="save-outline"></ion-icon>
+      <ion-icon name="reorder-four-outline"></ion-icon>      
+      <ion-icon slot="end" (click)="saveQuizWithQuest()" name="save-outline"></ion-icon>
     </ion-buttons>
 
   </ion-toolbar>
@@ -51,7 +51,30 @@
     </ion-col>
   </ion-row>
 
+  <ion-card tappable *ngFor="let k of questionList">
+    <ion-item >
 
+       <!-- <ion-checkbox checked="true"></ion-checkbox> -->
+       <!-- <ion-label>{{k.name}}</ion-label> -->
+       <!-- <ion-icon  (click)="onClickGroup($event)" name="eye-outline"></ion-icon> -->
+       <!-- <ion-button >View</ion-button> -->
+     </ion-item>
+   
+     <ion-card-content >
+      <img [src]="k.image">
+
+      <form style="display: flex;padding: 3px;">
+        
+        <input type="radio"  value="dogs"><p>{{k.aOption}}</p>
+        <input type="radio" value="tuts"><p>{{k.aOption}}</p>
+        <input type="radio" value="cars"><p>{{k.aOption}}</p>
+        <input type="radio" value="cafdrs"><p>{{k.aOption}}</p>
+
+      </form>
+       
+     </ion-card-content>
+
+   </ion-card>
 </ion-content>
 <!-- <ion-footer>
   <ion-toolbar  style=" --background: #54d61c; text-align: center;" class="home-footer">

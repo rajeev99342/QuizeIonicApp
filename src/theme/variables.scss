@@ -3,6 +3,15 @@
 
 /** Ionic CSS Variables **/
 :root {
+
+
+  .custom-ques-modal .modal-wrapper{
+    transform: translate3d(0, 40px, 0);
+    opacity: 0.01;
+    height: 35rem;
+    width: 25rem;
+  }
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: AddImageQuestionPage
+  },
+  {
+    path: 'add-options',
+    loadChildren: () => import('./add-options/add-options.module').then( m => m.AddOptionsPageModule)
   }
 ];
 
