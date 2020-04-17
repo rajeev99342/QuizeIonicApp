@@ -18,18 +18,59 @@ export class CreateQuizPage implements OnInit {
   quiz_name : string = "dummyQuiz"
   cities2 : any = [];
   selectedFriendsArray : any = [];
+  examList : any[] = [];
+  selectedExamList : any[]= [];
+
+  subjectList : any[]=[];
+  selectedSubjectList : any[]=[];
+
+  topicList : any[]=[];
+  selectedTopicList : any[]=[];
+
   constructor(private quizService : QuizService,public modalController: ModalController) {
     
   }
 
   ngOnInit() {
-    this.cities2 = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
+      this.buildDummyExamList();
+      this.buildDummySubjectList();
+      this.buildDummyTopicList();
+  }
+
+  buildDummyExamList()
+  {
+      this.examList.push(
+        {"name":"SSC","code":"SCC"},
+        {"name":"SSC","code":"SCC"},
+        {"name":"SSC","code":"SCC"},
+        {"name":"SSC","code":"SCC"},
+        {"name":"SSC","code":"SCC"},
+        {"name":"SSC","code":"SCC"},
+        
+        )
+  }
+
+  buildDummySubjectList()
+  {
+      this.subjectList.push(
+        {"name":"Math","code":"Math"},
+        {"name":"Math","code":"Math"},
+        {"name":"Math","code":"Math"},
+        {"name":"Math","code":"Math"},
+        {"name":"Math","code":"Math"},
+        {"name":"Math","code":"Math"},
+      )
+  }
+  buildDummyTopicList()
+  {
+    this.topicList.push(
+      {"name":"Topic","code":"Topic"},
+      {"name":"Topic","code":"Topic"},
+      {"name":"Topic","code":"Topic"},
+      {"name":"Topic","code":"Topic"},
+      {"name":"Topic","code":"Topic"},
+      {"name":"Topic","code":"Topic"},
+    )
   }
 
   async addYourOwnQuestioin()
@@ -68,6 +109,8 @@ export class CreateQuizPage implements OnInit {
         let quiz_model : QuizModel = this.getQuizModel();
         if(quiz_model != null)
         {
+
+            console.log('save quiz model',quiz_model)
             this.quizService.saveQuizModel(quiz_model).subscribe((response)=>{
                 console.log(response);
             })

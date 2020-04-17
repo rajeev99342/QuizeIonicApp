@@ -17,9 +17,9 @@
       <ion-label>Exam</ion-label>
 
       <ion-item>
-        <ion-select [(ngModel)]="selectedFriendsArray" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
-          <ion-select-option *ngFor="let friend of cities2; let i = index" [value]="{name: friend.name, code: friend.code}" selected="false">
-            {{friend.name}}
+        <ion-select [(ngModel)]="selectedExamList" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
+          <ion-select-option *ngFor="let exam of examList; let i = index" [value]="{name: exam.name, code: exam.code}" selected="false">
+            {{exam.name}}
 
           </ion-select-option>
         </ion-select>
@@ -29,9 +29,9 @@
       <ion-label>Subject</ion-label>
 
       <ion-item>
-        <ion-select [(ngModel)]="selectedFriendsArray" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
-          <ion-select-option *ngFor="let friend of cities2; let i = index" [value]="{name: friend.name, code: friend.code}" selected="false">
-            {{friend.name}}
+        <ion-select [(ngModel)]="selectedSubjectList" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
+          <ion-select-option *ngFor="let sub of subjectList; let i = index" [value]="{name: sub.name, code: sub.code}" selected="false">
+            {{sub.name}}
 
           </ion-select-option>
         </ion-select>
@@ -41,9 +41,9 @@
       <ion-label>Topic</ion-label>
 
       <ion-item>
-        <ion-select [(ngModel)]="selectedFriendsArray" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
-          <ion-select-option *ngFor="let friend of cities2; let i = index" [value]="{name: friend.name, code: friend.code}" selected="false">
-            {{friend.name}}
+        <ion-select [(ngModel)]="selectedTopicList" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
+          <ion-select-option *ngFor="let topic of topicList; let i = index" [value]="{name: topic.name, code: topic.code}" selected="false">
+            {{topic.name}}
 
           </ion-select-option>
         </ion-select>

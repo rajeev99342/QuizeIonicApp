@@ -13,8 +13,8 @@ export class QuizModel
 	quiz_num_of_ques : number;
 	quiz_creator : string;
 	quiz_published_date : Date;
-	quiz_exam : Array<string>;
-	quiz_topic : Array<string>;
-	quiz_sub : Array<string>;
-	quest_list : Array<QuestModel>;
+	quiz_exam : Array<string> = [];
+	quiz_topic : Array<string> = [];
+	quiz_sub : Array<string> =[];
+	quest_list : Array<QuestModel> = [];
 }
