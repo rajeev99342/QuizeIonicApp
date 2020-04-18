@@ -27,20 +27,22 @@
 
 
 
+custom-css-signUp-popover{
+    ion-popover{
+        ion-backdrop{
+        opacity: 0.5 !important;
+        }
+        .popover-wrapper{
+        .popover-content{
+        width:80vw;
+        max-width:500px;
+        height: 100vw;
+        max-height: 120vw;
+        }
+        }
+        }
+}
 
-ion-popover{
-    ion-backdrop{
-    opacity: 0.5 !important;
-    }
-    .popover-wrapper{
-    .popover-content{
-    width:80vw;
-    max-width:500px;
-    height: 100vw;
-    max-height: 120vw;
-    }
-    }
-    }
 
 .create-group-custom-css{
     width:80vw;
@@ -60,4 +62,14 @@ ion-popover{
     opacity: 0.01;
     height: 26rem;
     width: 21rem;
+}
+
+.option-badge .ion-badge{
+        font-size: 33px;
+}
+
+.custom-setting  .popover-content .sc-ion-popover-md{
+    
+    --background: red;
+
 }

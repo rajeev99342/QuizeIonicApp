@@ -35,17 +35,63 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-button (click)="addOptions()" *ngIf="croppedSuccess">
+    <ion-button small (click)="addOptions()" *ngIf="croppedSuccess">
       Add Options
     </ion-button>
-    
+    <ion-button *ngIf="isEdit" small (click)="EdiOptions()" >
+      Edit Options
+    </ion-button>
+    <!-- <ion-row radio-group  [(ngModel)]="something">
+      <ion-col>
+           <ion-item>
+              <ion-label>A</ion-label>
+              <ion-radio mode="md" item-left value="A"></ion-radio>
+         </ion-item>
+       </ion-col>
+  
+      <ion-col>
+          <ion-item>
+              <ion-label>B</ion-label>
+              <ion-radio mode="md" item-left value="B"></ion-radio>
+         </ion-item>
+      </ion-col>
+  
+      <ion-col>
+          <ion-item>
+              <ion-label>C</ion-label>
+              <ion-radio mode="md" item-left value="C"></ion-radio>
+         </ion-item>
+      </ion-col>
+  
+  </ion-row> -->
+  <p *ngIf="aOption">Options</p>
 
-    <ion-badge color="success"*ngIf="aOption != null">A.  {{aOption}}</ion-badge>
-    <ion-badge color="success"*ngIf="bOption != null">B.  {{bOption}}</ion-badge>
-    <ion-badge color="success" *ngIf="cOption != null">C.  {{cOption}}</ion-badge>
-    <ion-badge color="success"*ngIf="dOption != null">D.  {{dOption}}</ion-badge>
+    <div class="option-badge">
+      <ion-badge color="success" *ngIf="aOption != null">A.  {{aOption}}</ion-badge>
+
+    </div>
+    <div>
+      <ion-badge color="success" *ngIf="bOption != null">B.  {{bOption}}</ion-badge>
+
+    </div>
 
 
+      <div>
+        <ion-badge color="success" *ngIf="cOption != null">C.  {{cOption}}</ion-badge>
+
+      </div>
+
+      <div>
+        <ion-badge color="success" *ngIf="dOption != null">D.  {{dOption}}</ion-badge>
+
+      </div>
+
+      <p *ngIf="correctOption">Answer</p>
+
+      <div>
+        <ion-badge color="success" *ngIf="dOption != null">Ans.  {{correctOption}}</ion-badge>
+
+      </div>
 </ion-content>
 <!-- <ion-footer>
   <ion-toolbar  style=" --background: #54d61c; text-align: center;" class="home-footer">
@@ -76,28 +122,7 @@
 </ion-footer> -->
 
 
-<div class="header">
-  <ion-row>
-    <ion-col size="2">
-      <ion-icon (click)="getFromCamera()" name="camera-outline"></ion-icon>
 
-    </ion-col>
-    <ion-col size="2">
-      <ion-icon (click)="getFromGallary()" name="film-outline"></ion-icon>
-
-    </ion-col>
-    <ion-col size="2">
-      <ion-icon (click)="zoom()" name="add-outline"></ion-icon>
-    </ion-col>
-    <!-- <ion-col size="2">
-      <ion-icon (click)="getImageToCropped()" name="reload-outline"></ion-icon>
-
-    </ion-col> -->
-    <ion-col size="2">
-      <ion-icon (click)="getImageToCropped();" name="refresh-circle-outline"></ion-icon>
-    </ion-col>
-  </ion-row>
-</div>
 
 <div class="header">
   <ion-row>
@@ -114,7 +139,7 @@
 
     </ion-col>
     <ion-col size="2">
-      <ion-icon (click)="rotateImage()" name="reload-outline"></ion-icon>
+      <ion-icon (click)="getImageToCropped()" name="reload-outline"></ion-icon>
 
     </ion-col>
     <ion-col size="2">

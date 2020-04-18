@@ -1,5 +1,5 @@
 export class QuestTxtModel
 {
-    quest_txt_id : number;
-    quest_txt_desc: string;
+    user_questtxt_id : number;
+    user_questtxt_desc: string;
 }

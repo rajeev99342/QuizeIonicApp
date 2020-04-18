@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'add-ques-bank-question',
     loadChildren: () => import('./add-ques-bank-question/add-ques-bank-question.module').then( m => m.AddQuesBankQuestionPageModule)
+  },
+  {
+    path: 'quest-setting',
+    loadChildren: () => import('./quest-setting/quest-setting.module').then( m => m.QuestSettingPageModule)
   }
 ];
 

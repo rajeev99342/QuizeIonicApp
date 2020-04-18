@@ -4,6 +4,8 @@ import { AddImageQuestionPage } from './add-image-question/add-image-question.pa
 import { QuestModel } from './models/QuestModel';
 import { QuizModel } from './models/quizModel';
 import { QuizService } from 'src/app/services/quiz.service';
+import { PopoverController, NavParams } from '@ionic/angular';
+import { QuestSettingPage } from './quest-setting/quest-setting.page';
 
 @Component({
   selector: 'app-create-quiz',
@@ -27,7 +29,11 @@ export class CreateQuizPage implements OnInit {
   topicList : any[]=[];
   selectedTopicList : any[]=[];
 
-  constructor(private quizService : QuizService,public modalController: ModalController) {
+  popOverSetting : any;
+
+  constructor(private quizService : QuizService,
+    private popOverController : PopoverController,
+    public modalController: ModalController) {
     
   }
 
@@ -136,8 +142,18 @@ export class CreateQuizPage implements OnInit {
     quiz_model.quiz_time = null;
     quiz_model.quiz_topic.push("topic1","topic2");
     quiz_model.grp_name = this.grp_name;
-    quiz_model.quest_list = this.questionList;
+    quiz_model.user_questlist = this.questionList;
     return quiz_model;
+  }
+
+  async openQuestionSetting(ev: any) {
+    const popOverSetting = await this.popOverController.create({
+      component: QuestSettingPage,
+      event: ev,
+     cssClass:'custom-setting',
+      
+    });
+    return await popOverSetting.present();
   }
 
 }

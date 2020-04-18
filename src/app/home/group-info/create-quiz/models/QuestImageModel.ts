@@ -1,7 +1,9 @@
 export class QuestImageModel
 {
-        quest_img_id : number;
-        quest_img_path : string;
-        quest_img_desc: string;
-        quest_img_base64_url: string;
+        user_quest_img_id : number;
+        user_quest_img_path : string;
+        user_quest_img_desc: string;
+        user_quest_img_base64_url: string;
+        user_quest_img_isQuest : boolean;
+        user_quest_img_isDgrm : boolean;
 }

@@ -16,5 +16,5 @@ export class QuizModel
 	quiz_exam : Array<string> = [];
 	quiz_topic : Array<string> = [];
 	quiz_sub : Array<string> =[];
-	quest_list : Array<QuestModel> = [];
+	user_questlist : Array<QuestModel> = [];
 }

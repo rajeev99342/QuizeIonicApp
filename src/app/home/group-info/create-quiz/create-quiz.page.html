@@ -52,26 +52,29 @@
   </ion-row>
 
   <ion-card tappable *ngFor="let k of questionList">
-    <ion-item >
+    
+    <ion-item>
+      <p slot="end" (click)="openQuestionSetting()" style="float:right;">...</p>
 
-       <!-- <ion-checkbox checked="true"></ion-checkbox> -->
-       <!-- <ion-label>{{k.name}}</ion-label> -->
-       <!-- <ion-icon  (click)="onClickGroup($event)" name="eye-outline"></ion-icon> -->
-       <!-- <ion-button >View</ion-button> -->
-     </ion-item>
+    </ion-item>
    
      <ion-card-content >
-      <img [src]="k.image">
-
-      <form style="display: flex;padding: 3px;">
-        
-        <input type="radio"  value="dogs"><p>{{k.aOption}}</p>
-        <input type="radio" value="tuts"><p>{{k.aOption}}</p>
-        <input type="radio" value="cars"><p>{{k.aOption}}</p>
-        <input type="radio" value="cafdrs"><p>{{k.aOption}}</p>
-
-      </form>
-       
+      <img [src]="k.user_quest_img_model.user_quest_img_base64_url">
+<!-- 
+      <ion-list radio-group [(ngModel)]="relationship">
+        <ion-item>
+          <ion-label>{{k.user_questoptionA}}</ion-label>
+          <ion-radio [value]="k.user_questoptionA"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{k.user_questoptionA}}</ion-label>
+          <ion-radio [value]="k.user_questoptionA"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>{{k.user_questoptionA}}</ion-label>
+          <ion-radio [value]="k.user_questoptionA" ></ion-radio>
+        </ion-item>
+      </ion-list> -->
      </ion-card-content>
 
    </ion-card>

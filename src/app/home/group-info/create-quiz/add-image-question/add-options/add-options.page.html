@@ -1,10 +1,80 @@
 
 
 <ion-content>
-  <div class="option-input">
+  <!-- <div class="option-input">
     <input [(ngModel)]="option" type="text">
   </div>
   <ion-button (click)="cancel()">Cancel</ion-button>
 
-  <ion-button (click)="ok()" >OK</ion-button>
+  <ion-button (click)="ok()" >OK</ion-button> -->
+
+  <div class="add-option">
+    <div >
+      <label for="fname">Enter Option</label>
+      <input type="text" id="fname" [(ngModel)]="option" placeholder="">
+<!--   
+      <label for="lname">Last Name</label>
+      <input type="text" id="lname" name="lastname" placeholder="Your last name.."> -->
+<!--   
+      <label for="country">Country</label>
+      <select id="country" name="country">
+        <option value="australia">Australia</option>
+        <option value="canada">Canada</option>
+        <option value="usa">USA</option>
+      </select> -->
+    
+      <input class="submit-button" (click)="addOption()" type="submit" value="Add">
+    </div>
+
+      <div>
+        <ion-badge (click)="edit('A')" color="success"*ngIf="aOption != null">A.  {{aOption}}</ion-badge>
+
+      </div>
+      <div>
+        <ion-badge (click)="edit('B')" color="success"*ngIf="bOption != null">B.  {{bOption}}</ion-badge>
+
+      </div>
+      <div>
+        <ion-badge (click)="edit('C')" color="success" *ngIf="cOption != null">C.  {{cOption}}</ion-badge>
+
+      </div>
+      <div>
+        <ion-badge (click)="edit('D')" color="success"*ngIf="dOption != null">D.  {{dOption}}</ion-badge>
+
+      </div>
+<!-- 
+      <select *ngIf="isAllOptionFilled()" [(ngModel)]="myCorrectOption" (ngModelChange)="onChangeofOptions($event)" id="country" name="option">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+
+      </select>
+     -->
+
+     <ion-list style="border-radius: 14px;margin-left: 0;
+     margin-right: 0;
+     margin-top: 0;
+     margin-bottom: 0;
+     padding-left: 0;
+     padding-right: 0;
+     padding-top: 8px;
+     padding-bottom: 8px;" *ngIf="isAllOptionFilled()">
+
+      <ion-item>
+        <ion-label>correct option</ion-label>
+
+        <ion-select [(ngModel)]="myCorrectOption" okText="Okay" cancelText="Dismiss">
+          <ion-select-option value="A">A</ion-select-option>
+          <ion-select-option value="B">B</ion-select-option>
+          <ion-select-option value="C">C</ion-select-option>
+          <ion-select-option value="D">D</ion-select-option>
+        </ion-select>
+      </ion-item>
+    
+    </ion-list>
+
+      <input class="submit-button" (click)="saveOptions()" type="submit" value="Submit">
+
+  </div>
 </ion-content>

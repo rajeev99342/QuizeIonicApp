@@ -1,6 +1,6 @@
 export class QuestDgrmModel{
-    quest_dgrm_id : number;
-    quest_dgrm_path : string;
-    quest_dgrm_desc: string;
-    quest_dgrm_base64_url: string;
+    user_questdgrm_id : number;
+    user_questdgrm_path : string;
+    user_questdgrm_desc: string;
+    user_questdgrm_base64_url: string;
 }

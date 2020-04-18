@@ -124,7 +124,7 @@ export class HomePage implements OnInit {
     this.cities2 = [];
     this.popoverForCreateGroup = await this.popoverController.create({
       component: CreateGroupPage,
-     
+      cssClass : 'custom-css-signUp-popover',
       event: ev,
       animated:true,
       showBackdrop: true,
