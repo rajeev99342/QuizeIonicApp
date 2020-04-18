@@ -31,6 +31,7 @@ export class AddImageQuestionPage implements OnInit {
   something : any;
   correctOption : any;
   isEdit : boolean = false;
+  isOptionsAdded : boolean = false;
   optionModel : OptionModel 
   cameraOptions: CameraOptions = {
     quality: 20,
@@ -66,6 +67,7 @@ export class AddImageQuestionPage implements OnInit {
       this.capturedSnapURL = this.questObject.user_quest_img_model.user_quest_img_base64_url;
       this.croppedSuccess = true;
       this.isEdit = true;
+      this.isOptionsAdded =true;
       this.isImageAvailable = true;
       this.optionModel.aOption = this.aOption;
       this.optionModel.bOption = this.bOption;
@@ -211,6 +213,7 @@ export class AddImageQuestionPage implements OnInit {
             this.dOption = this.optionModel.dOption;
             this.correctOption = this.optionModel.correctOption;
             // this.isEdit =true;
+            this.isOptionsAdded = true;
             
           } else {
             console.log('option added canceled');
