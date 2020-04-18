@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { ImageCroppedEvent, ImageCropperComponent  } from 'ngx-image-cropper';
 import { PopoverController } from '@ionic/angular';
 
@@ -11,7 +11,6 @@ import { QuestDgrmModel } from '../models/QuestDgrmModel';
 import { QuestTxtModel } from '../models/QuestTxtModel';
 import { QuestModel } from '../models/QuestModel';
 import { OptionModel } from './add-options/OptionModel';
-import { asLiteral } from '@angular/compiler/src/render3/view/util';
 @Component({
   selector: 'app-add-image-question',
   templateUrl: './add-image-question.page.html',
@@ -32,7 +31,7 @@ export class AddImageQuestionPage implements OnInit {
   something : any;
   correctOption : any;
   isEdit : boolean = false;
-  obj : OptionModel 
+  optionModel : OptionModel 
   cameraOptions: CameraOptions = {
     quality: 20,
     destinationType: this.camera.DestinationType.DATA_URL,
@@ -42,8 +41,11 @@ export class AddImageQuestionPage implements OnInit {
   }
 
 
+  questObject : QuestModel;
   openPopOver : any;
-  constructor(private camera: Camera,
+  constructor(
+    private navParams: NavParams,
+    private camera: Camera,
     private modelController : ModalController ,
     private popoverController : PopoverController)
     {
@@ -51,6 +53,27 @@ export class AddImageQuestionPage implements OnInit {
    }
 
   ngOnInit() {
+    this.questObject = this.navParams.get('questObject');
+    if(this.questObject)
+    {
+      this.optionModel = new OptionModel();
+      this.croppedImage = this.questObject.user_quest_img_model.user_quest_img_base64_url;
+      this.aOption = this.questObject.user_quest_optionA;
+      this.bOption = this.questObject.user_quest_optionB;
+      this.cOption = this.questObject.user_quest_optionC;
+      this.dOption = this.questObject.user_quest_optionD;
+      this.correctOption = this.questObject.user_quest_ans;
+      this.capturedSnapURL = this.questObject.user_quest_img_model.user_quest_img_base64_url;
+      this.croppedSuccess = true;
+      this.isEdit = true;
+      this.isImageAvailable = true;
+      this.optionModel.aOption = this.aOption;
+      this.optionModel.bOption = this.bOption;
+      this.optionModel.cOption = this.cOption;
+      this.optionModel.dOption = this.dOption;
+      this.optionModel.correctOption = this.correctOption;
+
+    }
   }
   
 
@@ -180,14 +203,14 @@ export class AddImageQuestionPage implements OnInit {
       this.openPopOver.onDidDismiss().then(dataReturned => {
         if (dataReturned.data != null) {
             console.log('options added',dataReturned.data)
-            this.obj = new OptionModel();
-            this.obj = dataReturned.data;
-            this.aOption = this.obj.aOption;
-            this.bOption = this.obj.bOption;
-            this.cOption = this.obj.cOption;
-            this.dOption = this.obj.dOption;
-            this.correctOption = this.obj.correctOption;
-            this.isEdit =true;
+            this.optionModel = new OptionModel();
+            this.optionModel = dataReturned.data;
+            this.aOption = this.optionModel.aOption;
+            this.bOption = this.optionModel.bOption;
+            this.cOption = this.optionModel.cOption;
+            this.dOption = this.optionModel.dOption;
+            this.correctOption = this.optionModel.correctOption;
+            // this.isEdit =true;
             
           } else {
             console.log('option added canceled');
@@ -217,22 +240,22 @@ export class AddImageQuestionPage implements OnInit {
     let user_questtxt_model : QuestTxtModel = new QuestTxtModel();
     user_questtxt_model = null;
 
-    let user_questmodel : QuestModel = new QuestModel();
+    let user_quest_model : QuestModel = new QuestModel();
     this.username = "username";
-    user_questmodel.user_questcreator = this.username;
-    user_questmodel.user_quest_img_model = user_quest_img_model;
-    user_questmodel.user_questdgrm_model = user_questdgrm_model;
-    user_questmodel.user_questmarks = 4;
-    user_questmodel.user_questoptionA = this.aOption;
-    user_questmodel.user_questoptionB = this.bOption;
-    user_questmodel.user_questoptionC = this.cOption;
-    user_questmodel.user_questoptionD = this.dOption;
-    user_questmodel.user_questans= this.correctOption;
-
-    user_questmodel.user_questtxt_model = user_questtxt_model;
+    user_quest_model.user_quest_creator = this.username;
+    user_quest_model.user_quest_img_model = user_quest_img_model;
+    user_quest_model.user_questdgrm_model = user_questdgrm_model;
+    user_quest_model.user_quest_marks = 4;
+    user_quest_model.user_quest_optionA = this.aOption;
+    user_quest_model.user_quest_optionB = this.bOption;
+    user_quest_model.user_quest_optionC = this.cOption;
+    user_quest_model.user_quest_optionD = this.dOption;
+    user_quest_model.user_quest_ans= this.correctOption;
+    user_quest_model.isEdit = this.isEdit;
+    user_quest_model.user_questtxt_model = user_questtxt_model;
 
       this.modelController.dismiss(
-        user_questmodel
+        user_quest_model
         )
   }
 
@@ -244,19 +267,19 @@ export class AddImageQuestionPage implements OnInit {
         animated:true,
         showBackdrop: true,
         componentProps: { 
-         "obj": this.obj,
+         "obj": this.optionModel,
         }
       });
       this.openPopOver.onDidDismiss().then(dataReturned => {
         if (dataReturned.data != null) {
             console.log('options added',dataReturned.data)
-              this.obj = new OptionModel();
-              this.obj  = dataReturned.data;
-            this.aOption =  this.obj .aOption;
-            this.bOption =  this.obj .bOption;
-            this.cOption =  this.obj .cOption;
-            this.dOption =  this.obj .dOption;
-            this.correctOption =  this.obj .correctOption;
+              this.optionModel = new OptionModel();
+              this.optionModel  = dataReturned.data;
+            this.aOption =  this.optionModel .aOption;
+            this.bOption =  this.optionModel .bOption;
+            this.cOption =  this.optionModel .cOption;
+            this.dOption =  this.optionModel .dOption;
+            this.correctOption =  this.optionModel .correctOption;
             
           } else {
             console.log('option added canceled');

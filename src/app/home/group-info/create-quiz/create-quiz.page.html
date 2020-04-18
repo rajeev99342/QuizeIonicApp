@@ -12,7 +12,7 @@
 </ion-header>
 <ion-content>
 
-  <ion-row>
+  <ion-row *ngIf="false">
     <ion-col size="4">
       <ion-label>Exam</ion-label>
 
@@ -51,32 +51,30 @@
     </ion-col>
   </ion-row>
 
-  <ion-card tappable *ngFor="let k of questionList">
+  <ion-card tappable *ngFor="let k of questionList;let i = index">
     
     <ion-item>
-      <p slot="end" (click)="openQuestionSetting()" style="float:right;">...</p>
+      <p slot="start">{{i+1}}</p>
+      <p slot="end" (click)="openQuestionSetting(k)" style="float:right;">...</p>
 
     </ion-item>
    
      <ion-card-content >
       <img [src]="k.user_quest_img_model.user_quest_img_base64_url">
-<!-- 
-      <ion-list radio-group [(ngModel)]="relationship">
-        <ion-item>
-          <ion-label>{{k.user_questoptionA}}</ion-label>
-          <ion-radio [value]="k.user_questoptionA"></ion-radio>
-        </ion-item>
-        <ion-item>
-          <ion-label>{{k.user_questoptionA}}</ion-label>
-          <ion-radio [value]="k.user_questoptionA"></ion-radio>
-        </ion-item>
-        <ion-item>
-          <ion-label>{{k.user_questoptionA}}</ion-label>
-          <ion-radio [value]="k.user_questoptionA" ></ion-radio>
-        </ion-item>
-      </ion-list> -->
+  
      </ion-card-content>
+     <div >
+      <ion-badge color="success" >A.  {{k.user_quest_optionA}}</ion-badge>
+      <ion-badge color="success">B.  {{k.user_quest_optionB}}</ion-badge>
+       <ion-badge color="success">C.  {{k.user_quest_optionC}}</ion-badge>
+       <ion-badge color="success" >D.  {{k.user_quest_optionD}}</ion-badge>
+     <p *ngIf="correctOption">Answer</p>
 
+     <div>
+       <ion-badge color="success">Ans.  {{k.user_quest_ans}}</ion-badge>
+
+     </div>
+     </div>
    </ion-card>
 </ion-content>
 <!-- <ion-footer>

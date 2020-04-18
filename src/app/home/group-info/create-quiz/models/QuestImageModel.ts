@@ -6,4 +6,6 @@ export class QuestImageModel
         user_quest_img_base64_url: string;
         user_quest_img_isQuest : boolean;
         user_quest_img_isDgrm : boolean;
+        isEdit : boolean = false;
+        isDelete : boolean = false;
 }

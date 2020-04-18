@@ -79,12 +79,15 @@ export class CreateQuizPage implements OnInit {
     )
   }
 
-  async addYourOwnQuestioin()
+  async addYourOwnQuestioin(questObject)
   {
       const modal = await this.modalController.create({
         component: AddImageQuestionPage,
         backdropDismiss:false,
-        cssClass : 'custom-ques-modal'
+        cssClass : 'custom-ques-modal',
+        componentProps:{
+            questObject : questObject
+        }
 
       });
 
@@ -94,9 +97,20 @@ export class CreateQuizPage implements OnInit {
               console.log('cancel adding question by user')
           }else
           {
+              if(dataRetured.data.isEdit)
+              {
 
+                  console.log('before update',this.questionList)
+                  let index = this.questionList.indexOf(questObject);
+                  this.questionList.splice(index,1);
+                  this.questionList[index] = dataRetured.data;
+
+                  console.log('updated questino',this.questionList);
+              }else{
+                this.questionList.push(dataRetured.data);
+
+              }
               console.log('question added')
-              this.questionList.push(dataRetured.data);
           }
       })
       return await modal.present();
@@ -147,12 +161,33 @@ export class CreateQuizPage implements OnInit {
   }
 
   async openQuestionSetting(ev: any) {
+    // let obj  = Object.assign({},this.questionList[ev]);
     const popOverSetting = await this.popOverController.create({
       component: QuestSettingPage,
       event: ev,
      cssClass:'custom-setting',
+     componentProps:{
+      questObject :ev
+     }
       
     });
+
+    popOverSetting.onDidDismiss().then((returedData)=>{
+        console.log('delete or edit',returedData)
+        if(returedData.data.isEdit)
+        {
+            this.addYourOwnQuestioin(returedData.data);   
+            console.log('Edit this model');
+        }else if(returedData.data.isDelete)
+        {
+            let index = this.questionList.indexOf(returedData.data);
+            if(index > -1)
+            {
+                this.questionList.splice(index,1);
+            }
+            console.log('delete this model')
+        }
+    })
     return await popOverSetting.present();
   }
 
