@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="header" >
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -20,6 +20,7 @@
 </ion-header>
 
 <ion-content>
+
   <ion-searchbar  placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar>
   <!-- <ion-list *ngFor="let k of cities2">
     <ion-item>
@@ -27,7 +28,7 @@
       <ion-label>{{k.name}}</ion-label>
     </ion-item>
   </ion-list> -->
-  <ion-card tappable *ngFor="let k of cities2">
+  <ion-card class="group-card" tappable *ngFor="let k of cities2">
     <ion-item >
 
 

@@ -3,6 +3,10 @@ import { ModalController, NavParams, PopoverController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { GroupModel } from 'src/app/models/GroupModel';
+import { AppService } from 'src/app/services/app.service';
+import { GroupService } from '../group-info/service/group.service';
+import { userModel } from '../user/userModel';
 @Component({
   selector: 'app-create-group',
   templateUrl: './create-group.page.html',
@@ -10,17 +14,38 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class CreateGroupPage implements OnInit {
   abc: any = this.navParams.get('alarmClosureRequest');
-  user_name: string;
-  baserURL: string = "http://127.0.0.1:9090/RestApi/kidder/main";
+  username: string;
+  userObject : userModel;
   groupForm: FormGroup;
   grp_name: FormControl;
   grp_desc: FormControl;
-  constructor(private pop : PopoverController,public navParams: NavParams, private storage: Storage, private http: HttpClient) { }
+  examList : any[]=[];
+  validGrpFlg : boolean = false;
+  eror_message : string;
+  selectedExamList : any[]= [];
+  constructor(
+    private groupService : GroupService,
+    private appService : AppService,
+    private pop : PopoverController,
+    public navParams: NavParams, 
+    private storage: Storage,
+     private http: HttpClient) { }
 
   ngOnInit() {
     this.storage.get('kidder_user').then((username)=>{
-      this.user_name = username;
+      this.userObject = username;
     });
+
+    this.examList.push(
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      
+      )
+
     this.createGrpFormControls();
     this.createGrpForm();
   }
@@ -45,15 +70,37 @@ export class CreateGroupPage implements OnInit {
 
   async createGroup() {
     this.abc = null;
-    const jsonData = JSON.stringify({
-      grp_admin: this.user_name,
-      grp_name: this.groupForm.value.grp_name,
-      grp_desc: this.groupForm.value.grp_desc,
-    });
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json'});  
-    (this.http.post(this.baserURL+"/saveGroupData",jsonData,{responseType: 'json', headers})).subscribe((result)=>{
-    });
-    await this.pop.dismiss(true);
+
+    let groupModel : GroupModel = new GroupModel();
+
+    groupModel.grp_name = this.groupForm.value.grp_name;
+    groupModel.grp_desc = this.groupForm.value.grp_desc;
+    groupModel.grp_admin = this.userObject.user_username;
+
+    let created : boolean = false;
+
+    this.groupService.saveGroupInfo(groupModel).subscribe((response)=>{
+        this.eror_message = null;
+        this.validGrpFlg = false;
+        if(response.body["status"]=="Success"){
+          console.log('group created by ')
+          created = true;
+        }else{
+          this.validGrpFlg = true;
+          this.eror_message = "Group name already exist."
+          console.log(response)
+        }
+	
+    })
+
+    if(created)
+    {
+	await this.pop.dismiss(groupModel);
+
+    }else{
+	await this.pop.dismiss(false);
+
+    }
   }
 
 

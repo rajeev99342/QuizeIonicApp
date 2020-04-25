@@ -14,7 +14,7 @@ import {
 
 import { MesssageServicesService } from '../services/messsage-services.service';
 import { userModel } from '../user/userModel';
-import { UserService } from '../user/user.service';
+import { UserService } from '../user/service/user.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -22,10 +22,11 @@ import { UserService } from '../user/user.service';
 })
 export class SignUpPage implements OnInit {
 
-
+  selectedTab :string = "signuptab";
   // private popoverController: PopoverController
-  password_error : string;
-  password_error_flag :boolean;
+  username_error_flg : boolean = false;
+  error_message : string;
+  error_message_flag :boolean;
   username : string;
   user_name : FormControl;
   user_username : FormControl;
@@ -43,6 +44,9 @@ export class SignUpPage implements OnInit {
   user_is_Competator :FormControl
   myform: FormGroup;
    user_model: userModel ;
+   examList : any[]=[];
+   selectedExamList : any[]= [];
+   password_error_flag : boolean = false;
   constructor(
     private userService : UserService,
     private pop : PopoverController,
@@ -51,6 +55,15 @@ export class SignUpPage implements OnInit {
      private messageEventEmitterService: MesssageServicesService ) { }
 
   ngOnInit() {
+    this.examList.push(
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      {"name":"SSC","code":"SCC"},
+      
+      )
     this.createFormControls();
     this.createForm();
   }
@@ -96,22 +109,46 @@ export class SignUpPage implements OnInit {
 
   async register(form) {
     console.log(form);
-
+    
     if(this.setUserData() == false)
     {
         console.log('Password not matches')
     }else
     {
-
+      this.error_message = null;
+      this.username = null;
+      this.password_error_flag  = false;
+      this.username_error_flg = false;
       this.userService.saveUserData(this.user_model).subscribe((result)=>{
           console.log('save user information',result);
-          
-      this.storage.set("kidder_user",this.username);
-      console.log('Fomr submitted');
+          if(result.body["status"] == "Success")
+          {
+            this.storage.set("kidder_user",{
+              user_username:result.body["user_username"],
+              user_name:result.body["user_name"],
+              user_password : result.body["user_password"],
+              user_id : result.body["user_id"],
+              user_unique_code:result.body["user_unique_code"],
+            });
+            console.log('Fomr submitted');
+            this.username = result.body["user_username"];
+         
+          }else if(result.body["status"] == "Failed"){
+            this.username = null;
+            this.username_error_flg = true;
+            this.error_message = result.body["error"];
+
+          }
+          if(this.username != null)
+          {
+             this.pop.dismiss(result.body);
+    
+          }
       
       })
-      
-      await this.pop.dismiss(this.username);
+
+   
+
 
     }
     
@@ -139,7 +176,7 @@ export class SignUpPage implements OnInit {
 
     if(this.myform.value.re_user_password != this.myform.value.user_password)
     {
-      this.password_error = "Password not matches";
+      this.error_message = "Password not matches";
       this.password_error_flag = true;
       return false;
     }else
@@ -153,8 +190,18 @@ export class SignUpPage implements OnInit {
       return this.user_model;
     }
 
+  }
 
+  SelectTab(tab)
+  {
+      this.selectedTab = tab;
+      
 
+  }
+
+  closeDialog()
+  {
+    this.pop.dismiss(null);
   }
 
 }

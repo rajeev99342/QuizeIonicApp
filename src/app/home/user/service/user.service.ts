@@ -1,25 +1,28 @@
 import { Injectable } from '@angular/core';
-import { AppService } from 'src/app/app.service';
-import { userModel } from './userModel';
+import { AppService } from 'src/app/services/app.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { userModel } from '../userModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  baserURL = "http://127.0.0.1:9090/RestApi/kidder/main";
+  baserURL = "http://127.0.0.1:8081/kidder/api";
   constructor(private http :HttpClient, private apService : AppService) {
-        //  apService.getBaseURL().subscribe((baseURL)=>{
-        //   this.baserURL =  this.baserURL["baserURL"];
-        // });
+       
    }
 
    saveUserData(userData : userModel)
    {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json'});  
 
-      return   this.http.post(this.baserURL+"/saveUserData",userData,{responseType: 'json', headers})
+      return   this.http.post(this.baserURL+"/saveUserData",userData,{observe:'response'})
+   }
+
+   getUserByUsername(username)
+   {
+     return this.http.get(this.baserURL+"/searchParticipant"+"/"+`${username}`);
    }
 
 }

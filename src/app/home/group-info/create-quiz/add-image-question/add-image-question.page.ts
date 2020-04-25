@@ -34,7 +34,9 @@ export class AddImageQuestionPage implements OnInit {
   isOptionsAdded : boolean = false;
   optionModel : OptionModel 
   cameraOptions: CameraOptions = {
-    quality: 20,
+    quality: 50,
+    targetWidth: 800,
+    targetHeight: 600,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
     mediaType: this.camera.MediaType.PICTURE,
@@ -100,7 +102,9 @@ export class AddImageQuestionPage implements OnInit {
       this.capturedSnapURL = null;
       console.log('get from gallary')
       const options : CameraOptions = {
-          quality : 70,
+        quality: 50,
+        targetWidth: 800,
+        targetHeight: 600,
           destinationType : this.camera.DestinationType.DATA_URL,
           sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
           saveToPhotoAlbum : false,
@@ -262,33 +266,45 @@ export class AddImageQuestionPage implements OnInit {
         )
   }
 
-  async EdiOptions(ev){
+  // async EdiOptions(ev){
 
-      this.openPopOver = await this.popoverController.create({
-        component: AddOptionsPage,
-        event: ev,
-        animated:true,
-        showBackdrop: true,
-        componentProps: { 
-         "obj": this.optionModel,
-        }
-      });
-      this.openPopOver.onDidDismiss().then(dataReturned => {
-        if (dataReturned.data != null) {
-            console.log('options added',dataReturned.data)
-              this.optionModel = new OptionModel();
-              this.optionModel  = dataReturned.data;
-            this.aOption =  this.optionModel .aOption;
-            this.bOption =  this.optionModel .bOption;
-            this.cOption =  this.optionModel .cOption;
-            this.dOption =  this.optionModel .dOption;
-            this.correctOption =  this.optionModel .correctOption;
+  //     this.openPopOver = await this.popoverController.create({
+  //       component: AddOptionsPage,
+  //       event: ev,
+  //       animated:true,
+  //       showBackdrop: true,
+  //       componentProps: { 
+  //        "obj": this.optionModel,
+  //       }
+  //     });
+  //     this.openPopOver.onDidDismiss().then(dataReturned => {
+  //       if (dataReturned.data != null) {
+  //           console.log('options added',dataReturned.data)
+  //             this.optionModel = new OptionModel();
+  //             this.optionModel  = dataReturned.data;
+  //           this.aOption =  this.optionModel .aOption;
+  //           this.bOption =  this.optionModel .bOption;
+  //           this.cOption =  this.optionModel .cOption;
+  //           this.dOption =  this.optionModel .dOption;
+  //           this.correctOption =  this.optionModel .correctOption;
             
-          } else {
-            console.log('option added canceled');
-        }
-      });
-      return await this.openPopOver.present();
+  //         } else {
+  //           console.log('option added canceled');
+  //       }
+  //     });
+  //     return await this.openPopOver.present();
+  //   }
+
+
+
+    isAllOptionFilled()
+    {
+      if(this.aOption && this.bOption && this.cOption && this.dOption)
+      {
+          return true;
+      }else
+      {
+         return false;
+      }
     }
-  
 }

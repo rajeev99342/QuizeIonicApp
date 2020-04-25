@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UserPageRoutingModule } from './user-routing.module';
+import { QuizQuestsPageRoutingModule } from './quiz-quests-routing.module';
 
-import { UserPage } from './user.page';
-import { UserService } from './service/user.service';
+import { QuizQuestsPage } from './quiz-quests.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    UserPageRoutingModule
+    QuizQuestsPageRoutingModule
   ],
-  providers:[UserService],
-  declarations: [UserPage]
+  declarations: [QuizQuestsPage]
 })
-export class UserPageModule {}
+export class QuizQuestsPageModule {}

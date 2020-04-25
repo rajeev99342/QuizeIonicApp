@@ -1,38 +1,77 @@
 .header {
-    overflow: hidden;
-    background-color: #72ceb7;
-    padding: 8px 10px;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+ 
+  // align-items: center;
+  // justify-content: center;
+  overflow: hidden;
+  background-color: black;
+  padding: 8px 10px;
+  color: white;
+}
 
-  }
+.cropped-image{
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
 
-  .cropped-image{
-    display: flex;
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    max-height: 100%;
-  }
+.ion-badge{
+  font-size: 28px;
 
-  .ion-badge{
-    font-size: 28px;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
 
-  }
-  .button {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 10px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
+.button-group{
+  padding: 7px;
+}
 
-  .button-group{
-    padding: 7px;
-  }
+
+.option-group {
+.ion-color{
+  margin-right: 3px;
+  margin-left:7px;
+}
+}
+
+.add-option{
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 0px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}

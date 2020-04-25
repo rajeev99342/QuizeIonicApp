@@ -1,0 +1,36 @@
+.registerbtn {
+  background-color:black;
+    color: rgb(255, 255, 255);
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    box-shadow: 1px 1px 1px 1px #e8e8e8;
+  }
+  
+  .registerbtn:hover {
+    opacity: 1;
+  }
+
+  .signUpSignIn{
+    flex: 0 0 calc(calc(6 / var(--ion-grid-columns, 12)) * 100%);
+    width: calc(calc(6 / var(--ion-grid-columns, 12)) * 100%);
+    max-width: calc(calc(6 / var(--ion-grid-columns, 12)) * 100%);
+    margin-left: 4px;
+    margin-right: -10px;
+    
+  }
+
+  .signintab{
+    background-color: #454949;
+    color: rgb(255, 255, 255);
+    padding: 16px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+    box-shadow: 1px 1px 1px 1px #e8e8e8;
+  }

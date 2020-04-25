@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { GroupService } from '../home/group-info/service/group.service';
+import { GroupModel } from '../models/GroupModel';
+import { Storage } from '@ionic/storage';
+import { userModel } from '../home/user/userModel';
 
 @Component({
   selector: 'app-explore-groups',
@@ -8,17 +12,24 @@ import { Component, OnInit } from '@angular/core';
 export class ExploreGroupsPage implements OnInit {
 
   cities2 : any = [];
-
-  constructor() { }
+  groupList : GroupModel[] = [];
+  userObject : userModel;
+  constructor(
+    private storage : Storage,
+    private groupService : GroupService
+    ) { }
 
   ngOnInit() {
-    this.cities2 = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
+
+    
+    this.storage.get("kidder_user").then((user)=>{
+    
+      this.groupService.getAllGrpByAdmin(user.user_username,false).subscribe((response : GroupModel[])=>{
+        console.log('getting all group',response);
+        this.groupList = response
+      })
+    })
+
   }
 
   filterGroup(ent)

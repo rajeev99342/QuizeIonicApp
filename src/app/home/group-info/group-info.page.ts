@@ -17,6 +17,7 @@ export class GroupInfoPage implements OnInit {
   popoverQuizInfo : any;
 
   popoverAddParticipant : any;
+  participantList : any;
 
   popoverParticipantRqstList : any;
   cities2 : any = [];
@@ -36,16 +37,16 @@ export class GroupInfoPage implements OnInit {
 
       async onClickParticipantQuizeWise(ev: any) {
         
-        this.popoverParticipant = await this.popoverController.create({
+        this.participantList = await this.popoverController.create({
           component: ParticipantPage,
           animated:true,
           showBackdrop: true,
           
          
         });
-        this.popoverParticipant.onDidDismiss().then(dataReturned => {
+        this.participantList.onDidDismiss().then(dataReturned => {
           if (dataReturned.data) {
-              // console.log('Register successfully');
+              console.log('Register successfully');
               // this.authenticated= true;
               // this.storageService.changeStorageValue(dataReturned.data);
               
@@ -87,6 +88,29 @@ export class GroupInfoPage implements OnInit {
 
     }
 
+
+    async addParticipant()
+    {
+      
+      
+            
+      this.popoverAddParticipant = await this.popoverController.create({
+        component: AddParticipantPage,
+        animated:true,
+        showBackdrop: true,
+        
+       
+      });
+      this.popoverAddParticipant.onDidDismiss().then(dataReturned => {
+        if (dataReturned.data) {
+       
+          } else {
+            console.log('Register failure');
+        }
+      });
+      return await this.popoverAddParticipant.present();
+    }
+
    async participantInThisGroup()
     {
       
@@ -100,10 +124,7 @@ export class GroupInfoPage implements OnInit {
       });
       this.popoverAddParticipant.onDidDismiss().then(dataReturned => {
         if (dataReturned.data) {
-            // console.log('Register successfully');
-            // this.authenticated= true;
-            // this.storageService.changeStorageValue(dataReturned.data);
-            
+       
           } else {
             console.log('Register failure');
         }
@@ -124,15 +145,23 @@ export class GroupInfoPage implements OnInit {
       });
       this.popoverParticipantRqstList.onDidDismiss().then(dataReturned => {
         if (dataReturned.data) {
-            // console.log('Register successfully');
-            // this.authenticated= true;
-            // this.storageService.changeStorageValue(dataReturned.data);
-            
+        
           } else {
             console.log('Register failure');
         }
       });
       return await this.popoverParticipantRqstList.present();
+    }
+
+
+    doRefresh(event)
+    {
+        console.log('Begin async operation');
+  
+            setTimeout(() => {
+              console.log('Async operation has ended');
+              event.target.complete();
+            }, 200);
     }
 
 }

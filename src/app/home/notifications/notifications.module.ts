@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UserPageRoutingModule } from './user-routing.module';
+import { NotificationsPageRoutingModule } from './notifications-routing.module';
 
-import { UserPage } from './user.page';
-import { UserService } from './service/user.service';
+import { NotificationsPage } from './notifications.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    UserPageRoutingModule
+    NotificationsPageRoutingModule
   ],
-  providers:[UserService],
-  declarations: [UserPage]
+  declarations: [NotificationsPage]
 })
-export class UserPageModule {}
+export class NotificationsPageModule {}

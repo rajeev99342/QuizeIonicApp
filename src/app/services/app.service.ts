@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class AppService {
 
 
-  constructor(private http : HttpClient) { }
+  constructor(private storage:Storage,private http : HttpClient) { }
 
   getBaseURL()
   {
@@ -15,4 +16,15 @@ export class AppService {
       return this.http.get("./assets/config.json");
   }
 
+
+  
+getUsername():string{
+  let username = null;
+  this.storage.get("kidder_user").then((user)=>{
+    username= user;
+  })
+  return username
 }
+
+}
+

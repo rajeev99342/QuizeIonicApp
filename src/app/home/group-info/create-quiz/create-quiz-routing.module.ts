@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'quest-setting',
     loadChildren: () => import('./quest-setting/quest-setting.module').then( m => m.QuestSettingPageModule)
+  },
+  {
+    path: 'quiz-quests',
+    loadChildren: () => import('./quiz-quests/quiz-quests.module').then( m => m.QuizQuestsPageModule)
   }
 ];
 

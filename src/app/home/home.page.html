@@ -1,5 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header  [translucent]="true">
+  <ion-toolbar class="header">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -20,61 +20,84 @@
 </ion-header>
 
 <ion-content padding  [fullscreen]="true">
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
     
 
-      <div *ngIf="authenticated == false">
-        <ion-card tappable *ngFor="let k of cities2">
-          <ion-item >
+      <div>
+        <ion-card  class="group-card" tappable *ngFor="let k of groupList">
+    
+        
 
-             <!-- <ion-checkbox checked="true"></ion-checkbox> -->
-             <ion-label>{{k.name}}</ion-label>
-             <ion-icon  (click)="onClickGroup($event)" name="eye-outline"></ion-icon>
-             <!-- <ion-button >View</ion-button> -->
-           </ion-item>
+
+           <div  style="box-shadow: 1px 1px 1px 1px #f1f1f1;" class="grp_header">
+             <h1>{{k.grp_name}}</h1>
+            
+
+           </div>
          
-           <ion-card-content >
+           <ion-buttons>
+             <ion-tab-button>
+              <p>Admin : {{k.grp_admin}}</p>
+             </ion-tab-button>
+             <ion-tab-button>
+              <p>Member : </p>
+             </ion-tab-button>
+           </ion-buttons>
+           <ion-buttons>
+            <ion-tab-button>
+             
+              <p>Test Room : </p>
+            </ion-tab-button>
+            <ion-tab-button>
+             
+              <p>Active : </p>
+            </ion-tab-button>
+          </ion-buttons>
+       
+           <ion-card-content>
+    
+      
              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
               Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
              
            </ion-card-content>
-           <!-- <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg"> -->
-
+           <ion-footer >
+            <ion-toolbar style="text-align: center;" class="home-footer">
+          
+              <!-- <button  (click)="register()"  expand="block">View</button> -->
+              <P  (click)="onClickGroup($event)"  type="submit">View</P>
+            </ion-toolbar>
+          </ion-footer>
          </ion-card>
-
-      </div>
-
-      <div *ngIf="authenticated == true">
-        <p *ngIf="groupCreatedByYou == false">You are not in any group</p>
-        <ion-card tappable *ngFor="let k of cities2">
-          <ion-item >
-
-             <!-- <ion-checkbox checked="true"></ion-checkbox> -->
-             <ion-label>{{k.name}}</ion-label>
-             <ion-icon  (click)="onClickGroup($event)" name="eye-outline"></ion-icon>
-             <!-- <ion-button >View</ion-button> -->
-           </ion-item>
-         
-           <ion-card-content >
-             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-             
-           </ion-card-content>
-           <!-- <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg"> -->
-
-         </ion-card>
-      </div>
-    
-   
  
+         <!-- <ion-button  (click)="onClickGroup($event)" >View</ion-button> -->
+      </div> 
+
+ 
+    
+    <h1>
+      Hi
+    </h1>
+    <p>
+      {{fcm_token}}
+    </p>
+    <ion-input [(ngModel)]="fcm_token"  type="text" ></ion-input>
 
   <ion-router-outlet></ion-router-outlet>
 
 </ion-content>
-<ion-footer>
-  <ion-toolbar  style=" --background: #54d61c; text-align: center;" class="home-footer">
-    <ion-button *ngIf="!authenticated" (click)="OpenSignUpPopUP()"   color="light">Sign Up</ion-button>
-    <ion-button *ngIf="authenticated" (click)="createGroup()"   color="light">Create Group</ion-button>
+<ion-footer >
+  <ion-toolbar style="text-align: center;" class="home-footer">
+
+    <button *ngIf="!authenticated" (click)="OpenSignUpPopUP()" type="submit" (click)="register()"  expand="block" class="registerbtn">Join</button>
+    <button *ngIf="authenticated"   type="submit"  expand="block" class="registerbtn"><span (click)="createGroup()">Create Group</span></button>
 
   </ion-toolbar>
 </ion-footer>

@@ -27,49 +27,26 @@
 
 
 
-custom-css-signUp-popover{
-    ion-popover{
-        ion-backdrop{
-        opacity: 0.5 !important;
-        }
-        .popover-wrapper{
-        .popover-content{
-        width:80vw;
-        max-width:500px;
-        height: 100vw;
-        max-height: 120vw;
-        }
-        }
-        }
-}
 
+.sign-up-custom-popover .popover-content {
+ 
 
-.create-group-custom-css{
+    left: 0px;
+    min-width: 80%;
+    width: 100%;
+    top: 118.5px;
+    position: absolute;
+    /* left: 12px; */
+    transform-origin: left top;
+   
+  } 
+
+  
+create-group-custom-css{
     width:80vw;
     max-width:500px;
     height: 100vw;
     max-height: 120vw;
-}
-
-.arrow-down-outline{
-    font-size: 40px;
-    color: red;
-}
-
-.modal-wrapper.sc-ion-modal-md {
-    -webkit-transform: translate3d(0, 40px, 0);
-    transform: translate3d(0, 40px, 0);
-    opacity: 0.01;
-    height: 26rem;
-    width: 21rem;
-}
-
-.option-badge .ion-badge{
-        font-size: 33px;
-}
-
-.custom-setting  .popover-content .sc-ion-popover-md{
+    }
     
-    --background: red;
 
-}

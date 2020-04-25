@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "34056290890",
+    "firebase_url": "https://kidder-5331c.firebaseio.com",
+    "project_id": "kidder-5331c",
+    "storage_bucket": "kidder-5331c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34056290890:android:26c163358c007066211cb3",
+        "android_client_info": {
+          "package_name": "com.kidder.quizApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34056290890-ps9628l6qifti1g16qe8677rm6i4mpi5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtOOu1qvOUfWvH5cYJgUpQslqdzhZwntA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34056290890-ps9628l6qifti1g16qe8677rm6i4mpi5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

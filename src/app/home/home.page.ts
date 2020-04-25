@@ -11,7 +11,10 @@ import { UserInfo } from './constants/userInfo';
 import { Storage } from '@ionic/storage';
 import { HomeApiServiceService } from './services/home-api-service.service';
 import { StorageService } from './storage.service';
-import { AppService } from '../app.service';
+import { AppService } from '../services/app.service';
+import { GroupModel } from '../models/GroupModel';
+import { GroupService } from './group-info/service/group.service';
+import { userModel } from './user/userModel';
 
 interface City {
   name: string;
@@ -31,8 +34,13 @@ export class HomePage implements OnInit {
    popoverForCreateGroup: any;
    authenticated : boolean = false;
    groupCreatedByYou : boolean = false;
-  
-  constructor(public popoverController: PopoverController,
+   fcm_token : string;
+  userObject : userModel;
+   groupList : GroupModel[] = [];
+
+  constructor(
+    public groupService : GroupService,
+    public popoverController: PopoverController,
     private messageService : MesssageServicesService,
     private homeApiServiceService :HomeApiServiceService,
     public modalController: ModalController,
@@ -44,23 +52,27 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
 
-
-    console.log('TTHIS IS BASE URL',this.appService.getBaseURL())
     
-    this.appService.getBaseURL().subscribe((url)=>{
-        console.log('TTHIS IS BASE URL',url["baserURL"])
-    })
+    console.log('TTHIS IS BASE URL',this.appService.getBaseURL())
+  
     this.homeApiServiceService.getApi().subscribe((data)=>{
       console.log('getting data from api',data);
     })
 
-    this.storage.get('kidder_user').then((username)=>{
-        if(username)
+    this.storage.get('kidder_user').then((userData)=>{
+        if(userData)
         {
+            this.userObject = userData;
             this.authenticated = true;
+            this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
+              console.log('getting all group',response);
+              this.groupList = response
+            })
         }
     })
 
+
+  
     this.cities2 = [
       {name: 'New York', code: 'NY'},
       {name: 'Rome', code: 'RM'},
@@ -68,6 +80,12 @@ export class HomePage implements OnInit {
       {name: 'Istanbul', code: 'IST'},
       {name: 'Paris', code: 'PRS'}
   ];
+
+
+     this.storage.get("fcm_token").then((token)=>{
+      this.fcm_token = token;
+    })
+
   }
 
   onChangeClass(event)
@@ -97,7 +115,8 @@ export class HomePage implements OnInit {
       component: SignUpPage,
       event: ev,
       animated:true,
-      showBackdrop: true,
+     
+      cssClass:'sign-up-custom-popover'
      
     });
     this.popover.onDidDismiss().then(dataReturned => {
@@ -131,14 +150,29 @@ export class HomePage implements OnInit {
      
     });
     this.popoverForCreateGroup.onDidDismiss().then(dataReturned => {
-      if (dataReturned.data ==true) {
+      if (dataReturned.data != false) {
           this.groupCreatedByYou = true;
           this.cities2.push({name: 'New York', code: 'NY'})
         } else {
-          console.log('Data return 2');
+          console.log('failed',dataReturned.data);
       }
     });
     return await this.popoverForCreateGroup.present();
   }
 
+
+  doRefresh(event)
+  {
+      console.log('Begin async operation');
+
+      this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
+        console.log('getting all group',response);
+        this.groupList = response
+      })
+          setTimeout(() => {
+            console.log('Async operation has ended');
+            event.target.complete();
+          }, 200);
+  }
 }
+

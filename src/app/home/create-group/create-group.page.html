@@ -6,15 +6,51 @@
 
 <ion-content>
   <form  [formGroup]="groupForm" >
-  <ion-input formControlName="grp_name" :class="paddingLeft" placeholder="Enter Group Name"  required></ion-input>
-  <ion-item >
-    <ion-label class="noBottomPadding textColor">Notes</ion-label>
-  </ion-item>
-  <ion-item>
-    <ion-textarea formControlName="grp_desc" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
-  </ion-item>
-  
-  <ion-button (click)="createGroup()" class="fullWidth btn">Submit</ion-button>
-  </form>
+    
+    <ion-row justify-content-center>
+      <ion-col align-self-center size="12">
+        <div text-center>
+        </div>
+        <div padding>
+          <ion-item>
+            <ion-input  formControlName="grp_name" type="text" placeholder="Group Name" ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input formControlName="grp_desc"  type="text" placeholder="Give Brief Description" ></ion-input>
+          </ion-item>
+   
+
+          <ion-list style="border-radius: 2px;
+           padding-bottom: 0px;">
+      
+           <ion-item>
+             <ion-label>Group For</ion-label>
+      
+             <ion-select [(ngModel)]="selectedExamList"   [ngModelOptions]="{standalone: true}" multiple="true" okText="Okay" cancelText="Dismiss">
+               <ion-select-option *ngFor="let exam of examList; let i = index"  [value]="{name: exam.name, code: exam.code}" selected="false">
+                 {{exam.name}}
+                </ion-select-option>
+     
+             </ion-select>
+           </ion-item>
+         
+         </ion-list>
+
+
+
+         
+        </div>
+
+          <div *ngIf="validGrpFlg">
+            <p>{{eror_message}}</p>
+          </div>
+        <div padding>
+          <button type="submit" (click)="createGroup()" [disabled]="groupForm.invalid" expand="block" class="registerbtn">Create</button>
+
+        </div>
+      </ion-col>
+    </ion-row>
+
+</form>
 
 </ion-content>

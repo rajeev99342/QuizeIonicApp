@@ -19,8 +19,7 @@ import {GroupInfoPageModule} from "./group-info/group-info.module"
     IonicModule,
     HomePageRoutingModule,
     ReactiveFormsModule,
-    GroupInfoPageModule
-    
+    GroupInfoPageModule,
   ],
   entryComponents:[SubjectConfirmPage,SignUpPage,CreateGroupPage],
   declarations: [HomePage,SubjectConfirmPage,SignUpPage,CreateGroupPage],

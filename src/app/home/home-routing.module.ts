@@ -47,6 +47,10 @@ const routes: Routes = [
   {
     path: 'group-info',
     loadChildren: () => import('./group-info/group-info.module').then( m => m.GroupInfoPageModule)
+  },
+  {
+    path: 'notifications/:price',
+    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
   }
 ];
 

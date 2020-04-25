@@ -5,20 +5,77 @@
 :root {
 
 
-  .custom-ques-modal .modal-wrapper{
-    transform: translate3d(0, 40px, 0);
-    opacity: 0.01;
-    height: 35rem;
-    width: 25rem;
-  }
+  // .custom-ques-modal .modal-wrapper{
+  //   transform: translate3d(0, 40px, 0);
+  //   opacity: 0.01;
+  //   height: 35rem;
+  //   width: 25rem;
+  // }
 
+
+
+.arrow-down-outline{
+font-size: 40px;
+color: red;
+}
+
+// .modal-wrapper.sc-ion-modal-md {
+//     -webkit-transform: translate3d(0, 40px, 0);
+//     transform: translate3d(0, 40px, 0);
+//     opacity: 0.01;
+//     height: 26rem;
+//     width: 21rem;
+// }
+
+.option-badge .ion-badge{
+    font-size: 33px;
+}
+
+.custom-setting  .popover-content .sc-ion-popover-md{
+
+--background: red;
+top: 225px !important;
+/* left: 6px; */
+transform-origin: left top;
+background: red !important;
+
+}
+
+.custom-setting .ion-popover{
+--background: red;
+top: 225px !important;
+/* left: 6px; */
+transform-origin: left top;
+background: red !important;
+}
   .custom-toast-css-add-option { 
     
       text-align: center;
       
   }
 
+  $background-color: #3c353c;
 
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:    #bdc3c7,
+  secondary:  #7f8c8d,
+  danger:     #f53d3d,
+  light:      #fff,
+  dark:       #3c353c
+);
+
+//   .custom-css-signUp-popover {
+    
+ 
+// }
 
   
   /** primary **/
@@ -248,3 +305,4 @@
     --color: white;
   }
 }
+@import "bootstrap";

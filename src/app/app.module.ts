@@ -8,8 +8,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageModule } from './home/home.module';
 import { IonicStorageModule } from '@ionic/storage';
+import {FCM} from '@ionic-native/fcm/ngx';
 
 import {HttpClientModule} from '@angular/common/http';
+import { AppService } from './services/app.service';
 
 @NgModule({
   declarations: [
@@ -29,8 +31,11 @@ import {HttpClientModule} from '@angular/common/http';
 
   ],
   providers: [
+    AppService,
     StatusBar,
+    IonicStorageModule,
     SplashScreen,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
