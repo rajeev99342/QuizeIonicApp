@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
@@ -29,9 +29,10 @@ export class AppComponent implements OnInit {
       icon : 'search'
     }
   ];
-  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public labels = ['log out'];
 
   constructor(
+    public menuCtrl: MenuController,
     private fcm: FCM,
      private router: Router,
     private platform: Platform,
@@ -44,15 +45,22 @@ export class AppComponent implements OnInit {
       // This code will execute when the property has changed and also
       // you'll have access to the object with the information that
       // your service sent in the next() call.
-      this.updateUserName(newValue.user_username);
+      
+      this.updateUserName(newValue);
     });
     this.initializeApp();
   }
 
 
-  updateUserName(username){
+  updateUserName(userOBject){
 
-      this.username = username
+      if(userOBject == null)
+      {
+        this.username = null;
+      }else{
+        this.username = userOBject.user_username;
+      }
+    
 
   }
 
@@ -103,13 +111,18 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     
      this.storage.get('kidder_user').then((userObject)=>{
-      this.username = userObject.user_username;
-      console.log("username exits",this.username)
-      if(this.username != null)
-      {
-        UserInfo.setUserName(this.username);
 
+      if(userObject != null)
+      {
+        this.username = userObject.user_username;
+        console.log("username exits",this.username)
+        if(this.username != null)
+        {
+          UserInfo.setUserName(this.username);
+  
+        }
       }
+
 
     });
 
@@ -119,4 +132,16 @@ export class AppComponent implements OnInit {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
   }
+
+
+  logout()
+  {
+    
+      this.storage.clear();
+      this.updateUserName(null);
+      this.menuCtrl.close();
+      this.storageService.changeAfterLogout(null);
+     
+  }
+
 }

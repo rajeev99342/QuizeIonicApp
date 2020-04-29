@@ -8,20 +8,27 @@ export class StorageService {
   private storageObserver: any;
   public storage: any;
 
+  private logoutStorageObserver : any;
+  public loutoutStorage : any;
+
   constructor() {
       this.storageObserver= null;
 
       this.storage= Observable.create(observer => {
           this.storageObserver= observer;
       });
+
+      this.loutoutStorage = Observable.create(observer=>{
+        this.logoutStorageObserver = observer;
+      })
+
+  }
+
+  public changeAfterLogout(newValue):void{
+      this.logoutStorageObserver.next(newValue);
   }
 
   public changeStorageValue(newValue): void { 
-
-      // This method changes the value of the storage
-      // ...
-
-      // Notify to the subscriptor that the value has changed
       this.storageObserver.next(newValue);
   }
 }

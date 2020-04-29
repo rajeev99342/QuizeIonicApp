@@ -17,7 +17,7 @@ export class CreateQuizPage implements OnInit {
   questionList : QuestModel[] = [];
   username : string ="dummyUser";
   grp_name : string = "dummyGrp";
-  quiz_name : string = "dummyQuiz"
+  quiz_name : string = "dummy Quiz"
   cities2 : any = [];
   selectedFriendsArray : any = [];
   examList : any[] = [];
@@ -146,15 +146,15 @@ export class CreateQuizPage implements OnInit {
     quiz_model.quiz_created_date = null;
     quiz_model.quiz_creator = this.username;
     quiz_model.quiz_duration = 30; // sec
-    quiz_model.quiz_exam.push("SSC");
+    quiz_model.quiz_exam = null;
     quiz_model.quiz_marks = 40;
     quiz_model.quiz_name = this.quiz_name;
     quiz_model.quiz_num_of_ques = this.questionList.length;
     quiz_model.quiz_published_date = null; // server side
-    quiz_model.quiz_sub.push("dummySubject","sub2");
-    quiz_model.quiz_exam.push("dummyExam");
+    quiz_model.quiz_sub = null;
+    quiz_model.quiz_exam = null;
     quiz_model.quiz_time = null;
-    quiz_model.quiz_topic.push("topic1","topic2");
+    quiz_model.quiz_topic = null;
     quiz_model.grp_name = this.grp_name;
     quiz_model.user_questlist = this.questionList;
     return quiz_model;
@@ -189,6 +189,28 @@ export class CreateQuizPage implements OnInit {
         }
     })
     return await popOverSetting.present();
+  }
+
+
+  saveTestRoom()
+  {
+    if(this.questionList.length == 0)
+    {
+        console.log('slkdfjls')
+    }else{
+
+
+      let quiz_model : QuizModel = this.getQuizModel();
+      if(quiz_model != null)
+      {
+
+          console.log('save quiz model',quiz_model)
+          this.quizService.saveQuizModel(quiz_model).subscribe((response)=>{
+              console.log(response);
+          })
+      }
+        
+    }
   }
 
 }

@@ -41,12 +41,10 @@
    
   } 
 
-  
-create-group-custom-css{
-    width:80vw;
-    max-width:500px;
-    height: 100vw;
-    max-height: 120vw;
-    }
-    
 
+
+    .sign-up-custom-popover .popover-content .sc-ion-popover-md{
+      top: 124px;
+    left: 0 !important;
+    transform-origin: left top;
+    }

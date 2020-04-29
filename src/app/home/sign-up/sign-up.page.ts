@@ -15,6 +15,7 @@ import {
 import { MesssageServicesService } from '../services/messsage-services.service';
 import { userModel } from '../user/userModel';
 import { UserService } from '../user/service/user.service';
+import { StorageService } from '../storage.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -47,11 +48,15 @@ export class SignUpPage implements OnInit {
    examList : any[]=[];
    selectedExamList : any[]= [];
    password_error_flag : boolean = false;
+
+   login_user_username : string;
+   login_user_password : string;
+
   constructor(
     private userService : UserService,
     private pop : PopoverController,
     private storage : Storage,
-    
+    private storageService : StorageService,
      private messageEventEmitterService: MesssageServicesService ) { }
 
   ngOnInit() {
@@ -157,20 +162,40 @@ export class SignUpPage implements OnInit {
         
   }
 
-  // presentToast() {
-  //   let toast = this.toastCtrl.create({
-  //     message: 'User was added successfully',
-  //     duration: 3000,
-  //     position: 'top'
-  //   });
-  
-  //   toast.onDidDismiss(() => {
-  //     console.log('Dismissed toast');
-  //   });
-  
-  //   toast.present();
-  // }
+  login()
+  {
+      if(this.login_user_username && this.login_user_password)
+      {
+          this.userService.loginUser(this.login_user_username,this.login_user_password).subscribe((result)=>{
+              console.log('user Logged in',result);
+             
+              if(result["status"] != "Failed")
+              {
+                this.storage.set("kidder_user",{
+                  user_username:result["user_username"],
+                  user_name:result["user_name"],
+                  user_password : result["user_password"],
+                  user_id : result["user_id"],
+                  user_unique_code:result["user_unique_code"],
+                });
+                console.log('Fomr submitted');
+                this.username = result["user_username"];
+                this.storageService.changeStorageValue(result);
+              }else{
+                  console.log('Login failed');
+              }
 
+              if(this.username != null)
+              {
+                 this.pop.dismiss(result);
+        
+              }
+          
+          })
+
+          
+      }
+  }
   setUserData()
   {
 

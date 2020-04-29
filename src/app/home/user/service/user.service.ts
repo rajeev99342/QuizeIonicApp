@@ -25,4 +25,11 @@ export class UserService {
      return this.http.get(this.baserURL+"/searchParticipant"+"/"+`${username}`);
    }
 
+   loginUser(username,password)
+   {
+      const headers = {};
+
+      return this.http.get(this.baserURL+"/login"+"/"+`${username}`+"/"+`${password}`,headers);
+   }
+
 }

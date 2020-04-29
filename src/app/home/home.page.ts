@@ -37,7 +37,7 @@ export class HomePage implements OnInit {
    fcm_token : string;
   userObject : userModel;
    groupList : GroupModel[] = [];
-
+username : string;
   constructor(
     public groupService : GroupService,
     public popoverController: PopoverController,
@@ -48,44 +48,45 @@ export class HomePage implements OnInit {
     private appService :AppService,
     private storageService:StorageService,
     private storage : Storage
-    ) { }
+    ) {
+
+      this.storageService.loutoutStorage.subscribe(newValue=>{
+          if(newValue == null)
+          {
+              this.authenticated = false;
+              this.groupList = [];
+          }
+      })
+     }
 
   ngOnInit() {
 
     
     console.log('TTHIS IS BASE URL',this.appService.getBaseURL())
   
-    this.homeApiServiceService.getApi().subscribe((data)=>{
-      console.log('getting data from api',data);
-    })
 
-    this.storage.get('kidder_user').then((userData)=>{
-        if(userData)
-        {
-            this.userObject = userData;
-            this.authenticated = true;
-            this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
-              console.log('getting all group',response);
-              this.groupList = response
-            })
-        }
-    })
-
-
-  
-    this.cities2 = [
-      {name: 'New York', code: 'NY'},
-      {name: 'Rome', code: 'RM'},
-      {name: 'London', code: 'LDN'},
-      {name: 'Istanbul', code: 'IST'},
-      {name: 'Paris', code: 'PRS'}
-  ];
-
+    this.getGroupByAdmin();
 
      this.storage.get("fcm_token").then((token)=>{
       this.fcm_token = token;
     })
 
+  }
+
+
+  getGroupByAdmin(){
+    this.storage.get('kidder_user').then((userData)=>{
+      if(userData)
+      {
+          this.userObject = userData;
+          this.username = userData.user_username;
+          this.authenticated = true;
+          this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
+            console.log('getting all group',response);
+            this.groupList = response
+          })
+      }
+  })
   }
 
   onChangeClass(event)
@@ -123,6 +124,7 @@ export class HomePage implements OnInit {
       if (dataReturned.data) {
           console.log('Register successfully');
           this.authenticated= true;
+          this.getGroupByAdmin();
           this.storageService.changeStorageValue(dataReturned.data);
           
         } else {
@@ -165,14 +167,18 @@ export class HomePage implements OnInit {
   {
       console.log('Begin async operation');
 
-      this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
-        console.log('getting all group',response);
-        this.groupList = response
-      })
-          setTimeout(() => {
-            console.log('Async operation has ended');
-            event.target.complete();
-          }, 200);
+      if(this.userObject != null && this.userObject.user_username != null)
+      {
+        this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
+          console.log('getting all group',response);
+          this.groupList = response
+        })
+            setTimeout(() => {
+              console.log('Async operation has ended');
+              event.target.complete();
+            }, 200);
+      }
+  
   }
 }
 

@@ -7,7 +7,7 @@ import { QuizModel } from '../home/group-info/create-quiz/models/quizModel';
 })
 export class QuizService {
 
-  baserURL = "http://127.0.0.1:9090/RestApi/kidder/main";
+  baserURL = "http://127.0.0.1:8081/kidder/api";
   constructor(private http :HttpClient) {
         //  apService.getBaseURL().subscribe((baseURL)=>{
         //   this.baserURL =  this.baserURL["baserURL"];

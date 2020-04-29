@@ -24,10 +24,16 @@ export class ExploreGroupsPage implements OnInit {
     
     this.storage.get("kidder_user").then((user)=>{
     
-      this.groupService.getAllGrpByAdmin(user.user_username,false).subscribe((response : GroupModel[])=>{
-        console.log('getting all group',response);
-        this.groupList = response
-      })
+      if(user != null && user.user_username != null)
+      {
+        this.groupService.getAllGrpByAdmin(user.user_username,false).subscribe((response : GroupModel[])=>{
+          console.log('getting all group',response);
+          this.groupList = response
+        })
+      }else{
+        console.log("please login");
+      }
+
     })
 
   }
