@@ -1,11 +1,11 @@
 export class QuestImageModel
 {
-        user_quest_img_id : number;
-        user_quest_img_path : string;
-        user_quest_img_desc: string;
-        user_quest_img_base64_url: string;
-        user_quest_img_isQuest : boolean;
-        user_quest_img_isDgrm : boolean;
+        img_id : number;
+        img_name : string;
+        img_path : string;
+        img_desc: string;
+        img_base64: string;
+        unique_code : string;
         isEdit : boolean = false;
         isDelete : boolean = false;
 }

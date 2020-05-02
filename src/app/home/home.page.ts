@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SubjectListPage} from './subject-list/subject-list.page';
-import { Router } from '@angular/router';
+import { Router ,ActivatedRoute, NavigationExtras} from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { SubjectConfirmPage } from './subject-confirm/subject-confirm.page';
 import { PopoverController } from '@ionic/angular';
@@ -39,6 +39,7 @@ export class HomePage implements OnInit {
    groupList : GroupModel[] = [];
 username : string;
   constructor(
+    private activateRoute:ActivatedRoute,
     public groupService : GroupService,
     public popoverController: PopoverController,
     private messageService : MesssageServicesService,
@@ -65,7 +66,10 @@ username : string;
     console.log('TTHIS IS BASE URL',this.appService.getBaseURL())
   
 
-    this.getGroupByAdmin();
+
+    // this.getGroupByAdmin();
+    
+    this.getGroupByUserId();
 
      this.storage.get("fcm_token").then((token)=>{
       this.fcm_token = token;
@@ -73,6 +77,21 @@ username : string;
 
   }
 
+  getGroupByUserId()
+  {
+    this.storage.get('kidder_user').then((userData:userModel)=>{
+      if(userData)
+      {
+          this.userObject = userData;
+          this.username = userData.user_username;
+          this.authenticated = true;
+          this.groupService.getGroupByUserId(this.userObject.user_id).subscribe((response : GroupModel[])=>{
+            console.log('getting all group',response);
+            this.groupList = response
+          })
+      }
+  })
+  }
 
   getGroupByAdmin(){
     this.storage.get('kidder_user').then((userData)=>{
@@ -100,13 +119,17 @@ username : string;
   //     // this.navCtrl.push(SubjectListPage);
   // }
     
-  onClickGroup(event)
+  onClickGroup(group)
   {
 
     
-
-    console.log('go to subject list');
-    this.router.navigate(['/group-info']);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        group: JSON.stringify(group)
+      }
+    };
+    console.log('go to subject list',group);
+    this.router.navigate(['/group-info'],navigationExtras);
 
   }
 
@@ -169,7 +192,7 @@ username : string;
 
       if(this.userObject != null && this.userObject.user_username != null)
       {
-        this.groupService.getAllGrpByAdmin(this.userObject.user_username,true).subscribe((response : GroupModel[])=>{
+        this.groupService.getGroupByUserId(this.userObject.user_id).subscribe((response : GroupModel[])=>{
           console.log('getting all group',response);
           this.groupList = response
         })

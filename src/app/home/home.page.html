@@ -4,6 +4,13 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Groups</ion-title>
+    <ion-buttons class="request" slot="primary">
+      <ion-tab-button (click)="addParticipant()">
+        <ion-icon style="margin-left: 3px;
+        font-size: 25px;" name="easel-outline"></ion-icon>
+          <!-- <p>Request</p> -->
+      </ion-tab-button>
+  </ion-buttons>
      <!-- <ion-list >
       <ion-item>
         <ion-select placeholder="Standard" multiple="false" [(ngModel)]="selectedValue" (ionChange)="onChangeClass($event)" cancelText="Nah" okText="Okay!">
@@ -44,7 +51,9 @@
          
            <ion-buttons>
              <ion-tab-button>
-              <p>Admin : {{k.grp_admin}}</p>
+              <p *ngIf="k.grp_admin != username">Admin : {{k.grp_admin}}</p>
+              <p *ngIf="k.grp_admin == username">Admin : you</p>
+
              </ion-tab-button>
              <ion-tab-button>
               <p>Member : </p>
@@ -72,7 +81,7 @@
             <ion-toolbar style="text-align: center;" class="home-footer">
           
               <!-- <button  (click)="register()"  expand="block">View</button> -->
-              <P  (click)="onClickGroup($event)"  type="submit">View</P>
+              <P  (click)="onClickGroup(k)"  type="submit">View</P>
             </ion-toolbar>
           </ion-footer>
          </ion-card>

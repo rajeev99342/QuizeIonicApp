@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AddImageQuestionPage } from './add-image-question/add-image-question.page';
-import { QuestModel } from './models/QuestModel';
-import { QuizModel } from './models/quizModel';
+import { UserQuestionModel } from './models/QuestModel';
 import { QuizService } from 'src/app/services/quiz.service';
 import { PopoverController, NavParams } from '@ionic/angular';
 import { QuestSettingPage } from './quest-setting/quest-setting.page';
+import { QuizModel } from './models/QuizModel';
+import { QuizDetailModel } from './models/QuizDetailModel';
+import { ActivatedRoute } from '@angular/router';
+import { GroupModel } from 'src/app/models/GroupModel';
+import { userModel } from '../../user/userModel';
+import { Storage } from '@ionic/storage';
+import { QuestImageModel } from './models/QuestImageModel';
+import { TestRoomService } from '../service/testroom.service';
 
 @Component({
   selector: 'app-create-quiz',
@@ -14,7 +21,7 @@ import { QuestSettingPage } from './quest-setting/quest-setting.page';
 })
 export class CreateQuizPage implements OnInit {
 
-  questionList : QuestModel[] = [];
+  questionList : UserQuestionModel[] = [];
   username : string ="dummyUser";
   grp_name : string = "dummyGrp";
   quiz_name : string = "dummy Quiz"
@@ -30,17 +37,75 @@ export class CreateQuizPage implements OnInit {
   selectedTopicList : any[]=[];
 
   popOverSetting : any;
+  userObject : userModel;
+  selectedGroup : GroupModel;
+  testRoom : QuizModel;
+  isAdmin : boolean = false;
+  isTestRoomCreator : boolean = false;
 
-  constructor(private quizService : QuizService,
+  constructor(
+    private testRoomService: TestRoomService,
+    private storage :Storage,
+    private activateRoute : ActivatedRoute,
+    private quizService : QuizService,
     private popOverController : PopoverController,
     public modalController: ModalController) {
+
+      
     
   }
 
   ngOnInit() {
-      this.buildDummyExamList();
-      this.buildDummySubjectList();
-      this.buildDummyTopicList();
+
+    let createQuizModel : any ={};
+
+    this.activateRoute.queryParams.subscribe(params => {
+      if (params.groupRoomInfo) {
+
+          createQuizModel = JSON.parse(params.groupRoomInfo);
+        if(createQuizModel.selectedGroup)
+        {
+       
+          this.selectedGroup = createQuizModel.selectedGroup;
+          this.storage.get("kidder_user").then((admin:userModel)=>{
+            if(admin.user_username == this.selectedGroup.grp_admin)
+            {
+                this.isAdmin=true;
+            }
+        })
+          console.log('selected goup',this.selectedGroup)
+        }
+        if(createQuizModel.room)
+        {
+          this.testRoom = createQuizModel.room;
+          this.storage.get("kidder_user").then((admin:userModel)=>{
+            if(admin.user_username == this.testRoom.userModel.user_username)
+            {
+                this.isTestRoomCreator = true;
+            }
+        })
+
+          this.testRoomService.getQuestions(this.testRoom.quiz_id).subscribe((res:UserQuestionModel[])=>{
+               console.log('Hi this is questions',res);
+               this.questionList = res;
+        })
+        }else{
+          this.isTestRoomCreator = true;
+        }
+       
+      }
+    });
+
+
+
+    this.storage.get('kidder_user').then((userData)=>{
+      if(userData)
+      {
+          this.userObject = userData;
+        
+      }
+  })
+    
   }
 
   buildDummyExamList()
@@ -107,7 +172,29 @@ export class CreateQuizPage implements OnInit {
 
                   console.log('updated questino',this.questionList);
               }else{
-                this.questionList.push(dataRetured.data);
+
+                let userQuesModel : UserQuestionModel = new UserQuestionModel();
+
+                let imageInfoModel : QuestImageModel = new QuestImageModel();
+
+                imageInfoModel.img_base64 = dataRetured.data.imageInfoModel.img_base64;
+                imageInfoModel.img_desc = dataRetured.data.imageInfoModel.img_desc;
+                imageInfoModel.img_id = dataRetured.data.imageInfoModel.img_id;
+                imageInfoModel.img_path = dataRetured.data.imageInfoModel.img_path;
+
+                userQuesModel.imageInfoModel = imageInfoModel;
+                userQuesModel.userInfoTbl = this.userObject;
+
+                userQuesModel.user_quest_ans = dataRetured.data.user_quest_ans;
+                userQuesModel.user_quest_marks = dataRetured.data.user_quest_marks
+                userQuesModel.user_quest_optionA = dataRetured.data.user_quest_optionA
+                userQuesModel.user_quest_optionB = dataRetured.data.user_quest_optionB
+                userQuesModel.user_quest_optionC = dataRetured.data.user_quest_optionC
+                userQuesModel.user_quest_optionD = dataRetured.data.user_quest_optionD
+
+                this.questionList.push(userQuesModel);
+
+
 
               }
               console.log('question added')
@@ -120,43 +207,42 @@ export class CreateQuizPage implements OnInit {
 
   saveQuizWithQuest()
   {
-      if(this.questionList.length == 0)
-      {
-          console.log('please add atleast 5 question')
-      }else{
+      // if(this.questionList.length == 0)
+      // {
+      //     console.log('please add atleast 5 question')
+      // }else{
 
 
-        let quiz_model : QuizModel = this.getQuizModel();
-        if(quiz_model != null)
-        {
+      //   let quiz_model : QuizModel = this.getQuizModel();
+      //   if(quiz_model != null)
+      //   {
 
-            console.log('save quiz model',quiz_model)
-            this.quizService.saveQuizModel(quiz_model).subscribe((response)=>{
-                console.log(response);
-            })
-        }
+      //       console.log('save quiz model',quiz_model)
+      //       this.quizService.saveQuizModel(this.questionList,quiz_model).subscribe((response)=>{
+      //           console.log(response);
+      //       })
+      //   }
           
-      }
+      // }
   }
 
   getQuizModel()
   {
     let quiz_model : QuizModel = new QuizModel();
-    quiz_model.grp_name = this.grp_name;
     quiz_model.quiz_created_date = null;
-    quiz_model.quiz_creator = this.username;
     quiz_model.quiz_duration = 30; // sec
-    quiz_model.quiz_exam = null;
     quiz_model.quiz_marks = 40;
     quiz_model.quiz_name = this.quiz_name;
     quiz_model.quiz_num_of_ques = this.questionList.length;
     quiz_model.quiz_published_date = null; // server side
-    quiz_model.quiz_sub = null;
-    quiz_model.quiz_exam = null;
+    if(this.testRoom && this.testRoom.quiz_id)
+    {
+      quiz_model.quiz_id = this.testRoom.quiz_id;
+
+    }
+    quiz_model.userModel = this.userObject;
+    quiz_model.grpModel = this.selectedGroup;
     quiz_model.quiz_time = null;
-    quiz_model.quiz_topic = null;
-    quiz_model.grp_name = this.grp_name;
-    quiz_model.user_questlist = this.questionList;
     return quiz_model;
   }
 
@@ -174,11 +260,11 @@ export class CreateQuizPage implements OnInit {
 
     popOverSetting.onDidDismiss().then((returedData)=>{
         console.log('delete or edit',returedData)
-        if(returedData.data.isEdit)
+        if(returedData.data && returedData.data.isEdit)
         {
             this.addYourOwnQuestioin(returedData.data);   
             console.log('Edit this model');
-        }else if(returedData.data.isDelete)
+        }else if(returedData.data && returedData.data.isDelete)
         {
             let index = this.questionList.indexOf(returedData.data);
             if(index > -1)
@@ -203,9 +289,11 @@ export class CreateQuizPage implements OnInit {
       let quiz_model : QuizModel = this.getQuizModel();
       if(quiz_model != null)
       {
-
+        let quizDetails : QuizDetailModel = new QuizDetailModel();
+        quizDetails.questions = this.questionList;
+        quizDetails.quizModel  = quiz_model;
           console.log('save quiz model',quiz_model)
-          this.quizService.saveQuizModel(quiz_model).subscribe((response)=>{
+          this.quizService.saveQuizModel(quizDetails).subscribe((response)=>{
               console.log(response);
           })
       }

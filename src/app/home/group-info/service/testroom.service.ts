@@ -7,7 +7,7 @@ import { GroupModel } from 'src/app/models/GroupModel';
 @Injectable({
   providedIn: 'root'
 })
-export class GroupService {
+export class TestRoomService {
   baserURL = "http://127.0.0.1:8081/kidder/api";
 
   
@@ -15,22 +15,15 @@ export class GroupService {
        
   }
 
-
-  saveGroupInfo(group : GroupModel)
+  getTestRoomByGroupId(groupId : number)
   {
-     return this.http.post(this.baserURL+"/saveGroupData",group,{observe:'response'})
+      return this.http.get(this.baserURL+"/getTestRoomsByGroupId"+"/"+`${groupId}`);
   }
 
-  getAllGrpByAdmin(admin,isMyGroup)
+  getQuestions(quizId : number)
   {
-      return this.http.get(this.baserURL+"/getGrpByAdmin"+"/"+`${admin}`+"/"+`${isMyGroup}`);
+      return this.http.get(this.baserURL+"/getQuestionByQuizId"+"/"+`${quizId}`);
   }
 
-
-  getGroupByUserId(user_id)
-  {
-    return this.http.get(this.baserURL+"/getGrpsByUserId"+"/"+`${user_id}`);
-    
-  }
 
 }

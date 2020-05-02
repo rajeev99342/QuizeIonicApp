@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { QuizModel } from '../home/group-info/create-quiz/models/quizModel';
+import { QuizModel } from '../home/group-info/create-quiz/models/QuizModel';
+import { UserQuestionModel } from '../home/group-info/create-quiz/models/QuestModel';
+import { QuizDetailModel } from '../home/group-info/create-quiz/models/QuizDetailModel';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +16,10 @@ export class QuizService {
         // });
    }
 
-   saveQuizModel(userData : QuizModel)
+   saveQuizModel(userData : QuizDetailModel)
    {
+
+
     const headers = new HttpHeaders({ 'Content-Type': 'application/json'});  
 
       return   this.http.post(this.baserURL+"/saveQuiz",userData,{responseType: 'json', headers})

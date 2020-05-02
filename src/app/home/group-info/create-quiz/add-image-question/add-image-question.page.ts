@@ -9,7 +9,7 @@ import { AddOptionsPage } from './add-options/add-options.page';
 import { QuestImageModel } from '../models/QuestImageModel';
 import { QuestDgrmModel } from '../models/QuestDgrmModel';
 import { QuestTxtModel } from '../models/QuestTxtModel';
-import { QuestModel } from '../models/QuestModel';
+import { UserQuestionModel } from '../models/QuestModel';
 import { OptionModel } from './add-options/OptionModel';
 @Component({
   selector: 'app-add-image-question',
@@ -44,7 +44,7 @@ export class AddImageQuestionPage implements OnInit {
   }
 
 
-  questObject : QuestModel;
+  questObject : UserQuestionModel;
   openPopOver : any;
   constructor(
     private navParams: NavParams,
@@ -60,13 +60,13 @@ export class AddImageQuestionPage implements OnInit {
     if(this.questObject)
     {
       this.optionModel = new OptionModel();
-      this.croppedImage = this.questObject.user_quest_img_model.user_quest_img_base64_url;
+      this.croppedImage = this.questObject.imageInfoModel.img_base64;
       this.aOption = this.questObject.user_quest_optionA;
       this.bOption = this.questObject.user_quest_optionB;
       this.cOption = this.questObject.user_quest_optionC;
       this.dOption = this.questObject.user_quest_optionD;
       this.correctOption = this.questObject.user_quest_ans;
-      this.capturedSnapURL = this.questObject.user_quest_img_model.user_quest_img_base64_url;
+      this.capturedSnapURL = this.questObject.imageInfoModel.img_base64
       this.croppedSuccess = true;
       this.isEdit = true;
       this.isOptionsAdded =true;
@@ -234,24 +234,21 @@ export class AddImageQuestionPage implements OnInit {
 
 
      const user_quest_img_model : QuestImageModel =  new QuestImageModel();
-     user_quest_img_model.user_quest_img_base64_url = this.croppedImage;
-     user_quest_img_model.user_quest_img_desc = "this is question image";
-     user_quest_img_model.user_quest_img_id = null;
-     user_quest_img_model.user_quest_img_path = null;
-     user_quest_img_model.user_quest_img_isDgrm = false;
-     user_quest_img_model.user_quest_img_isQuest = true;
+     user_quest_img_model.img_base64 = this.croppedImage;
+     user_quest_img_model.img_desc = "this is question image";
+     user_quest_img_model.img_id = null;
+     user_quest_img_model.img_path = null;
+
 
      let user_questdgrm_model : QuestImageModel = new QuestImageModel();
-     user_questdgrm_model.user_quest_img_isDgrm = null;
 
     let user_questtxt_model : QuestTxtModel = new QuestTxtModel();
     user_questtxt_model = null;
 
-    let user_quest_model : QuestModel = new QuestModel();
+    let user_quest_model : UserQuestionModel = new UserQuestionModel();
     this.username = "username";
-    user_quest_model.user_quest_creator = this.username;
-    user_quest_model.user_quest_img_model = user_quest_img_model;
-    user_quest_model.user_questdgrm_model = user_questdgrm_model;
+    user_quest_model.imageInfoModel = user_quest_img_model;
+    user_quest_model.dgrmImageInfoModel = user_questdgrm_model;
     user_quest_model.user_quest_marks = 4;
     user_quest_model.user_quest_optionA = this.aOption;
     user_quest_model.user_quest_optionB = this.bOption;
@@ -259,7 +256,7 @@ export class AddImageQuestionPage implements OnInit {
     user_quest_model.user_quest_optionD = this.dOption;
     user_quest_model.user_quest_ans= this.correctOption;
     user_quest_model.isEdit = this.isEdit;
-    user_quest_model.user_questtxt_model = user_questtxt_model;
+    user_quest_model.txtQuesInfoModel = user_questtxt_model;
 
       this.modelController.dismiss(
         user_quest_model

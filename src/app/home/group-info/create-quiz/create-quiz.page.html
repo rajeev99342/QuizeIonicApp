@@ -9,7 +9,7 @@
     </ion-buttons>
 
 
-     <ion-buttons class="request" slot="primary">
+     <ion-buttons *ngIf="isTestRoomCreator" class="request" slot="primary">
           <ion-tab-button (click)="addYourOwnQuestioin()">
             <ion-icon  name="add-circle-outline"></ion-icon>
 
@@ -79,15 +79,15 @@
     
     <ion-item>
       <p slot="start">{{i+1}}</p>
-      <p slot="end" (click)="openQuestionSetting(k)" style="float:right;">|||</p>
+      <p *ngIf="isTestRoomCreator" slot="end" (click)="openQuestionSetting(k)" style="float:right;">|||</p>
 
     </ion-item>
 
  
    
      <ion-card-content >
-      <img [src]="k.user_quest_img_model.user_quest_img_base64_url">
-  
+      <img [src]="k.imageInfoModel.img_base64">
+
      </ion-card-content>
      <div>
           <ion-badge color="success" >A.  {{k.user_quest_optionA}}</ion-badge>
@@ -106,7 +106,9 @@
 <ion-footer >
   <ion-toolbar style="text-align: center;" class="home-footer">
 
-    <button    type="submit"  expand="block" class="registerbtn"><span (click)="saveTestRoom()">Save Test Room</span></button>
+    
+    <button  *ngIf="isTestRoomCreator"  type="submit"  expand="block" class="registerbtn"><span (click)="saveTestRoom()">Save Test Room</span></button>
+    <button  *ngIf="!isTestRoomCreator"  type="submit"  expand="block" class="registerbtn"><span (click)="saveTestRoom()"></span></button>
 
   </ion-toolbar>
 </ion-footer>

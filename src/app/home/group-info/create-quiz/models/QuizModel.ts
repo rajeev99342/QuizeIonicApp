@@ -1,9 +1,12 @@
 
-import { QuestModel } from './QuestModel';
+import { UserQuestionModel } from './QuestModel';
 import { Time } from '@angular/common';
+import { userModel } from 'src/app/home/user/userModel';
+import { GroupModel } from 'src/app/models/GroupModel';
 
 export class QuizModel
 {
+	quiz_id : number;
 	quiz_name : string;
 	grp_name : string;
 	quiz_created_date : Date;
@@ -11,10 +14,9 @@ export class QuizModel
 	quiz_duration  : number;
 	quiz_marks  : number;
 	quiz_num_of_ques : number;
-	quiz_creator : string;
+	quiz_status : number;
 	quiz_published_date : Date;
-	quiz_exam : Array<string> = [];
-	quiz_topic : Array<string> = [];
-	quiz_sub : Array<string> =[];
-	user_questlist : Array<QuestModel> = [];
+	userModel : userModel;
+	grpModel: GroupModel
+	
 }

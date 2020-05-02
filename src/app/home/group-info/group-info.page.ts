@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ParticipantPage } from './participant/participant.page';
 import { PopoverController } from '@ionic/angular';
 import { QuizeInfoPage } from './quize-info/quize-info.page';
 import { AddParticipantPage } from './add-participant/add-participant.page';
 import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
+import { GroupModel } from 'src/app/models/GroupModel';
+import { TestRoomService } from './service/testroom.service';
+import { QuizModel } from './create-quiz/models/QuizModel';
+import { userModel } from '../user/userModel';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-group-info',
@@ -18,19 +23,49 @@ export class GroupInfoPage implements OnInit {
 
   popoverAddParticipant : any;
   participantList : any;
-
+  selectedGroup : GroupModel;
   popoverParticipantRqstList : any;
+  testRoomList : QuizModel[] = [];
   cities2 : any = [];
-  constructor(private popoverController: PopoverController, private router : Router) { }
+  isAdmin : boolean = true;
+  user : userModel;
+  
+  constructor(
+    private storage : Storage,
+    private testRoomService:TestRoomService,
+    private activateRoute : ActivatedRoute,
+    private popoverController: PopoverController, private router : Router) { 
+
+
+
+
+  }
 
   ngOnInit() {
-        this.cities2 = [
-          {name: 'New York', code: 'NY'},
-          {name: 'Rome', code: 'RM'},
-          {name: 'London', code: 'LDN'},
-          {name: 'Istanbul', code: 'IST'},
-          {name: 'Paris', code: 'PRS'}
-        ];
+
+    this.activateRoute.queryParams.subscribe(params => {
+      if (params && params.group) {
+        this.selectedGroup = JSON.parse(params.group);
+        console.log('selected goup',this.selectedGroup)
+        this.storage.get("kidder_user").then((user:userModel)=>{
+          this.user = user;
+            if(user.user_username != this.selectedGroup.grp_admin)
+            {
+                
+                this.isAdmin = false;
+            }
+        })
+        this.testRoomService.getTestRoomByGroupId(this.selectedGroup.grp_id).subscribe((res:QuizModel[])=>{
+          console.log("test room ",res);
+          this.testRoomList = res
+        
+        })
+
+      }
+    });
+
+
+   
     }
 
 
@@ -84,7 +119,17 @@ export class GroupInfoPage implements OnInit {
 
     onClickCreateQuiz()
     {
-      this.router.navigate(['/create-quiz']);
+
+      let createQuizInfoModel : any ={};
+      createQuizInfoModel.room = null;
+      createQuizInfoModel.selectedGroup = this.selectedGroup;
+
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          groupRoomInfo: JSON.stringify(createQuizInfoModel)
+        }
+      };
+      this.router.navigate(['/create-quiz'],navigationExtras);
 
     }
 
@@ -98,14 +143,16 @@ export class GroupInfoPage implements OnInit {
         component: AddParticipantPage,
         animated:true,
         showBackdrop: true,
-        
+        componentProps:{
+          groupInfo : this.selectedGroup
+      }
        
       });
       this.popoverAddParticipant.onDidDismiss().then(dataReturned => {
         if (dataReturned.data) {
        
           } else {
-            console.log('Register failure');
+            console.log('add group member');
         }
       });
       return await this.popoverAddParticipant.present();
@@ -162,6 +209,29 @@ export class GroupInfoPage implements OnInit {
               console.log('Async operation has ended');
               event.target.complete();
             }, 200);
+    }
+
+    getQuestions(room : QuizModel)
+    {
+
+      if(room.userModel.user_username == this.user.user_username)
+      {
+        let createQuizInfoModel : any ={};
+        createQuizInfoModel.room = room;
+        createQuizInfoModel.selectedGroup = this.selectedGroup;
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            groupRoomInfo: JSON.stringify(createQuizInfoModel)
+          }
+        };
+  
+        this.router.navigate(['/create-quiz'],navigationExtras);
+      }else{
+        console.log('Test room is inactive mode')
+      }
+
+  
+
     }
 
 }
