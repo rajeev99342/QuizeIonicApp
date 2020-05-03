@@ -147,7 +147,8 @@ username : string;
       if (dataReturned.data) {
           console.log('Register successfully');
           this.authenticated= true;
-          this.getGroupByAdmin();
+          this.getGroupByUserId();
+          
           this.storageService.changeStorageValue(dataReturned.data);
           
         } else {

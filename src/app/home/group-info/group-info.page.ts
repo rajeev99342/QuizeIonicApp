@@ -227,11 +227,31 @@ export class GroupInfoPage implements OnInit {
   
         this.router.navigate(['/create-quiz'],navigationExtras);
       }else{
+
+        if(room.quiz_status == 1)
+        {
+          let navigationExtras: NavigationExtras = {
+            queryParams: {
+              roomInfo: JSON.stringify(room)
+            }
+          };
+          this.router.navigate(['/live-test'],navigationExtras)
+        }
+
         console.log('Test room is inactive mode')
       }
 
   
 
+    }
+
+
+    startTest(room : QuizModel)
+    {
+        console.log('this is room to start',room);
+        this.testRoomService.startTest(room).subscribe((res)=>{
+            console.log('test started',res);
+        })
     }
 
 }

@@ -49,25 +49,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="authenticated == false">
-    <ion-card tappable *ngFor="let k of cities2">
-      <ion-item >
-
-         <ion-checkbox checked="true"></ion-checkbox>
-         <ion-label>{{k.name}}</ion-label>
-         <ion-button  (click)="onClickGroup($event)">View</ion-button>
-       </ion-item>
-     
-       <ion-card-content >
-         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-         
-       </ion-card-content>
-       <!-- <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg"> -->
-
-     </ion-card>
-
-  </div>
+ 
 
   <div>
     <!-- <p *ngIf="groupCreatedByYou == false">You are not in any group</p> -->
@@ -75,12 +57,14 @@
       <ion-item >
 
          <!-- <ion-checkbox checked="true"></ion-checkbox> -->
-         <ion-label (click)="getQuestions(room)" >{{room.quiz_name}}</ion-label>
-        <ion-icon  (click)="onClickParticipantQuizeWise($event)" name="people-outline"></ion-icon>
+         <ion-label clickable (click)="getQuestions(room)" >{{room.quiz_name}}</ion-label>
+        <ion-icon clickable (click)="onClickParticipantQuizeWise($event)" name="people-outline"></ion-icon>
 
         
-       <ion-icon  (click)="onClickQuizeInfo($event)" name="help-outline"></ion-icon>
+       <ion-icon clickable  (click)="onClickQuizeInfo($event)" name="help-outline"></ion-icon>
+       <div *ngIf="room.quiz_status == 1" ><i class="fa fa-circle text-danger Blink"></i>&nbsp; LIVE </div>
 
+       <ion-icon clickable *ngIf="user != null && room.userModel.user_username == user.user_username && room.quiz_status == 0" (click)="startTest(room)" name="power-outline">s</ion-icon>
        </ion-item>
      
        <p>{{room.quiz_created_date}}</p>
