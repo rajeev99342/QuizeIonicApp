@@ -26,7 +26,6 @@ import { AppService } from './services/app.service';
     HomePageModule,
     RouterModule,
     HttpClientModule,
-
     IonicStorageModule.forRoot()
 
   ],

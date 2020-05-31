@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { AddOptionsPageRoutingModule } from './add-options-routing.module';
 
-import { AddOptionsPage } from './add-options.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { AddOptionsPage } from './add-options.page';
     IonicModule,
     AddOptionsPageRoutingModule
   ],
-  declarations: [AddOptionsPage]
+  declarations: []
 })
 export class AddOptionsPageModule {}

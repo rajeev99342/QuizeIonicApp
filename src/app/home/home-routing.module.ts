@@ -51,7 +51,12 @@ const routes: Routes = [
   {
     path: 'notifications/:price',
     loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
+  },
+  {
+    path: 'image-modal',
+    loadChildren: () => import('./image-modal/image-modal.module').then( m => m.ImageModalPageModule)
   }
+
 ];
 
 @NgModule({

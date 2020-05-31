@@ -112,8 +112,7 @@ export class SignUpPage implements OnInit {
     });
   }
 
-  async register(form) {
-    console.log(form);
+  async register() {
     
     if(this.setUserData() == false)
     {

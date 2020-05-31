@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavParams, PopoverController } from '@ionic/angular';
-import { QuestImageModel } from '../models/QuestImageModel';
+import { ImageInfoModel } from '../models/ImageInfoModel';
 
 @Component({
   selector: 'app-quest-setting',
@@ -10,11 +10,11 @@ import { QuestImageModel } from '../models/QuestImageModel';
 export class QuestSettingPage implements OnInit {
 
   
-  questModel : QuestImageModel;
+  questModel : ImageInfoModel;
   constructor(private popOver: PopoverController,private nav : NavParams) { }
 
   ngOnInit() {
-    this.questModel = new QuestImageModel();
+    this.questModel = new ImageInfoModel();
     this.questModel = this.nav.get('questObject');
     console.log(this.questModel);
   }

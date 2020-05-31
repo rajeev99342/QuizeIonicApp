@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ParticipantPage } from './participant/participant.page';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ModalController } from '@ionic/angular';
 import { QuizeInfoPage } from './quize-info/quize-info.page';
 import { AddParticipantPage } from './add-participant/add-participant.page';
-import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { TestRoomService } from './service/testroom.service';
 import { QuizModel } from './create-quiz/models/QuizModel';
 import { userModel } from '../user/userModel';
+import {UpcomingPage} from './upcoming/upcoming.page'
 import { Storage } from '@ionic/storage';
+import * as moment from 'moment'; 
+
+import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
+import { CompletedPage } from './completed/completed.page';
 
 @Component({
   selector: 'app-group-info',
@@ -18,10 +22,12 @@ import { Storage } from '@ionic/storage';
 })
 export class GroupInfoPage implements OnInit {
 
+  selectedTab = 0;
+
   popoverParticipant : any;
   popoverQuizInfo : any;
 
-  popoverAddParticipant : any;
+  addParticipantModel : any;
   participantList : any;
   selectedGroup : GroupModel;
   popoverParticipantRqstList : any;
@@ -29,12 +35,21 @@ export class GroupInfoPage implements OnInit {
   cities2 : any = [];
   isAdmin : boolean = true;
   user : userModel;
-  
+  participantPage:ParticipantPage;
+  participantRequestListPage:ParticipantRequestListPage;  
+  completedPage:CompletedPage;  
+  upcomingPage : UpcomingPage;
+
+
   constructor(
+    private route: ActivatedRoute,
     private storage : Storage,
     private testRoomService:TestRoomService,
     private activateRoute : ActivatedRoute,
-    private popoverController: PopoverController, private router : Router) { 
+    private popoverController: PopoverController, 
+    private modalController : ModalController,
+    private router : Router,
+  ) { 
 
 
 
@@ -43,24 +58,15 @@ export class GroupInfoPage implements OnInit {
 
   ngOnInit() {
 
+    if(this.route.snapshot.paramMap.get('grp'))
+    {
+      console.log(this.route.snapshot.paramMap.get('grp'));
+    }
+
     this.activateRoute.queryParams.subscribe(params => {
       if (params && params.group) {
         this.selectedGroup = JSON.parse(params.group);
-        console.log('selected goup',this.selectedGroup)
-        this.storage.get("kidder_user").then((user:userModel)=>{
-          this.user = user;
-            if(user.user_username != this.selectedGroup.grp_admin)
-            {
-                
-                this.isAdmin = false;
-            }
-        })
-        this.testRoomService.getTestRoomByGroupId(this.selectedGroup.grp_id).subscribe((res:QuizModel[])=>{
-          console.log("test room ",res);
-          this.testRoomList = res
-        
-        })
-
+        this.getTestRooms();
       }
     });
 
@@ -68,6 +74,53 @@ export class GroupInfoPage implements OnInit {
    
     }
 
+
+
+  getTestRooms()
+  {
+    console.log('selected goup',this.selectedGroup)
+    this.storage.get("kidder_user").then((user:userModel)=>{
+      this.user = user;
+        if(user.user_username != this.selectedGroup.grp_admin)
+        {
+            
+            this.isAdmin = false;
+        }
+    })
+    this.testRoomService.getTestRoomByGroupId(this.selectedGroup.grp_id).subscribe((res:QuizModel[])=>{
+      console.log("test room ",res);
+      this.testRoomList = res
+
+      this.testRoomList.forEach(element => {
+          element.quiz_created_date_string = moment(element.quiz_created_date).format('MMMM Do YYYY');
+          if(element.quiz_published_date){
+            element.quiz_publish_date_string = moment(element.quiz_published_date).format('MMMM Do YYYY HH:MM:ss a');
+
+          }else{ 
+          
+              element.quiz_publish_date_string = ""
+
+          }
+
+          if(element.quiz_status == 0)
+          {
+            element.quiz_status_string = "Not stared"
+          }else if(element.quiz_status == 1)
+          {
+            element.quiz_status_string = "Live"
+
+          }else{
+            element.quiz_status_string = "Ended"
+
+          }
+      });
+
+      this.testRoomList.sort((a, b) => a.quiz_created_date > b.quiz_created_date ? -1 : a.quiz_created_date < b.quiz_created_date ? 1 : 0)
+
+    
+    })
+
+  }
 
 
       async onClickParticipantQuizeWise(ev: any) {
@@ -139,44 +192,45 @@ export class GroupInfoPage implements OnInit {
       
       
             
-      this.popoverAddParticipant = await this.popoverController.create({
+      this.addParticipantModel = await this.modalController.create({
         component: AddParticipantPage,
         animated:true,
         showBackdrop: true,
+        cssClass: 'my-custom-add-member-modal-css',
         componentProps:{
           groupInfo : this.selectedGroup
       }
        
       });
-      this.popoverAddParticipant.onDidDismiss().then(dataReturned => {
+      this.addParticipantModel.onDidDismiss().then(dataReturned => {
         if (dataReturned.data) {
        
           } else {
             console.log('add group member');
         }
       });
-      return await this.popoverAddParticipant.present();
+      return await this.addParticipantModel.present();
     }
 
    async participantInThisGroup()
     {
       
             
-      this.popoverAddParticipant = await this.popoverController.create({
+      this.addParticipantModel = await this.popoverController.create({
         component: ParticipantPage,
         animated:true,
         showBackdrop: true,
         
        
       });
-      this.popoverAddParticipant.onDidDismiss().then(dataReturned => {
+      this.addParticipantModel.onDidDismiss().then(dataReturned => {
         if (dataReturned.data) {
        
           } else {
             console.log('Register failure');
         }
       });
-      return await this.popoverAddParticipant.present();
+      return await this.addParticipantModel.present();
     }
 
    async onClickParticipantRequestList()
@@ -251,6 +305,15 @@ export class GroupInfoPage implements OnInit {
         console.log('this is room to start',room);
         this.testRoomService.startTest(room).subscribe((res)=>{
             console.log('test started',res);
+            if(res.body["status"] == "Success"){
+                let duration = res.body["quiz_duration"];
+                duration = duration * 60 * 1000;
+                setTimeout(() => {
+                  this.testRoomService.endTest(room).subscribe((response)=>{
+                      console.log('test ended');
+                  })
+                }, duration);
+            }
         })
     }
 

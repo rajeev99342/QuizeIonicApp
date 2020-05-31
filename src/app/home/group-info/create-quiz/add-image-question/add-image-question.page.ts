@@ -6,11 +6,11 @@ import { PopoverController } from '@ionic/angular';
 
 import { Observable } from 'rxjs';
 import { AddOptionsPage } from './add-options/add-options.page';
-import { QuestImageModel } from '../models/QuestImageModel';
-import { QuestDgrmModel } from '../models/QuestDgrmModel';
-import { QuestTxtModel } from '../models/QuestTxtModel';
+import { ImageInfoModel } from '../models/ImageInfoModel';
+
 import { UserQuestionModel } from '../models/QuestModel';
 import { OptionModel } from './add-options/OptionModel';
+import { TxtQuesInfoModel } from '../models/TxtQuesInfoModel';
 @Component({
   selector: 'app-add-image-question',
   templateUrl: './add-image-question.page.html',
@@ -18,6 +18,8 @@ import { OptionModel } from './add-options/OptionModel';
 })
 export class AddImageQuestionPage implements OnInit {
   @ViewChild(ImageCropperComponent,{static:true}) angularCropper : ImageCropperComponent;
+
+  
   capturedSnapURL:string;
   username : string;
   grp_name : string;
@@ -33,6 +35,8 @@ export class AddImageQuestionPage implements OnInit {
   isEdit : boolean = false;
   isOptionsAdded : boolean = false;
   optionModel : OptionModel 
+
+
   cameraOptions: CameraOptions = {
     quality: 50,
     targetWidth: 800,
@@ -42,7 +46,6 @@ export class AddImageQuestionPage implements OnInit {
     mediaType: this.camera.MediaType.PICTURE,
     correctOrientation : true,
   }
-
 
   questObject : UserQuestionModel;
   openPopOver : any;
@@ -60,13 +63,13 @@ export class AddImageQuestionPage implements OnInit {
     if(this.questObject)
     {
       this.optionModel = new OptionModel();
-      this.croppedImage = this.questObject.imageInfoModel.img_base64;
+      this.croppedImage = this.questObject.imgInfoTbls[0].img_base64;
       this.aOption = this.questObject.user_quest_optionA;
       this.bOption = this.questObject.user_quest_optionB;
       this.cOption = this.questObject.user_quest_optionC;
       this.dOption = this.questObject.user_quest_optionD;
       this.correctOption = this.questObject.user_quest_ans;
-      this.capturedSnapURL = this.questObject.imageInfoModel.img_base64
+      this.capturedSnapURL = this.questObject.imgInfoTbls[0].img_base64;
       this.croppedSuccess = true;
       this.isEdit = true;
       this.isOptionsAdded =true;
@@ -233,22 +236,25 @@ export class AddImageQuestionPage implements OnInit {
   {
 
 
-     const user_quest_img_model : QuestImageModel =  new QuestImageModel();
+     const user_quest_img_model : ImageInfoModel =  new ImageInfoModel();
      user_quest_img_model.img_base64 = this.croppedImage;
      user_quest_img_model.img_desc = "this is question image";
-     user_quest_img_model.img_id = null;
      user_quest_img_model.img_path = null;
+     user_quest_img_model.toBeDeleted = false;
 
 
-     let user_questdgrm_model : QuestImageModel = new QuestImageModel();
+     let user_questdgrm_model : ImageInfoModel = new ImageInfoModel();
 
-    let user_questtxt_model : QuestTxtModel = new QuestTxtModel();
+    let user_questtxt_model : TxtQuesInfoModel = new TxtQuesInfoModel();
     user_questtxt_model = null;
 
     let user_quest_model : UserQuestionModel = new UserQuestionModel();
     this.username = "username";
-    user_quest_model.imageInfoModel = user_quest_img_model;
-    user_quest_model.dgrmImageInfoModel = user_questdgrm_model;
+    let imgInfoTbl : ImageInfoModel  = new ImageInfoModel();
+
+    let imgs : ImageInfoModel[]=[];
+    imgs.push(user_quest_img_model);
+    user_quest_model.imgInfoTbls = imgs;
     user_quest_model.user_quest_marks = 4;
     user_quest_model.user_quest_optionA = this.aOption;
     user_quest_model.user_quest_optionB = this.bOption;

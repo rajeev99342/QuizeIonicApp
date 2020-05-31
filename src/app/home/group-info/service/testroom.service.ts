@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { AppService } from 'src/app/services/app.service';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { QuizModel } from '../create-quiz/models/QuizModel';
+import { UrlConstant } from '../../constants/URL';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class TestRoomService {
-  baserURL = "http://127.0.0.1:8081/kidder/api";
-
+  
+  baseApiUrl = UrlConstant.prodAPIUrl;
   
   constructor(private http :HttpClient, private apService : AppService) {
        
@@ -18,18 +19,23 @@ export class TestRoomService {
 
   getTestRoomByGroupId(groupId : number)
   {
-      return this.http.get(this.baserURL+"/getTestRoomsByGroupId"+"/"+`${groupId}`);
+      return this.http.get(this.baseApiUrl+"/getTestRoomsByGroupId"+"/"+`${groupId}`);
   }
 
   getQuestions(quizId : number)
   {
-      return this.http.get(this.baserURL+"/getQuestionByQuizId"+"/"+`${quizId}`);
+      return this.http.get(this.baseApiUrl+"/getQuestionByQuizId"+"/"+`${quizId}`);
   }
 
   startTest(room :QuizModel)
   {
-      return this.http.post(this.baserURL+"/startTest",room,{observe:'response'});
+      let mode = "start";
+      return this.http.post(this.baseApiUrl+"/startTest"+"/"+`${mode}`,room,{observe:'response'});
   }
 
+  endTest(room){
+    let mode = "end";
+    return this.http.post(this.baseApiUrl+"/startTest"+"/"+`${mode}`,room,{observe:'response'});
+  }
 
 }

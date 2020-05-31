@@ -23,19 +23,7 @@ export class SubjectConfirmPage implements OnInit {
     private router : Router) { }
 
   ngOnInit() {
-    this.cities2 = [
-      {name: 'New York', code: 'NY',expanded:false},
-      {name: 'Rome', code: 'RM',expanded:false},
-      {name: 'London', code: 'LDN',expanded:false},
-      {name: 'Istanbul', code: 'IST',expanded:false},
-      {name: 'Paris', code: 'PRS',expanded:false},
-      {name: 'New York', code: 'NY',expanded:false},
-      {name: 'Rome', code: 'RM',expanded:false},
-      {name: 'London', code: 'LDN',expanded:false},
-      {name: 'Istanbul', code: 'IST',expanded:false},
-      {name: 'Paris', code: 'PRS',expanded:false},
-      
-  ];
+
   }
 
   // clickOnOK()
@@ -43,34 +31,7 @@ export class SubjectConfirmPage implements OnInit {
   //     console.log('Subject seleted')
   // }
 
-  async clickOnOK(ev: any) {
 
-    if(this.notAuthenticated)
-    {
-      this.popover = await this.popoverController.create({
-        component: SignUpPage,
-        event: ev,
-        animated:true,
-        
-  
-      });
-      return await this.popover.present();
-    }else{
-
-      if(this.isOrganization)
-      {
-          // open payment page
-          this.popover.dismiss();
-          this.router.navigate(['/payment'])
-          
-      }else {
-          // open thank you page
-      }
-
-    }
-
-
-  }
 
 
 

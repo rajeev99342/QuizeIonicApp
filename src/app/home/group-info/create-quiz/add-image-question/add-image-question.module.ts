@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { AddImageQuestionPageRoutingModule } from './add-image-question-routing.module';
 
-import { AddImageQuestionPage } from './add-image-question.page';
 import { AddOptionsPage } from './add-options/add-options.page';
 
 @NgModule({
@@ -16,8 +15,8 @@ import { AddOptionsPage } from './add-options/add-options.page';
     IonicModule,
     AddImageQuestionPageRoutingModule
   ],
-  declarations: [AddImageQuestionPage],
+  declarations: [AddOptionsPage],
   entryComponents:[],
-  exports:[AddOptionsPage]
+  exports:[]
 })
 export class AddImageQuestionPageModule {}

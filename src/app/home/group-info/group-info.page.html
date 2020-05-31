@@ -1,96 +1,99 @@
 <ion-header>
   <ion-toolbar class="header">
     <ion-buttons slot="start">
-      <ion-back-button  defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Math Group</ion-title>
+    <ion-avatar slot="start">
+      <img height="80%" width="80%" src="assets/imgs/peopel.png">
+    </ion-avatar>
+    <ion-title class="group-info-title">{{selectedGroup.grp_name}}</ion-title>
 
-    <ion-buttons *ngIf="isAdmin" class="request" slot="primary">
-      <ion-tab-button (click)="addParticipant()">
-        <ion-icon style="margin-left: 3px;
-        font-size: 25px;" name="person-add-outline"></ion-icon>
 
-          <!-- <p>Request</p> -->
-      </ion-tab-button>
-  </ion-buttons>
-  <ion-buttons slot="primary">
-    <ion-tab-button (click)="participantInThisGroup()">
-      <ion-icon style="margin-left: 3px;
-      font-size: 31px;" name="arrow-down-outline"></ion-icon>
-               <ion-badge style="margin-top: -10px;" color="primary">11</ion-badge>
 
-        <!-- <p>Add</p> -->
-    </ion-tab-button>
-</ion-buttons>
-
-    <ion-buttons slot="primary">
-      <ion-tab-button (click)="participantInThisGroup()">
-          <ion-icon style="margin-left: 3px;
-          font-size: 31px;" name="people-outline"></ion-icon>
-          <!-- <ion-icon name="add-outline"></ion-icon> -->
-          <ion-badge style="margin-top: -10px;" color="primary">11</ion-badge>
-          <!-- <p>Add</p> -->
-      </ion-tab-button>
-  </ion-buttons>
   </ion-toolbar>
+<!-- 
+  <ion-toolbar class="header-2">
 
-  <!-- <ion-icon name="people-outline"></ion-icon> -->
+    <ion-buttons *ngIf="isAdmin" class="request" slot="start">
+      <ion-tab-button (click)="addParticipant()">
+        <ion-icon class="header-icon" name="person-add-outline"></ion-icon>
+      </ion-tab-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-tab-button (click)="participantInThisGroup()">
+        <ion-icon class="header-icon" name="arrow-down-outline"></ion-icon>
+        <ion-badge  color="primary">11</ion-badge>
 
+      </ion-tab-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-tab-button (click)="participantInThisGroup()">
+        <ion-icon class="header-icon" name="people-outline"></ion-icon>
+        <ion-badge  color="primary">11</ion-badge>
+      </ion-tab-button>
+    </ion-buttons>
+
+  <ion-buttons slot="start">
+    <ion-tab-button (click)="participantInThisGroup()">
+      <ion-icon class="header-icon"  name="list-outline"></ion-icon>
+      <ion-badge  color="primary">11</ion-badge>
+    </ion-tab-button>
+  </ion-buttons>
+</ion-toolbar> -->
 </ion-header>
 
-<ion-content padding  [fullscreen]="true">
-
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="Pull to refresh"
-      refreshingSpinner="circles"
-      refreshingText="Refreshing...">
-    </ion-refresher-content>
-  </ion-refresher>
-
- 
-
-  <div>
-    <!-- <p *ngIf="groupCreatedByYou == false">You are not in any group</p> -->
-    <ion-card  class="group-card" tappable *ngFor="let room of testRoomList">
-      <ion-item >
-
-         <!-- <ion-checkbox checked="true"></ion-checkbox> -->
-         <ion-label clickable (click)="getQuestions(room)" >{{room.quiz_name}}</ion-label>
-        <ion-icon clickable (click)="onClickParticipantQuizeWise($event)" name="people-outline"></ion-icon>
-
-        
-       <ion-icon clickable  (click)="onClickQuizeInfo($event)" name="help-outline"></ion-icon>
-       <div *ngIf="room.quiz_status == 1" ><i class="fa fa-circle text-danger Blink"></i>&nbsp; LIVE </div>
-
-       <ion-icon clickable *ngIf="user != null && room.userModel.user_username == user.user_username && room.quiz_status == 0" (click)="startTest(room)" name="power-outline">s</ion-icon>
-       </ion-item>
-     
-       <p>{{room.quiz_created_date}}</p>
-
-       <ion-card-content >
-         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-         
-       </ion-card-content>
-       <!-- <img src="https://image.shutterstock.com/image-vector/abstract-vector-science-concept-background-260nw-512382490.jpg"> -->
-
-     </ion-card>
-  </div>
 
 
 
+<super-tabs>
+  <super-tabs-toolbar slot="top" scrollable="true">
+    <super-tab-button>
+      <p class="tab_p">Upcoming </p>
+    </super-tab-button>
+    <super-tab-button>
+      <p class="tab_p">Completed </p>
 
-<ion-router-outlet></ion-router-outlet>
+    </super-tab-button>
+    <super-tab-button>
+      <p class="tab_p">Members </p>
 
-</ion-content>
+    </super-tab-button>
+    <super-tab-button>
+      <p class="tab_p">Request </p>
 
+    </super-tab-button>
+  </super-tabs-toolbar>
 
-<ion-footer >
+<super-tabs-container>
+  <super-tab>
+    <ion-content>
+      <ion-nav [root]="upcomingPage" #upcomingNav></ion-nav>
+    </ion-content>
+  </super-tab>
+  <super-tab>
+    <ion-content>
+      <ion-nav [root]="completedPage"></ion-nav>
+    </ion-content>
+  </super-tab>
+  <super-tab>
+    <ion-content>
+      <ion-nav [root]="participantPage"></ion-nav>
+    </ion-content>
+  </super-tab>
+  <super-tab>
+    <ion-content>
+      <ion-nav [root]="participantRequestListPage"></ion-nav>
+    </ion-content>
+  </super-tab>
+</super-tabs-container>
+</super-tabs>
+
+<ion-footer>
   <ion-toolbar style=" --background: #ffffff; text-align: center;" class="home-footer">
 
-    <button  type="submit"  expand="block" class="registerbtn"><span (click)="onClickCreateQuiz()">Create Test Room</span></button>
+    <button type="submit" expand="block" class="registerbtn"><span (click)="onClickCreateQuiz()">Create Test
+        Room</span></button>
 
   </ion-toolbar>
 </ion-footer>

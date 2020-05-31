@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppService } from 'src/app/services/app.service';
 import { GroupModel } from 'src/app/models/GroupModel';
+import { UrlConstant } from '../../constants/URL';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupService {
-  baserURL = "http://127.0.0.1:8081/kidder/api";
+  
+  baseApiUrl = UrlConstant.prodAPIUrl;
 
   
   constructor(private http :HttpClient, private apService : AppService) {
@@ -16,21 +18,25 @@ export class GroupService {
   }
 
 
+  getUser()
+  {
+    return this.http.get(" http://ec2-3-7-158-206.ap-south-1.compute.amazonaws.com:8081/kidder/api/hello");
+  }
+
   saveGroupInfo(group : GroupModel)
   {
-     return this.http.post(this.baserURL+"/saveGroupData",group,{observe:'response'})
+     return this.http.post(this.baseApiUrl+"/saveGroupData",group,{observe:'response'})
   }
 
   getAllGrpByAdmin(admin,isMyGroup)
   {
-      return this.http.get(this.baserURL+"/getGrpByAdmin"+"/"+`${admin}`+"/"+`${isMyGroup}`);
+      return this.http.get(this.baseApiUrl+"/getGrpByAdmin"+"/"+`${admin}`+"/"+`${isMyGroup}`);
   }
 
 
   getGroupByUserId(user_id)
   {
-    return this.http.get(this.baserURL+"/getGrpsByUserId"+"/"+`${user_id}`);
-    
+    return this.http.get(this.baseApiUrl+"/getGrpsByUserId"+"/"+`${user_id}`);
   }
 
 }

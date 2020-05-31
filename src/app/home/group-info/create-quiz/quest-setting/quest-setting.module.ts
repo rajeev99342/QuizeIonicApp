@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { QuestSettingPageRoutingModule } from './quest-setting-routing.module';
 
-import { QuestSettingPage } from './quest-setting.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { QuestSettingPage } from './quest-setting.page';
     IonicModule,
     QuestSettingPageRoutingModule
   ],
-  declarations: [QuestSettingPage]
+  declarations: []
 })
 export class QuestSettingPageModule {}

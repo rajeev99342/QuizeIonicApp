@@ -38,6 +38,8 @@ export class HomePage implements OnInit {
   userObject : userModel;
    groupList : GroupModel[] = [];
 username : string;
+
+dummyUser : string;
   constructor(
     private activateRoute:ActivatedRoute,
     public groupService : GroupService,
@@ -65,7 +67,9 @@ username : string;
     
     console.log('TTHIS IS BASE URL',this.appService.getBaseURL())
   
-
+    this.groupService.getUser().subscribe((res)=>{
+        console.log(res);
+    })
 
     // this.getGroupByAdmin();
     

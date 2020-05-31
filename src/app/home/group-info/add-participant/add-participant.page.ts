@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../user/service/user.service';
 import { userModel } from '../../user/userModel';
-import { PopoverController, NavParams } from '@ionic/angular';
+import { PopoverController, NavParams, ModalController } from '@ionic/angular';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { GroupParticipantModel } from './groupPartiModet';
 
@@ -22,7 +22,7 @@ export class AddParticipantPage implements OnInit {
 
   user : userModel;
   constructor(
-    private pop : PopoverController,
+    private modalController : ModalController,
     private navParams: NavParams,
 
     private userService : UserService) { }
@@ -66,7 +66,7 @@ export class AddParticipantPage implements OnInit {
         console.log('saved data',res);
     })
 
-      this.pop.dismiss();
+      this.modalController.dismiss();
   }
 
 }

@@ -12,7 +12,8 @@ import { SignUpPage } from './sign-up/sign-up.page';
 import { CreateGroupPage } from './create-group/create-group.page';
 import {GroupInfoPageModule} from "./group-info/group-info.module"
 import { YourOrganizationComponent } from './your-organization/your-organization.component';
-import {YourGroupsComponent} from './your-groups/your-groups.component'
+import {YourGroupsComponent} from './your-groups/your-groups.component';
+import { ImageModalPageModule } from './image-modal/image-modal.module';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import {YourGroupsComponent} from './your-groups/your-groups.component'
     HomePageRoutingModule,
     ReactiveFormsModule,
     GroupInfoPageModule,
+    ImageModalPageModule
   ],
   entryComponents:[SubjectConfirmPage,SignUpPage,CreateGroupPage],
   declarations: [HomePage,
@@ -29,7 +31,8 @@ import {YourGroupsComponent} from './your-groups/your-groups.component'
     SignUpPage,
     YourGroupsComponent,
     YourOrganizationComponent,
-    CreateGroupPage],
+    CreateGroupPage,
+    ],
   exports:[ReactiveFormsModule,FormsModule,GroupInfoPageModule]
 })
 export class HomePageModule {}

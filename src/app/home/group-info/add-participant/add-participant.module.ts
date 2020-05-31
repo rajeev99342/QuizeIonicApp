@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { AddParticipantPageRoutingModule } from './add-participant-routing.module';
 
-import { AddParticipantPage } from './add-participant.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { AddParticipantPage } from './add-participant.page';
     IonicModule,
     AddParticipantPageRoutingModule
   ],
-  declarations: [AddParticipantPage]
+  declarations: []
 })
 export class AddParticipantPageModule {}

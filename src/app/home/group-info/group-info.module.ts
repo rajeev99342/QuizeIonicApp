@@ -10,16 +10,25 @@ import { GroupInfoPage } from './group-info.page';
 import { ParticipantPage } from './participant/participant.page';
 import { QuizeInfoPage } from './quize-info/quize-info.page';
 import { AddParticipantPage } from './add-participant/add-participant.page';
-import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
+import { SuperTabsModule } from '@ionic-super-tabs/angular';
+import { UpcomingPageModule } from './upcoming/upcoming.module';
+import { CompletedPageModule } from './completed/completed.module';
+import { ParticipantPageModule } from './participant/participant.module';
+import { ParticipantRequestListPageModule } from './participant-request-list/participant-request-list.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GroupInfoPageRoutingModule
+    SuperTabsModule.forRoot(),
+    GroupInfoPageRoutingModule,
+    UpcomingPageModule,
+    CompletedPageModule,
+    ParticipantPageModule,
+    ParticipantRequestListPageModule
   ],
-  declarations: [GroupInfoPage,ParticipantPage,QuizeInfoPage,AddParticipantPage,ParticipantRequestListPage],
-  entryComponents : [ParticipantPage,QuizeInfoPage,AddParticipantPage,ParticipantRequestListPage]
+  declarations: [GroupInfoPage,QuizeInfoPage,AddParticipantPage],
+  entryComponents : [QuizeInfoPage,AddParticipantPage]
 })
 export class GroupInfoPageModule {}

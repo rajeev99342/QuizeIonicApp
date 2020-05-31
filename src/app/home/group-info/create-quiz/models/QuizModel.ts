@@ -17,6 +17,10 @@ export class QuizModel
 	quiz_status : number;
 	quiz_published_date : Date;
 	userModel : userModel;
+	quiz_created_date_string : string;
+	quiz_publish_date_string : string;
+	quiz_status_string :string;
+	status : string;
 	grpModel: GroupModel
 	
 }

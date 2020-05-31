@@ -9,10 +9,6 @@ const routes: Routes = [
     component: GroupInfoPage
   },
   {
-    path: 'participant',
-    loadChildren: () => import('./participant/participant.module').then( m => m.ParticipantPageModule)
-  },
-  {
     path: 'quize-info',
     loadChildren: () => import('./quize-info/quize-info.module').then( m => m.QuizeInfoPageModule)
   },
@@ -23,10 +19,6 @@ const routes: Routes = [
   {
     path: 'add-participant',
     loadChildren: () => import('./add-participant/add-participant.module').then( m => m.AddParticipantPageModule)
-  },
-  {
-    path: 'participant-request-list',
-    loadChildren: () => import('./participant-request-list/participant-request-list.module').then( m => m.ParticipantRequestListPageModule)
   },
   {
     path: 'live-test',

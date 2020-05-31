@@ -6,11 +6,28 @@
     box-shadow: 0px 0px 1px 1px #f3f3f3;
 }
 
-.header{
-    box-shadow: 0 5px 6px -2px #fff;
-
+.group-info-title {
+  font-size: 17px;
+  color: blue;
 }
 
+.header-2{
+
+    margin-top: -18px;
+    margin-left: 51px;
+    height: 42px;
+
+}
+.header-icon{
+  margin-left: 3px;
+    font-size: 19px;
+}
+
+.tab_p{
+  font-size: 11px;
+  margin-top: 29px;
+  color: white;
+}
 .registerbtn {
     background-color: black;
     color: white;
@@ -45,3 +62,4 @@ Blink {
       visibility: hidden;
     }
   }
+

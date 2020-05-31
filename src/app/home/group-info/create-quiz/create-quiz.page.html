@@ -2,25 +2,20 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button  defaultHref="home"></ion-back-button>
-      <!-- <ion-input placeholder="Enter Quiz Name"></ion-input>
-      <ion-icon (click)="addYourOwnQuestioin()" name="add-circle-outline"></ion-icon>
-      <ion-icon name="reorder-four-outline"></ion-icon>      
-      <ion-icon slot="end" (click)="saveQuizWithQuest()" name="save-outline"></ion-icon> -->
+
     </ion-buttons>
 
 
      <ion-buttons *ngIf="isTestRoomCreator" class="request" slot="primary">
-          <ion-tab-button (click)="addYourOwnQuestioin()">
+          <ion-tab-button (click)="addYourOwnQuestioin(null)">
             <ion-icon  name="add-circle-outline"></ion-icon>
 
-              <!-- <p>Request</p> -->
           </ion-tab-button>
       </ion-buttons>
       <ion-buttons slot="primary">
-          <ion-tab-button (click)="participantInThisGroup()">
+          <ion-tab-button >
             <ion-icon name="reorder-four-outline"></ion-icon>      
 
-              <!-- <p>Add</p> -->
           </ion-tab-button>
       </ion-buttons>
 
@@ -28,7 +23,6 @@
         <ion-tab-button (click)="saveQuizWithQuest()" >
         <ion-icon  name="reorder-four-outline"></ion-icon>      
 
-          <!-- <p>Add</p> -->
           </ion-tab-button>
       </ion-buttons>
 
@@ -36,7 +30,7 @@
 </ion-header>
 <ion-content>
 
-  <ion-row *ngIf="false">
+  <ion-row>
     <ion-col size="4">
       <ion-label>Exam</ion-label>
 
@@ -79,28 +73,43 @@
     
     <ion-item>
       <p slot="start">{{i+1}}</p>
-      <p *ngIf="isTestRoomCreator" slot="end" (click)="openQuestionSetting(k)" style="float:right;">|||</p>
+      <ion-icon name="trash"></ion-icon>
+
+      <ion-icon *ngIf="isTestRoomCreator" slot="end" (click)="EditQustion(k)" style="float:right;" name="create"></ion-icon>
 
     </ion-item>
 
  
    
-     <ion-card-content >
-      <img [src]="k.imageInfoModel.img_base64">
+     <ion-card-content *ngFor="let img of k.imgInfoTbls" >
+      <img [src]="img.img_base64" tappable (click)="openPreview(img.img_base64)" >
 
      </ion-card-content>
-     <div>
-          <ion-badge color="success" >A.  {{k.user_quest_optionA}}</ion-badge>
-          <ion-badge color="success">B.  {{k.user_quest_optionB}}</ion-badge>
-          <ion-badge color="success">C.  {{k.user_quest_optionC}}</ion-badge>
-          <ion-badge color="success" >D.  {{k.user_quest_optionD}}</ion-badge>
-        <p *ngIf="correctOption">Answer</p>
-  
-        <div>
-          <ion-badge color="success">Ans.  {{k.user_quest_ans}}</ion-badge>
-  
-        </div>
-     </div>
+     
+
+
+     <ion-row>
+       <ion-col>
+       <p>A. {{k.user_quest_optionA}}</p>
+
+       </ion-col>
+       <ion-col>
+       <p>B. {{k.user_quest_optionB}}</p>
+
+      </ion-col>
+      <ion-col>
+       <p>C. {{k.user_quest_optionC}}</p>
+
+      </ion-col>
+      <ion-col>
+       <p>D. {{k.user_quest_optionD}}</p>
+      </ion-col>
+     </ion-row>
+
+     <ion-row>
+       Answer :  {{k.user_quest_ans}}
+     </ion-row>
+
    </ion-card>
 </ion-content>
 <ion-footer >

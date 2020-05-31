@@ -1,6 +1,7 @@
-import { QuestImageModel } from './QuestImageModel';
-import { QuestTxtModel } from './QuestTxtModel';
 import { userModel } from 'src/app/home/user/userModel';
+import { TxtQuesInfoModel } from './TxtQuesInfoModel';
+import { ImageInfoModel } from './ImageInfoModel';
+import { DgrmImageInfoModel } from './DgrmImageInfoModel';
 
 export class UserQuestionModel
 {
@@ -12,9 +13,9 @@ export class UserQuestionModel
 	 user_quest_ans  : string;
      user_quest_marks : number;
      
-     imageInfoModel : QuestImageModel;
-     dgrmImageInfoModel : QuestImageModel;
-	 txtQuesInfoModel : QuestTxtModel;
+     imgInfoTbls : Array<ImageInfoModel>;
+	 txtQuesInfoModel : TxtQuesInfoModel;
+	 dgrmImage : DgrmImageInfoModel;
 	 userInfoTbl : userModel;
 	 isEdit : boolean = false;
 

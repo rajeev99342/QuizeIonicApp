@@ -1,19 +1,19 @@
-<ion-header  [translucent]="true">
+<ion-header>
   <ion-toolbar class="header">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Groups</ion-title>
     <ion-buttons class="request" slot="primary">
-      <ion-tab-button (click)="addParticipant()">
+      <ion-tab-button>
         <!-- <ion-icon style="margin-left: 3px;
         font-size: 25px;" name="easel-outline"></ion-icon> -->
         <div><i class="fa fa-circle text-danger Blink"></i>&nbsp; LIVE </div>
 
-          <!-- <p>Request</p> -->
+        <!-- <p>Request</p> -->
       </ion-tab-button>
-  </ion-buttons>
-     <!-- <ion-list >
+    </ion-buttons>
+    <!-- <ion-list >
       <ion-item>
         <ion-select placeholder="Standard" multiple="false" [(ngModel)]="selectedValue" (ionChange)="onChangeClass($event)" cancelText="Nah" okText="Okay!">
           <ion-select-option *ngFor="let item of cities2" [value]="item.name">{{item.name}}</ion-select-option>
@@ -23,12 +23,15 @@
     </ion-list>  -->
 
 
-      
+
   </ion-toolbar>
   <ion-icon slot="end" name="star"></ion-icon>
 </ion-header>
 
+
+
 <ion-content padding  [fullscreen]="true">
+
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
@@ -37,78 +40,67 @@
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
-    
-
-      <div>
-        <ion-card  class="group-card" tappable *ngFor="let k of groupList">
-    
-        
 
 
-           <div  style="box-shadow: 1px 1px 1px 1px #f1f1f1;" class="grp_header">
-             <h1>{{k.grp_name}}</h1>
-            
 
-           </div>
-         
-           <ion-buttons>
-             <ion-tab-button>
-              <p *ngIf="k.grp_admin != username">Admin : {{k.grp_admin}}</p>
-              <p *ngIf="k.grp_admin == username">Admin : you</p>
 
-             </ion-tab-button>
-             <ion-tab-button>
-              <p>Member : </p>
-             </ion-tab-button>
-           </ion-buttons>
-           <ion-buttons>
-            <ion-tab-button>
-             
-              <p>Test Room : </p>
-            </ion-tab-button>
-            <ion-tab-button>
-             
-              <p>Active : </p>
-            </ion-tab-button>
-          </ion-buttons>
-       
-           <ion-card-content>
-    
-      
-             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-             
-           </ion-card-content>
-           <ion-footer >
-            <ion-toolbar style="text-align: center;" class="home-footer">
-          
-              <!-- <button  (click)="register()"  expand="block">View</button> -->
-              <P  (click)="onClickGroup(k)"  type="submit">View</P>
-            </ion-toolbar>
-          </ion-footer>
-         </ion-card>
- 
-         <!-- <ion-button  (click)="onClickGroup($event)" >View</ion-button> -->
-      </div> 
 
- 
-    
-    <h1>
-      Hi
-    </h1>
-    <p>
-      {{fcm_token}}
-    </p>
-    <ion-input [(ngModel)]="fcm_token"  type="text" ></ion-input>
+  
+  <ion-item  *ngFor="let group of groupList">
+    <ion-avatar slot="start">
+      <img src="assets/imgs/peopel.png">
+    </ion-avatar>
+    <ion-label>
+      <h3 style="color: blue;">{{group.grp_name}}</h3>
+      <p>{{group.grp_admin}}</p>
+      <p style="font-size: 10px;">Rooms : 4</p>
+      <p style="font-size: 10px;">Members : 4</p>
 
-  <ion-router-outlet></ion-router-outlet>
+    </ion-label>
+    <a clickable class="view_text_class" (click)="onClickGroup(group)" slot="end">View</a>
+  </ion-item> 
+  
+
+ <!-- Multi-line sliding item with icon options on both sides -->
+ <!-- <ion-item-sliding id="item100">
+  <ion-item href="#">
+    <ion-label>
+      <h2>HubStruck Notifications</h2>
+      <p>A new message in your network</p>
+      <p>Oceanic Next has joined your network</p>
+    </ion-label>
+    <ion-note slot="end">
+      10:45 AM
+    </ion-note>
+  </ion-item>
+
+  <ion-item-options side="start">
+    <ion-item-option>
+      <ion-icon slot="icon-only" name="heart"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+
+  <ion-item-options side="end">
+    <ion-item-option color="danger">
+      <ion-icon slot="icon-only" name="trash"></ion-icon>
+    </ion-item-option>
+    <ion-item-option>
+      <ion-icon slot="icon-only" name="star"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding> -->
+
+<ion-router-outlet></ion-router-outlet>
 
 </ion-content>
-<ion-footer >
+
+<ion-footer>
   <ion-toolbar style="text-align: center;" class="home-footer">
 
-    <button *ngIf="!authenticated" (click)="OpenSignUpPopUP()" type="submit" expand="block" class="registerbtn">Join</button>
-    <button *ngIf="authenticated"   type="submit"  expand="block" class="registerbtn"><span (click)="createGroup()">Create Group</span></button>
+    <button *ngIf="!authenticated" (click)="OpenSignUpPopUP($event)" type="submit" expand="block"
+      class="registerbtn">Join</button>
+    <button *ngIf="authenticated" type="submit" expand="block" class="registerbtn"><span
+        (click)="createGroup($event)">Create Group</span></button>
 
   </ion-toolbar>
 </ion-footer>

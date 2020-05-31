@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { AddQuesBankQuestionPageRoutingModule } from './add-ques-bank-question-routing.module';
 
-import { AddQuesBankQuestionPage } from './add-ques-bank-question.page';
 
 @NgModule({
   imports: [
@@ -15,6 +14,6 @@ import { AddQuesBankQuestionPage } from './add-ques-bank-question.page';
     IonicModule,
     AddQuesBankQuestionPageRoutingModule
   ],
-  declarations: [AddQuesBankQuestionPage]
+  declarations: []
 })
 export class AddQuesBankQuestionPageModule {}

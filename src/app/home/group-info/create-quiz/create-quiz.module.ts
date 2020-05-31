@@ -11,7 +11,6 @@ import { AddImageQuestionPage } from './add-image-question/add-image-question.pa
 import { AddQuesBankQuestionPage } from './add-ques-bank-question/add-ques-bank-question.page';
 import { Camera } from '@ionic-native/camera/ngx';
 import {ImageCropperModule} from 'ngx-image-cropper';
-import { AddOptionsPage } from './add-image-question/add-options/add-options.page';
 import { QuestSettingPage } from './quest-setting/quest-setting.page';
 @NgModule({
   imports: [
@@ -26,11 +25,11 @@ import { QuestSettingPage } from './quest-setting/quest-setting.page';
     AddImageQuestionPage,
     AddQuesBankQuestionPage,
     QuestSettingPage,
-    AddOptionsPage],
+    ],
   entryComponents :[AddImageQuestionPage,
     AddQuesBankQuestionPage,
     QuestSettingPage,
-    AddOptionsPage],
+    ],
   exports:[ImageCropperModule],
   providers:[Camera]
 })

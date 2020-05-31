@@ -12,7 +12,7 @@ export class HomeApiServiceService {
   {
     const headers = new HttpHeaders({ 'Content-Type': ''});  
 
-      return this.http.get("http://localhost:8080/RestApi/kidder/main/classAndSubjects.json", {responseType: 'json', headers});
+      return this.http.get("http://192.168.122.1:8080/RestApi/kidder/main/classAndSubjects.json", {responseType: 'json', headers});
   }
 
 }
