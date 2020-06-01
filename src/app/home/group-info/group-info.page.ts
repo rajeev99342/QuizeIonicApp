@@ -15,6 +15,9 @@ import * as moment from 'moment';
 import { ParticipantRequestListPage } from './participant-request-list/participant-request-list.page';
 import { CompletedPage } from './completed/completed.page';
 
+import {DraftPage} from './draft/draft.page'
+import { SetSelectedGroup } from './staticData/GroupInfo';
+
 @Component({
   selector: 'app-group-info',
   templateUrl: './group-info.page.html',
@@ -39,6 +42,7 @@ export class GroupInfoPage implements OnInit {
   participantRequestListPage=ParticipantRequestListPage;  
   completedPage=CompletedPage;  
   upcomingPage = UpcomingPage;
+  draftPage = DraftPage;
 
 
   constructor(
@@ -66,6 +70,7 @@ export class GroupInfoPage implements OnInit {
     this.activateRoute.queryParams.subscribe(params => {
       if (params && params.group) {
         this.selectedGroup = JSON.parse(params.group);
+        SetSelectedGroup.selectedGroup = (this.selectedGroup);
         this.getTestRooms();
       }
     });

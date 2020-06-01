@@ -15,6 +15,7 @@ import { UpcomingPageModule } from './upcoming/upcoming.module';
 import { CompletedPageModule } from './completed/completed.module';
 import { ParticipantPageModule } from './participant/participant.module';
 import { ParticipantRequestListPageModule } from './participant-request-list/participant-request-list.module';
+import { DraftPageModule } from './draft/draft.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ParticipantRequestListPageModule } from './participant-request-list/par
     UpcomingPageModule,
     CompletedPageModule,
     ParticipantPageModule,
+    DraftPageModule,
     ParticipantRequestListPageModule
   ],
   declarations: [GroupInfoPage,QuizeInfoPage,AddParticipantPage],

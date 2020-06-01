@@ -1,5 +1,5 @@
-<ion-header class="bar-header" no-border>
-  <ion-toolbar class="bar-header" style="--min-height: 13px!important;" class="header">
+<ion-header >
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
@@ -51,7 +51,7 @@
   </super-tab>
   <super-tab>
     <ion-content>
-      <ion-nav [root]="participantRequestListPage"></ion-nav>
+      <ion-nav [root]="draftPage"  [rootParams]="{'group': selectedGroup}"></ion-nav>
     </ion-content>
   </super-tab>
 </super-tabs-container>

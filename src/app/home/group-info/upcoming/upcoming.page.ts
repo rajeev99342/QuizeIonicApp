@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GroupInfoPage } from '../group-info.page';
 
 @Component({
   selector: 'app-upcoming',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpcomingPage implements OnInit {
 
+
+
   cities2 : any = [];
   constructor() { }
 
   ngOnInit() {
+
     this.cities2 = [
       {name: 'New York', code: 'NY'},
       {name: 'Rome', code: 'RM'},
