@@ -1,8 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-searchbar  placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
+  <ion-searchbar no-border  placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar>
 
 <ion-content>
   <ion-list *ngFor="let k of cities2">

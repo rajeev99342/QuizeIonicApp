@@ -1,9 +1,44 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>upcoming</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
+    <!-- <ion-searchbar no-border placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar> -->
 
-</ion-content>
+
+	<ion-content>
+	  <!-- <ion-list *ngFor="let k of cities2">
+		<ion-item>
+		  <ion-label>{{k.name}}</ion-label>
+	
+		</ion-item>
+	  </ion-list> -->
+	
+	
+	  <ion-grid>
+		<ion-row >
+		  <ion-col size="6" *ngFor="let k of cities2" >
+			<div class="card">
+			  <div class="additional">
+				<div class="user-card">
+				  <div class="level center">
+					Mathematics, Linear Equation
+				  </div>
+				  <div class="date center">
+					3:00 AM ;<br> 20 march 2020
+				  </div>
+				  <div class="points center">
+					Marks : 30 <br> Question : 40 <br>Type : MCQ <br>Duration : 30 Min
+				  </div>
+				  <div class="duration center">
+					Status : Not Started
+				  </div>
+				</div>
+				
+			  </div>
+			
+			</div>
+		  </ion-col>
+		</ion-row>
+	  </ion-grid>
+	
+	  
+	
+	</ion-content>
+	

@@ -11,13 +11,7 @@
   color: blue;
 }
 
-.header-2{
 
-    margin-top: -18px;
-    margin-left: 51px;
-    height: 42px;
-
-}
 .header-icon{
   margin-left: 3px;
     font-size: 19px;
@@ -26,7 +20,7 @@
 .tab_p{
   font-size: 11px;
   margin-top: 29px;
-  color: white;
+  color: #dedede;
 }
 .registerbtn {
     background-color: black;
@@ -38,6 +32,14 @@
     width: 100%;
     opacity: 0.9;
     
+}
+.ion-color-primary {
+  --ion-color-base: #1a1a1a !important;
+  --ion-color-base-rgb: var(--ion-color-primary-rgb, 56, 128, 255) !important;
+  --ion-color-contrast: #b5b5b5 !important;
+  --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb, 255, 255, 255) !important;
+  --ion-color-shade: var(--ion-color-primary-shade, #3171e0) !important;
+  --ion-color-tint: var(--ion-color-primary-tint, #4c8dff) !important;
 }
 
 Blink {

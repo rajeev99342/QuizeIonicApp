@@ -35,10 +35,10 @@ export class GroupInfoPage implements OnInit {
   cities2 : any = [];
   isAdmin : boolean = true;
   user : userModel;
-  participantPage:ParticipantPage;
-  participantRequestListPage:ParticipantRequestListPage;  
-  completedPage:CompletedPage;  
-  upcomingPage : UpcomingPage;
+  participantPage=ParticipantPage;
+  participantRequestListPage=ParticipantRequestListPage;  
+  completedPage=CompletedPage;  
+  upcomingPage = UpcomingPage;
 
 
   constructor(
