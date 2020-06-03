@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SubjectListPage} from './subject-list/subject-list.page';
 import { Router ,ActivatedRoute, NavigationExtras} from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ActionSheetController, NavController } from '@ionic/angular';
 import { SubjectConfirmPage } from './subject-confirm/subject-confirm.page';
 import { PopoverController } from '@ionic/angular';
 import { MesssageServicesService } from './services/messsage-services.service';
@@ -15,6 +15,9 @@ import { AppService } from '../services/app.service';
 import { GroupModel } from '../models/GroupModel';
 import { GroupService } from './group-info/service/group.service';
 import { userModel } from './user/userModel';
+import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
+// import { NgProgress } from 'ngx-progressbar';
+import * as Tesseract from 'tesseract.js'
 
 interface City {
   name: string;
@@ -26,6 +29,10 @@ interface City {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  selectedImage: string;
+  imageText: string;
+
   cities2: City[];
   selectedCity2: City;
   selectedValue : any;
@@ -41,17 +48,19 @@ username : string;
 
 dummyUser : string;
   constructor(
-    private activateRoute:ActivatedRoute,
+    public navCtrl: NavController,
+    private camera: Camera,
     public groupService : GroupService,
     public popoverController: PopoverController,
     private messageService : MesssageServicesService,
-    private homeApiServiceService :HomeApiServiceService,
     public modalController: ModalController,
     private router : Router,
     private appService :AppService,
     private storageService:StorageService,
     private storage : Storage
     ) {
+
+      // this.statusbar.backgroundColorByHexString('#40C34D');
 
       this.storageService.loutoutStorage.subscribe(newValue=>{
           if(newValue == null)
@@ -204,9 +213,35 @@ dummyUser : string;
             setTimeout(() => {
               console.log('Async operation has ended');
               event.target.complete();
-            }, 200);
+            }, 1000);
       }
   
   }
+
+
+  // selectSource() {    
+  //   let actionSheet = this.actionSheetCtrl.create({
+  //     buttons: [
+  //       {
+  //         text: 'Use Library',
+  //         handler: () => {
+  //           this.getPicture(this.camera.PictureSourceType.PHOTOLIBRARY);
+  //         }
+  //       }, {
+  //         text: 'Capture Image',
+  //         handler: () => {
+  //           this.getPicture(this.camera.PictureSourceType.CAMERA);
+  //         }
+  //       }, {
+  //         text: 'Cancel',
+  //         role: 'cancel'
+  //       }
+  //     ]
+  //   });
+  //   actionSheet.present();
+  // }
+
+ 
+ 
 }
 

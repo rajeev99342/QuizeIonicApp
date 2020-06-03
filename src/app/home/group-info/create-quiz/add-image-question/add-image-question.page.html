@@ -17,32 +17,85 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content [ngClass]="{'disableContent':isImageProcessing}">
 
 
+  <div *ngIf="!isQuestionTypeChoosen" (click)="chooseQuestionType($event)" class="question_type_center">
+    <ul>
+      <li value="0" class="list_text">Diagram Question</li>
+      <li value="1" class="list_text">Text Question</li>
+      <li  value="2" class="list_text">Text + Diagram Question</li>
+    </ul>
+  </div>
 
+  <!-- <div class="spinnerCenter"> -->
+    <div class="spinner" *ngIf="isImageProcessing"></div>
+
+  <!-- </div> -->
+
+
+  <!-- <div [hidden]="!isImageTextCorrect && choosenQuestType ==2">
     <image-cropper
       [imageBase64]="capturedSnapURL"
       [maintainAspectRatio]="false"
-     
       format="png"
       (imageCropped)="imageCropped($event)"
       outputType="base64">
-    >
+    
 
     </image-cropper>
+  </div> -->
 
 
-    <ion-card *ngIf="croppedImage">
+
+ 
+    <ion-card *ngIf="previewCroppedImage">
       <ion-card-content style="padding: 0px 0px 0px 0px;">
           <img class="cropped-image" [src]="croppedImage"/>
       </ion-card-content>
-    </ion-card>
+    </ion-card> 
 
+
+    <ion-card *ngIf="imageText">
+      <ion-card-header>
+        Image Text
+      </ion-card-header>
+      <ion-card-content contenteditable>
+        {{ imageText }}
+      </ion-card-content>
+    </ion-card>
+  
+    <div [hidden]="isCorrectQuestion">
+      <image-cropper
+        [imageBase64]="capturedSnapURL"
+        [maintainAspectRatio]="false"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        outputType="base64">
+      </image-cropper>
+    </div>
+
+    <div>
+      <image-cropper
+        [imageBase64]="capturedDiagramSnapURL"
+        [maintainAspectRatio]="false"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        outputType="base64">
+      </image-cropper>
+    </div>
 
     
+    <ion-button  expand="full" (click)="onClickAddDiagram(0)"  *ngIf="capturedDiagramSnapURL" color="primary">Add Diagram</ion-button>
 
-    <ion-row  *ngIf="croppedSuccess">
+    <p *ngIf="choosenQuestType == 2 && isImageTextCorrect" style="text-align: center;color: blue;">Add diagram image from camera or library</p>
+
+    <ion-button  expand="full" (click)="onCorrectQuestion(0)"  *ngIf="choosenQuestType == 0 && capturedSnapURL && !isCorrectDiagramQUestion " color="primary">Ok ?</ion-button>
+    <ion-button  expand="full" (click)="onCorrectQuestion(1)"  *ngIf="choosenQuestType == 1 && capturedSnapURL && isImageTextCorrect" color="primary">Ok ?</ion-button>
+
+   <ion-button  expand="full" (click)="onCorrectQuestion(2)"  *ngIf="(choosenQuestType == 2 || choosenQuestType == 1) &&imageText && !isImageTextCorrect" color="primary">Ok ?</ion-button>
+
+    <ion-row  *ngIf="displayOptionInputText">
       <ion-col size="3">
         <input type="text" id="fname" [(ngModel)]="aOption" placeholder="">
 
@@ -82,32 +135,32 @@
 
 
 
+<!-- <ion-button expand="full">Full Button</ion-button> -->
 
 <div class="header">
   <ion-row>
-    <ion-col size="2">
-      <ion-icon (click)="getFromCamera()" name="camera-outline"></ion-icon>
+    <ion-col size="3">
+      <ion-icon  (click)="getFromCamera()" name="camera-outline"></ion-icon>
 
     </ion-col>
-    <ion-col size="2">
-      <ion-icon (click)="getFromGallary()" name="film-outline"></ion-icon>
+    <ion-col size="3">
+      <ion-icon  (click)="getFromGallary()" name="film-outline"></ion-icon>
 
     </ion-col>
     <!-- <ion-col size="2">
       <ion-icon (click)="cropImage()" name="crop-outline"></ion-icon> 
 
     </ion-col> -->
-    <ion-col size="2">
-      <ion-icon (click)="getImageToCropped()" name="reload-outline"></ion-icon>
-
+    <ion-col size="3">
+      <ion-icon  (click)="recognizeImage()" name="barcode-outline"></ion-icon>
     </ion-col>
-    <ion-col size="2">
+    <!-- <ion-col size="2">
       <ion-icon  (click)="save()" name="crop-outline"></ion-icon> 
 
-    </ion-col>
+    </ion-col> -->
 
-    <ion-col>
-      <ion-icon (click)="addQuestion()"  name="save-outline"></ion-icon>
+    <ion-col size="3">
+      <ion-icon  (click)="addQuestion()"  name="save-outline"></ion-icon>
     </ion-col>
 
   </ion-row>

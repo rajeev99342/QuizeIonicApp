@@ -9,7 +9,6 @@ import { CreateQuizPageRoutingModule } from './create-quiz-routing.module';
 import { CreateQuizPage } from './create-quiz.page';
 import { AddImageQuestionPage } from './add-image-question/add-image-question.page';
 import { AddQuesBankQuestionPage } from './add-ques-bank-question/add-ques-bank-question.page';
-import { Camera } from '@ionic-native/camera/ngx';
 import {ImageCropperModule} from 'ngx-image-cropper';
 import { QuestSettingPage } from './quest-setting/quest-setting.page';
 @NgModule({
@@ -31,6 +30,6 @@ import { QuestSettingPage } from './quest-setting/quest-setting.page';
     QuestSettingPage,
     ],
   exports:[ImageCropperModule],
-  providers:[Camera]
+  providers:[]
 })
 export class CreateQuizPageModule {}

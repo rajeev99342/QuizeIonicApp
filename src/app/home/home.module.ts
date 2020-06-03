@@ -23,7 +23,8 @@ import { ImageModalPageModule } from './image-modal/image-modal.module';
     HomePageRoutingModule,
     ReactiveFormsModule,
     GroupInfoPageModule,
-    ImageModalPageModule
+  
+    ImageModalPageModule,
   ],
   entryComponents:[SubjectConfirmPage,SignUpPage,CreateGroupPage],
   declarations: [HomePage,

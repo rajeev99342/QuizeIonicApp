@@ -10,6 +10,8 @@ import { HomePageModule } from './home/home.module';
 import { IonicStorageModule } from '@ionic/storage';
 import {FCM} from '@ionic-native/fcm/ngx';
 
+import { Camera } from '@ionic-native/camera/ngx';
+
 import {HttpClientModule} from '@angular/common/http';
 import { AppService } from './services/app.service';
 
@@ -21,17 +23,20 @@ import { AppService } from './services/app.service';
   entryComponents: [],
   imports: [
     BrowserModule,
+    
     IonicModule.forRoot(),
     AppRoutingModule,
     HomePageModule,
     RouterModule,
+    
     HttpClientModule,
     IonicStorageModule.forRoot()
-
+    
   ],
   providers: [
     AppService,
     StatusBar,
+    Camera,
     IonicStorageModule,
     SplashScreen,
     FCM,

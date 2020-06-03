@@ -15,7 +15,8 @@
     <preference name="android-minSdkVersion" value="21" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#FFFFFF" />
+    <preference name="StatusBarBackgroundColor" value="#40C34D" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashShowOnlyFirstTime" value="blue" />
     <preference name="SplashScreen" value="screen" />

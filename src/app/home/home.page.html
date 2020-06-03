@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar class="header">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -31,6 +31,14 @@
 
 
 <ion-content padding  [fullscreen]="true">
+
+
+
+
+  <!-- <button ion-button full (click)="selectSource()">Select Image</button> -->
+ 
+  <!-- <img [src]="selectedImage" *ngIf="selectedImage"> -->
+
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
