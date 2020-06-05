@@ -14,6 +14,11 @@ import { Storage } from '@ionic/storage';
 import { ImageInfoModel } from './models/ImageInfoModel';
 import { TestRoomService } from '../service/testroom.service';
 import { ImageModalPage } from '../../image-modal/image-modal.page';
+import { TxtQuesInfoModel } from './models/TxtQuesInfoModel';
+
+
+import {KiKidderQuestModel} from './models/KiKidderQuestModel'
+import { DgrmImageInfoModel } from './models/DgrmImageInfoModel';
 
 @Component({
   selector: 'app-create-quiz',
@@ -27,7 +32,7 @@ export class CreateQuizPage implements OnInit {
     zoom:false,
   }
 
-  questionList : UserQuestionModel[] = [];
+  questionList : KiKidderQuestModel[] = [];
   username : string ="dummyUser";
   grp_name : string = "dummyGrp";
   quiz_name : string = "dummy Quiz"
@@ -92,7 +97,7 @@ export class CreateQuizPage implements OnInit {
             }
         })
 
-          this.testRoomService.getQuestions(this.testRoom.quiz_id).subscribe((res:UserQuestionModel[])=>{
+          this.testRoomService.getQuestions(this.testRoom.quiz_id).subscribe((res:KiKidderQuestModel[])=>{
                console.log('Hi this is questions',res);
                this.questionList = res;
 
@@ -147,30 +152,43 @@ export class CreateQuizPage implements OnInit {
                   console.log('updated questino',this.questionList);
               }else{
 
+                let quest : KiKidderQuestModel = new  KiKidderQuestModel();
+
                 let userQuesModel : UserQuestionModel = new UserQuestionModel();
 
                 let imageInfoModel : ImageInfoModel = new ImageInfoModel();
 
-                imageInfoModel.img_base64 = dataRetured.data.imgInfoTbls[0].img_base64;
-                imageInfoModel.img_desc = dataRetured.data.imgInfoTbls[0].img_desc;
-                imageInfoModel.img_id = dataRetured.data.imgInfoTbls[0].img_id;
-                imageInfoModel.img_path = dataRetured.data.imgInfoTbls[0].img_path;
-                imageInfoModel.uniqueCode = dataRetured.data.imgInfoTbls[0].uniqueCode;
+                let  textQuestModel : TxtQuesInfoModel = new TxtQuesInfoModel(); 
+                let imgs : DgrmImageInfoModel[]=[];
+                
+                if(dataRetured.data.txtQuesInfoModel)
+                {
+                  textQuestModel.uniqueCode = dataRetured.data.txtQuesInfoModel.uniqueCode;
+                  textQuestModel.quesTxt = dataRetured.data.txtQuesInfoModel.quesTxt;
+                  textQuestModel.txt_ques_id = dataRetured.data.txtQuesInfoModel.txt_ques_id;
+
+                }
+
+                // imageInfoModel.img_base64 = dataRetured.data.imgInfoTbls[0].img_base64;
+                // imageInfoModel.img_desc = dataRetured.data.imgInfoTbls[0].img_desc;
+                // imageInfoModel.img_id = dataRetured.data.imgInfoTbls[0].img_id;
+                // imageInfoModel.img_path = dataRetured.data.imgInfoTbls[0].img_path;
+                // imageInfoModel.uniqueCode = dataRetured.data.imgInfoTbls[0].uniqueCode;
                 imageInfoModel.toBeDeleted = false;
-                let imgs : ImageInfoModel[]=[];
-                imgs.push(imageInfoModel);
+                
 
-                userQuesModel.imgInfoTbls = imgs;
-                userQuesModel.userInfoTbl = this.userObject;
-
-                userQuesModel.user_quest_ans = dataRetured.data.user_quest_ans;
-                userQuesModel.user_quest_marks = dataRetured.data.user_quest_marks
-                userQuesModel.user_quest_optionA = dataRetured.data.user_quest_optionA
-                userQuesModel.user_quest_optionB = dataRetured.data.user_quest_optionB
-                userQuesModel.user_quest_optionC = dataRetured.data.user_quest_optionC
-                userQuesModel.user_quest_optionD = dataRetured.data.user_quest_optionD
-
-                this.questionList.push(userQuesModel);
+                quest.dgrmImageInfoModels = imgs;
+                quest.userModel = this.userObject;
+                quest.questType = dataRetured.data.questType;
+                quest.ki_kidder_quest_ans = dataRetured.data.ki_kidder_quest_ans;
+                quest.ki_kidder_quest_optionA = dataRetured.data.ki_kidder_quest_optionA
+                quest.ki_kidder_quest_optionB = dataRetured.data.ki_kidder_quest_optionB
+                quest.ki_kidder_quest_optionC = dataRetured.data.ki_kidder_quest_optionC
+                quest.ki_kidder_quest_optionD = dataRetured.data.ki_kidder_quest_optionD
+                quest.txtQuesInfoModel = textQuestModel;
+                quest.ki_kidder_quest_marks = dataRetured.data.ki_kidder_quest_marks;
+                quest.dgrmImageInfoModels = dataRetured.data.dgrmImageInfoModels;
+                this.questionList.push(quest);
 
 
 

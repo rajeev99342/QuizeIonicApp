@@ -16,20 +16,20 @@
   </ion-toolbar>
 </ion-header>
 
+<div class="spinner" *ngIf="isImageProcessing"></div>
 
 <ion-content [ngClass]="{'disableContent':isImageProcessing}">
 
 
-  <div *ngIf="!isQuestionTypeChoosen" (click)="chooseQuestionType($event)" class="question_type_center">
+  <!-- <div *ngIf="!isQuestionTypeChoosen && !isEdit" (click)="chooseQuestionType($event)" class="question_type_center">
     <ul>
       <li value="0" class="list_text">Diagram Question</li>
       <li value="1" class="list_text">Text Question</li>
       <li  value="2" class="list_text">Text + Diagram Question</li>
     </ul>
-  </div>
+  </div> -->
 
   <!-- <div class="spinnerCenter"> -->
-    <div class="spinner" *ngIf="isImageProcessing"></div>
 
   <!-- </div> -->
 
@@ -48,15 +48,9 @@
 
 
 
- 
-    <ion-card *ngIf="previewCroppedImage">
-      <ion-card-content style="padding: 0px 0px 0px 0px;">
-          <img class="cropped-image" [src]="croppedImage"/>
-      </ion-card-content>
-    </ion-card> 
 
 
-    <ion-card *ngIf="imageText">
+    <!-- <ion-card *ngIf="imageText ">
       <ion-card-header>
         Image Text
       </ion-card-header>
@@ -64,8 +58,18 @@
         {{ imageText }}
       </ion-card-content>
     </ion-card>
-  
-    <div [hidden]="isCorrectQuestion">
+    -->
+    <ion-card *ngFor="let dgm of dgrmList" >
+      <ion-card-content  class="img-wrap" style="padding: 0px 0px 0px 0px;">
+        <!-- <span class="close">&times;</span> -->
+        <ion-tab-button style="float: right;" (click)="removeDgrmFromQuest(dgm)">
+          <ion-icon style="color: red;" name="close-outline"></ion-icon>
+        </ion-tab-button>
+          <img class="cropped-image" [src]="dgm.dgrm_img_base64"/>
+      </ion-card-content>
+    </ion-card> 
+
+    <div>
       <image-cropper
         [imageBase64]="capturedSnapURL"
         [maintainAspectRatio]="false"
@@ -75,53 +79,79 @@
       </image-cropper>
     </div>
 
-    <div>
-      <image-cropper
+    <ion-row>
+      <ion-col>
+        <ion-button   [ngClass]="{'disableContent':isImageProcessing}" expand="full" (click)="onClickUseAsDiagram()"  *ngIf="capturedSnapURL" color="primary">Use as diagram</ion-button>
+
+      </ion-col>
+      <ion-col>
+        <ion-button   [ngClass]="{'disableContent':isImageProcessing}" expand="full" (click)="onClickExtractImage()"  *ngIf="capturedSnapURL" color="primary">Extrac text</ion-button>
+
+      </ion-col>
+    </ion-row>
+
+    <!-- <div [hidden]="isDgrmUploaded">
+      <image-cropper 
         [imageBase64]="capturedDiagramSnapURL"
         [maintainAspectRatio]="false"
         format="png"
         (imageCropped)="imageCropped($event)"
         outputType="base64">
       </image-cropper>
-    </div>
+    </div> -->
 
     
-    <ion-button  expand="full" (click)="onClickAddDiagram(0)"  *ngIf="capturedDiagramSnapURL" color="primary">Add Diagram</ion-button>
 
-    <p *ngIf="choosenQuestType == 2 && isImageTextCorrect" style="text-align: center;color: blue;">Add diagram image from camera or library</p>
+    <p *ngIf="choosenQuestType == 2 && isImageTextCorrect && !isDgrmUploaded" style="text-align: center;color: blue;">Add diagram image from camera or library</p>
 
     <ion-button  expand="full" (click)="onCorrectQuestion(0)"  *ngIf="choosenQuestType == 0 && capturedSnapURL && !isCorrectDiagramQUestion " color="primary">Ok ?</ion-button>
     <ion-button  expand="full" (click)="onCorrectQuestion(1)"  *ngIf="choosenQuestType == 1 && capturedSnapURL && isImageTextCorrect" color="primary">Ok ?</ion-button>
 
    <ion-button  expand="full" (click)="onCorrectQuestion(2)"  *ngIf="(choosenQuestType == 2 || choosenQuestType == 1) &&imageText && !isImageTextCorrect" color="primary">Ok ?</ion-button>
 
-    <ion-row  *ngIf="displayOptionInputText">
-      <ion-col size="3">
-        <input type="text" id="fname" [(ngModel)]="aOption" placeholder="">
+    <ion-row>
+      <ion-col size="6">
+
+        <input type="text" [ngClass]="{'myError':isOptionErrorA}" id="fname" [(ngModel)]="aOption" placeholder="A. ">
 
       </ion-col>
-      <ion-col size="3">
-        <input type="text" id="fname" [(ngModel)]="bOption" placeholder="">
-
-      </ion-col>
-      <ion-col size="3">
-        <input type="text" id="fname" [(ngModel)]="cOption" placeholder="">
-
-      </ion-col>
-      <ion-col size="3">
-        <input type="text" id="fname" [(ngModel)]="dOption" placeholder="">
+      <ion-col size="6">
+        <input type="text" id="fname" [ngClass]="{'myError':isOptionErrorB}" [(ngModel)]="bOption" placeholder="B. ">
 
       </ion-col>
     </ion-row>
 
+    <ion-row>
+      <ion-col size="6">
+        <input type="text" id="fname" [ngClass]="{'myError':isOptionErrorC}" [(ngModel)]="cOption" placeholder="C. ">
+
+      </ion-col>
+      <ion-col size="6">
+        <input type="text" id="fname" [ngClass]="{'myError':isOptionErrorD}" [(ngModel)]="dOption" placeholder="D. ">
+
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="padding-left: 6px;
+    padding-right: 6px;">
+      <!-- <input  > -->
+      <ion-input [ngClass]="{'myError':isMarksError}" style="width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: .5px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;" type="number" (keyup)="validateNumberOnKeyUp()" (keypress)="numberOnlyValidation($event)" [(ngModel)]="questMarks" placeholder="Question Marks"></ion-input>
+
+    </ion-row>
 
     <ion-list style="border-radius: 2px;
-    padding-bottom: 0px;" *ngIf="isAllOptionFilled()">
+    padding-bottom: 0px;">
 
-     <ion-item>
+     <ion-item [ngClass]="{'myError':isCorrectOptionError}">
        <ion-label>correct option</ion-label>
 
-       <ion-select [(ngModel)]="correctOption" okText="Okay" cancelText="Dismiss">
+       <ion-select  [(ngModel)]="correctOption" okText="Okay" cancelText="Dismiss">
          <ion-select-option value="A">A</ion-select-option>
          <ion-select-option value="B">B</ion-select-option>
          <ion-select-option value="C">C</ion-select-option>
@@ -131,6 +161,18 @@
    
    </ion-list>
 
+   <ion-card >
+    <ion-card-header style="background: #d5cde8;
+    padding: 4px;">
+      Image Text
+    </ion-card-header>
+    <ion-card-content [ngClass]="{'myError':isTxtError}" [textContent]="imageText" (input)="imageText=$event.target.textContent" class="editable_div" contenteditable>
+      {{ imageText }}
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-button  expand="full" (click)="onClickAddDiagram(0)"  color="primary">Don't have text</ion-button> -->
+
 </ion-content>
 
 
@@ -139,11 +181,11 @@
 
 <div class="header">
   <ion-row>
-    <ion-col size="3">
+    <ion-col size="4">
       <ion-icon  (click)="getFromCamera()" name="camera-outline"></ion-icon>
 
     </ion-col>
-    <ion-col size="3">
+    <ion-col size="4">
       <ion-icon  (click)="getFromGallary()" name="film-outline"></ion-icon>
 
     </ion-col>
@@ -151,15 +193,15 @@
       <ion-icon (click)="cropImage()" name="crop-outline"></ion-icon> 
 
     </ion-col> -->
-    <ion-col size="3">
+    <!-- <ion-col size="3">
       <ion-icon  (click)="recognizeImage()" name="barcode-outline"></ion-icon>
-    </ion-col>
+    </ion-col> -->
     <!-- <ion-col size="2">
       <ion-icon  (click)="save()" name="crop-outline"></ion-icon> 
 
     </ion-col> -->
 
-    <ion-col size="3">
+    <ion-col size="4">
       <ion-icon  (click)="addQuestion()"  name="save-outline"></ion-icon>
     </ion-col>
 

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams, ToastController } from '@ionic/angular';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 import { PopoverController } from '@ionic/angular';
-
+import { DgrmImageInfoModel } from '../models/DgrmImageInfoModel'
 import { Observable } from 'rxjs';
 import { AddOptionsPage } from './add-options/add-options.page';
 import { ImageInfoModel } from '../models/ImageInfoModel';
@@ -11,6 +11,10 @@ import { UserQuestionModel } from '../models/QuestModel';
 import { OptionModel } from './add-options/OptionModel';
 import { TxtQuesInfoModel } from '../models/TxtQuesInfoModel';
 import * as Tesseract from 'tesseract.js'
+import { KiKidderQuestModel } from '../models/KiKidderQuestModel';
+import { Storage } from '@ionic/storage';
+import { userModel } from 'src/app/home/user/userModel';
+import { KidderQuestionModel } from '../models/KidderQuestionModel';
 
 @Component({
   selector: 'app-add-image-question',
@@ -21,20 +25,16 @@ export class AddImageQuestionPage implements OnInit {
   @ViewChild(ImageCropperComponent, { static: true }) angularCropper: ImageCropperComponent;
 
 
-  readyToUploadDiagram : boolean = false;
-  isCorrectQuestion : boolean = false;
-  isCorrectDiagramQUestion : boolean = false;
-  isQuestionTypeChoosen : boolean = false;
-  choosenQuestType : number;
-  uploadingDiagram : boolean = false;
-  uploadedAllDiagram : boolean = false;
+  recentTextExtractedImage : boolean = false;
+  dgrmList : DgrmImageInfoModel[] = [];
+  previewCroppedImage: boolean = false;
   percentage = 1;
   start = 1;
   end = 100;
   selectedImage: string;
   imageText: string;
   capturedSnapURL: string;
-  capturedDiagramSnapURL : string;
+  capturedDiagramSnapURL: string;
   username: string;
   grp_name: string;
   isImageAvailable: boolean = false;
@@ -49,9 +49,9 @@ export class AddImageQuestionPage implements OnInit {
   isEdit: boolean = false;
   isOptionsAdded: boolean = false;
   optionModel: OptionModel
-  isImageTextCorrect : boolean = false;
-  isImageProcessing : boolean = false;
-
+  isImageTextCorrect: boolean = false;
+  isImageProcessing: boolean = false;
+  questMarks : number ;
   cameraOptions: CameraOptions = {
     quality: 50,
     targetWidth: 800,
@@ -62,86 +62,115 @@ export class AddImageQuestionPage implements OnInit {
     correctOrientation: true,
   }
 
-  questObject: UserQuestionModel;
+  questObject: KiKidderQuestModel;
   openPopOver: any;
+
+  isTxtError : boolean = false;
+  isMarksError : boolean = false;
+  isOptionErrorA : boolean = false;
+  isOptionErrorB : boolean = false;
+
+  isOptionErrorC : boolean = false;
+  isOptionErrorD : boolean = false;
+  isCorrectOptionError : boolean = false;
+  
+
+  userModel: userModel;
   constructor(
+    private toastController : ToastController,
+    private storage: Storage,
     private navParams: NavParams,
     private camera: Camera,
     private modelController: ModalController,
     private popoverController: PopoverController) {
-
+      
   }
 
   ngOnInit() {
+
+    setTimeout(() => {
+      this.storage.get("kidder_user").then((user: userModel) => {
+        this.userModel = user;
+      })
+
+    }, 500);
+
+
+
+
     this.questObject = this.navParams.get('questObject');
     if (this.questObject) {
       this.optionModel = new OptionModel();
-      this.croppedImage = this.questObject.imgInfoTbls[0].img_base64;
-      this.aOption = this.questObject.user_quest_optionA;
-      this.bOption = this.questObject.user_quest_optionB;
-      this.cOption = this.questObject.user_quest_optionC;
-      this.dOption = this.questObject.user_quest_optionD;
-      this.correctOption = this.questObject.user_quest_ans;
-      this.capturedSnapURL = this.questObject.imgInfoTbls[0].img_base64;
-      this.croppedSuccess = true;
-      this.isEdit = true;
-      this.isOptionsAdded = true;
-      this.isImageAvailable = true;
+      this.aOption = this.questObject.ki_kidder_quest_optionA;
+      this.bOption = this.questObject.ki_kidder_quest_optionB;
+      this.cOption = this.questObject.ki_kidder_quest_optionC;
+      this.dOption = this.questObject.ki_kidder_quest_optionD;
+      this.optionModel.correctOption = this.questObject.ki_kidder_quest_ans;
+      this.questMarks = this.questObject.ki_kidder_quest_marks
       this.optionModel.aOption = this.aOption;
       this.optionModel.bOption = this.bOption;
       this.optionModel.cOption = this.cOption;
       this.optionModel.dOption = this.dOption;
-      this.optionModel.correctOption = this.correctOption;
+      
+      if(this.questObject.dgrmImageInfoModels && this.questObject.dgrmImageInfoModels.length != 0)
+      {
+        this.dgrmList = this.questObject.dgrmImageInfoModels;
+      }
+
+      
+      if (this.questObject.txtQuesInfoModel.quesTxt) 
+      {
+        this.imageText = this.questObject.txtQuesInfoModel.quesTxt
+      }
+      this.correctOption = this.questObject.ki_kidder_quest_ans;
+      this.croppedSuccess = true;
+      this.isEdit = true;
+      this.isOptionsAdded = true;
+      this.isImageAvailable = true;
+
 
     }
   }
 
 
   getFromCamera() {
+    this.recentTextExtractedImage = false;
 
-    if(this.isQuestionTypeChoosen)
-    {
-      const options: CameraOptions = {
-        quality: 100,
-  
-        destinationType: this.camera.DestinationType.DATA_URL,
-        encodingType: this.camera.EncodingType.JPEG,
-        mediaType: this.camera.MediaType.PICTURE,
-        correctOrientation: true,
-        saveToPhotoAlbum: false,
-  
-      }
-      this.isImageAvailable = true;
-      this.capturedSnapURL = null;
-      this.camera.getPicture(options).then((imageData) => {
-      
-  
-        let base64Image = 'data:image/jpeg;base64,' + imageData;
 
-        if(this.readyToUploadDiagram)
-        {
-          this.capturedDiagramSnapURL = base64Image;
+    const options: CameraOptions = {
+      quality: 100,
 
-        }else{
-          this.capturedSnapURL = base64Image;
-
-        }
-
-        this.selectedImage = base64Image;
-  
-      }, (err) => {
-  
-        console.log(err);
-        // Handle error
-      });
-    }else{
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      saveToPhotoAlbum: false,
 
     }
+    this.isImageAvailable = true;
+    this.capturedSnapURL = null;
+    this.camera.getPicture(options).then((imageData) => {
+
+
+      let base64Image = 'data:image/jpeg;base64,' + imageData;
+
+      this.capturedSnapURL = base64Image;
+
+
+
+      this.selectedImage = base64Image;
+
+    }, (err) => {
+
+      console.log(err);
+      // Handle error
+    });
+
 
   }
 
-  getFromGallary()
-  {
+  getFromGallary() {
+    this.recentTextExtractedImage = false;
     this.getImageToCropped();
     this.croppedImage = this.capturedSnapURL;
   }
@@ -153,25 +182,25 @@ export class AddImageQuestionPage implements OnInit {
   //       console.log('get from gallary')
   //       const options: CameraOptions = {
   //         quality: 100,
-    
+
   //         destinationType: this.camera.DestinationType.DATA_URL,
   //         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
   //         saveToPhotoAlbum: false,
   //         correctOrientation: true,
-    
+
   //       }
-    
+
   //       this.camera.getPicture(options).then((imageData) => {
   //        let base64Image = 'data:image/jpeg;base64,' + imageData;
   //         if(this.readyToUploadDiagram)
   //         {
   //           this.capturedDiagramSnapURL = base64Image;
-  
+
   //         }else{
   //           this.capturedSnapURL = base64Image;
-  
+
   //         }
-  
+
   //       }, (err) => {
   //         console.log('err while getting image from gallary')
   //       })
@@ -202,14 +231,10 @@ export class AddImageQuestionPage implements OnInit {
   convertBase64() {
     this.convertHelper(`assets/imgs/Capture.PNG`).subscribe((base64) => {
       let base64Image = base64;
-      if(this.readyToUploadDiagram)
-      {
-        this.capturedDiagramSnapURL = base64Image;
 
-      }else{
-        this.capturedSnapURL = base64Image;
+      this.capturedSnapURL = base64Image;
 
-      }
+
     })
   }
 
@@ -289,46 +314,127 @@ export class AddImageQuestionPage implements OnInit {
   }
 
 
+  valideForm ()
+  {
+      this.isTxtError = false;
+      this.isMarksError = false;
+      this.isCorrectOptionError = false;
+      this.isOptionErrorD = false;
+      this.isOptionErrorC = false;
+      this.isOptionErrorA =  false;
+      this.isOptionErrorB = false;
+      let flag = true;
+
+      if(!this.imageText && this.dgrmList.length == 0)
+      { 
+          this.isTxtError = true;
+          flag = false;
+      }
+      if(!this.questMarks)
+      {
+          flag = false;
+          this.isMarksError = true;
+      }
+      if(!this.correctOption)
+      {
+          flag = false;
+          this.isCorrectOptionError = true;
+      }
+      if(!this.aOption)
+      {
+        flag = false;
+          this.isOptionErrorA = true;
+      }
+      if(!this.bOption)
+      {
+        flag = false;
+          this.isOptionErrorB = true;
+      }
+      if(!this.cOption)
+      {
+        flag = false;
+          this.isOptionErrorC = true;
+      }
+      if(!this.dOption)
+      {
+        flag = false;
+          this.isOptionErrorD = true;
+      }
+
+      if(flag == false)
+      {
+        return false;
+      }else{
+        return true;
+      }
+  }
+
   addQuestion() {
 
-
-    if(this.isQuestionTypeChoosen)
-    {
-
-      const user_quest_img_model: ImageInfoModel = new ImageInfoModel();
-      user_quest_img_model.img_base64 = this.croppedImage;
-      user_quest_img_model.img_desc = "this is question image";
-      user_quest_img_model.img_path = null;
-      user_quest_img_model.toBeDeleted = false;
-  
-  
-      let user_questdgrm_model: ImageInfoModel = new ImageInfoModel();
-  
-      let user_questtxt_model: TxtQuesInfoModel = new TxtQuesInfoModel();
-      user_questtxt_model = null;
-  
-      let user_quest_model: UserQuestionModel = new UserQuestionModel();
-      this.username = "username";
-      let imgInfoTbl: ImageInfoModel = new ImageInfoModel();
-  
-      let imgs: ImageInfoModel[] = [];
-      imgs.push(user_quest_img_model);
-      user_quest_model.imgInfoTbls = imgs;
-      user_quest_model.user_quest_marks = 4;
-      user_quest_model.user_quest_optionA = this.aOption;
-      user_quest_model.user_quest_optionB = this.bOption;
-      user_quest_model.user_quest_optionC = this.cOption;
-      user_quest_model.user_quest_optionD = this.dOption;
-      user_quest_model.user_quest_ans = this.correctOption;
-      user_quest_model.isEdit = this.isEdit;
-      user_quest_model.txtQuesInfoModel = user_questtxt_model;
-  
-      this.modelController.dismiss(
-        user_quest_model
-      )
-    }else{
-
+    if(this.valideForm() == false)
+    { 
+      this.presentToast("Please fill the mandatory filled");
+      return ;
     }
+
+    const user_quest_img_model: ImageInfoModel = new ImageInfoModel();
+    user_quest_img_model.img_base64 = this.croppedImage;
+    user_quest_img_model.img_desc = "this is question image";
+    user_quest_img_model.img_path = null;
+    user_quest_img_model.toBeDeleted = false;
+
+    let txtQuestModel = new TxtQuesInfoModel();
+
+    let dgrmImages: DgrmImageInfoModel[] = [];
+
+    let user_questdgrm_model: DgrmImageInfoModel = new DgrmImageInfoModel();
+
+    let imgInfoTbl: ImageInfoModel = new ImageInfoModel();
+
+    if (this.imageText)
+     {
+      txtQuestModel.quesTxt = this.imageText;
+      txtQuestModel.txt_ques_id = null;
+      txtQuestModel.uniqueCode = null;
+      imgInfoTbl = null;
+    }
+
+  
+
+    let user_questtxt_model: TxtQuesInfoModel = new TxtQuesInfoModel();
+    user_questtxt_model = null;
+
+    let kidderQuestModel: KiKidderQuestModel = new KiKidderQuestModel();
+    this.username = "username";
+
+    let imgs: ImageInfoModel[] = [];
+    imgs.push(user_quest_img_model);
+    kidderQuestModel.txtQuesInfoModel = txtQuestModel;
+    kidderQuestModel.ki_kidder_quest_marks = 4;
+    kidderQuestModel.ki_kidder_quest_optionA = this.aOption;
+    kidderQuestModel.ki_kidder_quest_optionB = this.bOption;
+    kidderQuestModel.ki_kidder_quest_optionC = this.cOption;
+    kidderQuestModel.ki_kidder_quest_optionD = this.dOption;
+    kidderQuestModel.ki_kidder_quest_ans = this.correctOption;
+    kidderQuestModel.ki_kidder_quest_level = 1;
+    kidderQuestModel.ki_kidder_quest_name = "kuch nhi";
+    kidderQuestModel.ki_kidder_quest_sub = null;
+    kidderQuestModel.ki_kidder_quest_topic = null;
+    kidderQuestModel.ki_kidder_quest_marks = this.questMarks;
+    if(this.isEdit)
+    {
+        kidderQuestModel.isEdit = this.isEdit;
+    }
+    kidderQuestModel.uniqueCode = null;
+    if(this.dgrmList.length != 0 )
+    {
+      kidderQuestModel.dgrmImageInfoModels = this.dgrmList;
+    }
+    kidderQuestModel.userModel = this.userModel;
+    this.modelController.dismiss(
+      kidderQuestModel
+    )
+
 
   }
 
@@ -362,7 +468,7 @@ export class AddImageQuestionPage implements OnInit {
   //   }
 
 
- 
+
   isAllOptionFilled() {
     if (this.aOption && this.bOption && this.cOption && this.dOption) {
       return true;
@@ -373,123 +479,128 @@ export class AddImageQuestionPage implements OnInit {
 
   recognizeImage() {
 
-    if(this.isQuestionTypeChoosen)
-    {
-      this.isImageProcessing = true;
-
-      this.startImageProcessing().then((val)=>{
-          if(val == 'done')
-          {
-              this.croppedImage = null;
-              this.isImageProcessing = false;
-          }
-      })
-    }else{
-
-    }
- 
-
-  }
 
 
-  onCorrectQuestion(type)
-  {
-
-      this.isCorrectQuestion = true;
-      if(type == 1 || type == 2)
-      {
-        this.isImageTextCorrect = true;
-        this.capturedSnapURL = null;
-      }else if(type == 0)
-      {
-        this.isCorrectDiagramQUestion = true;
+    this.startImageProcessing().then((val) => {
+      if (val == 'done') {
+        
+        this.isImageProcessing = false;
+        this.recentTextExtractedImage = true;
       }
- 
-      if(type ==2 && this.isImageTextCorrect)
-      {
-          this.readyToUploadDiagram = true;
-      }
-
-  }
-
-  // correctDiagramQuestion()
-  // {
-  //     this.isCorrectDiagramQUestion = true;
-  // }
-
-  startImageProcessing()
-  {
-
-    return new Promise((resolve,reject)=>{
-      setTimeout(() => {
-        this.isImageProcessing = true;
-        this.percentage = 100;
-        this.imageText = null;
-        Tesseract.recognize(
-          this.croppedImage,
-          'eng',
-          { logger: m => console.log(m) }
-        ).then(({ data: { text } }) => {
-          console.log(text);
-          this.percentage = this.percentage + 1;
-          this.imageText = text;
-          resolve('done');
-        })
-      }, 1000);
     })
 
+
+
   }
 
-  chooseQuestionType(type)
-  {
-      this.isQuestionTypeChoosen = true;
-      if(type.target.value == 0)
-      {
-          this.choosenQuestType = 0;
-      }else if(type.target.value == 1){
-          this.choosenQuestType = 1;
-      }else if(type.target.value == 2)
-      {
-          this.choosenQuestType = 2;
-      }
-  }
-  get previewCroppedImage()
-  {
-        let flag = false;
-      if(this.choosenQuestType == 0 && this.croppedImage )
-      {
-          flag = true;
-      }else if(this.choosenQuestType ==2 && this.croppedImage && this.capturedDiagramSnapURL)
-      {
-          flag = true;
-      }
-      
-      return flag;
-  }
 
-  get displayOptionInputText()
-  {
-      let flag = false;
-      if(this.choosenQuestType == 0 && this.croppedImage && this.isCorrectDiagramQUestion)
-      {
-          flag = true;
-      }else if(this.choosenQuestType == 1 && this.imageText && this.isImageTextCorrect)
-      {
-          flag = true;
-      }else if(this.choosenQuestType == 2)
-      {
-          if(this.imageText && this.isImageTextCorrect && this.uploadedAllDiagram)
-          {
-            flag = true;
-          }
-      }
-      return flag ;
-  
+
+
+  startImageProcessing() {
+
+    if (this.croppedImage) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.isImageProcessing = true;
+          this.percentage = 100;
+          this.imageText = null;
+          Tesseract.recognize(
+            this.croppedImage,
+            'eng',
+            { logger: m => console.log(m) }
+          ).then(({ data: { text } }) => {
+            console.log(text);
+            this.percentage = this.percentage + 1;
+            this.imageText = text;
+            resolve('done');
+          })
+        }, 1000);
+      })
     }
 
-    onClickAddDiagram()
+
+
+  }
+
+  onClickUseAsDiagram() {
+
+    if(this.recentTextExtractedImage)
     {
-        console.log('add diagram ')
+      this.presentToast("You have extracted text from this image please chhose other image");
+    }else{
+      this.previewCroppedImage = true;
+      let dgrm : DgrmImageInfoModel = new DgrmImageInfoModel();
+      dgrm.dgrm_img_base64 = this.croppedImage;
+      dgrm.dgrm_img_desc = null;
+      dgrm.dgrm_img_name = null;
+      dgrm.dgrm_img_path = null;
+  
+      this.dgrmList.push(dgrm);
+      this.croppedImage = null;
+      this.capturedSnapURL = null;
     }
+
+
+
+  }
+
+  onClickExtractImage()
+  {
+
+    if(this.imageText)
+    {
+        this.presentToast("You already written question. Use this image as diagram")
+    }else{
+      this.recognizeImage();
+    }
+
+  }
+
+
+
+  async presentToast(ev) {
+    const toast = await this.toastController.create({
+      message: ev,
+      duration: 2000,
+      position:'top',
+      color:'warning'
+    });
+    toast.present();
+  }
+
+  removeDgrmFromQuest(dgrm : DgrmImageInfoModel)
+  {
+      let index = this.dgrmList.indexOf(dgrm);
+      this.dgrmList.splice(index,1);
+  }
+
+  numberOnlyValidation(event: any) {
+    const pattern = /[0-9.,]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    // inputChar = this.financial(inputChar);
+    if(this.questMarks > 100)
+    {
+        this.questMarks = 100;
+    }
+    if (!pattern.test(inputChar)) {
+      // invalid character, prevent input
+      event.preventDefault();
+    }
+  }
+   financial(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+
+  validateNumberOnKeyUp()
+  {
+      if(this.questMarks > 100)
+      {
+          this.questMarks = 100;
+      }else{
+        let num = this.financial(this.questMarks);
+        console.log(this.financial(this.questMarks));
+        this.questMarks = +num;
+      }
+  }
 
 }

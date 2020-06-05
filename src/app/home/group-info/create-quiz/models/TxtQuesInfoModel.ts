@@ -1,5 +1,6 @@
 export class TxtQuesInfoModel
 {
-    user_questtxt_id : number;
-    user_questtxt_desc: string;
+    txt_ques_id : number;
+    quesTxt: string;
+    uniqueCode : string;
 }

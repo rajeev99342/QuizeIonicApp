@@ -30,7 +30,7 @@
 </ion-header>
 <ion-content>
 
-  <ion-row>
+  <ion-row *ngIf="false">
     <ion-col size="4">
       <ion-label>Exam</ion-label>
 
@@ -69,47 +69,56 @@
     </ion-col>
   </ion-row>
 
-  <ion-card tappable *ngFor="let k of questionList;let i = index">
+  <ion-card tappable style="cursor: pointer;
+  width: 98%;
+  /* left: 0%; */
+  /* right: 0%; */
+  margin-left: 1%;
+  padding: 5px;" *ngFor="let quest of questionList;let i = index">
     
     <ion-item>
       <p slot="start">{{i+1}}</p>
       <ion-icon name="trash"></ion-icon>
 
-      <ion-icon *ngIf="isTestRoomCreator" slot="end" (click)="EditQustion(k)" style="float:right;" name="create"></ion-icon>
+      <ion-icon *ngIf="isTestRoomCreator" slot="end" (click)="EditQustion(quest)" style="float:right;" name="create"></ion-icon>
 
     </ion-item>
 
- 
+    
+      <p>{{quest.txtQuesInfoModel.quesTxt}}</p>
+
    
-     <ion-card-content *ngFor="let img of k.imgInfoTbls" >
-      <img [src]="img.img_base64" tappable (click)="openPreview(img.img_base64)" >
+     <ion-card-content *ngFor="let img of quest.dgrmImageInfoModels" >
+      <img [src]="img.dgrm_img_base64" tappable>
 
      </ion-card-content>
      
 
 
-     <ion-row>
+     <ion-row style="white-space: nowrap;">
        <ion-col>
-       <p>A. {{k.user_quest_optionA}}</p>
+       <p>A. {{quest.ki_kidder_quest_optionA}}</p>
 
        </ion-col>
        <ion-col>
-       <p>B. {{k.user_quest_optionB}}</p>
+       <p>B. {{quest.ki_kidder_quest_optionB}}</p>
 
       </ion-col>
       <ion-col>
-       <p>C. {{k.user_quest_optionC}}</p>
+       <p>C. {{quest.ki_kidder_quest_optionC}}</p>
 
       </ion-col>
       <ion-col>
-       <p>D. {{k.user_quest_optionD}}</p>
+       <p>D. {{quest.ki_kidder_quest_optionD}}</p>
       </ion-col>
      </ion-row>
 
      <ion-row>
-       Answer :  {{k.user_quest_ans}}
+       Answer :  {{quest.ki_kidder_quest_ans}}
      </ion-row>
-
+     <ion-row>
+      Marks :  {{quest.ki_kidder_quest_marks}}
+    </ion-row>
    </ion-card>
 </ion-content>
 <ion-footer >

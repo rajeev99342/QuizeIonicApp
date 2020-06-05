@@ -84,7 +84,8 @@ input[type=submit]:hover {
 }
 
 .disableContent{
-  opacity: .6;
+  opacity: .2;
+  pointer-events: none;
 }
 
 .list_text{
@@ -100,22 +101,59 @@ input[type=submit]:hover {
   width: 100%;
 }
 .spinner {
-  position: absolute;
-  left: 44%;
+  z-index: 1000;
+  position: fixed;
+  left: 50%;
   top: 50%;
-  height:60px;
-  width:60px;
-  margin:0px auto;
-  -webkit-animation: rotation .6s infinite linear;
-  -moz-animation: rotation .6s infinite linear;
-  -o-animation: rotation .6s infinite linear;
-  animation: rotation .6s infinite linear;
-  border-left:6px solid rgba(0,174,239,.15);
-  border-right:6px solid rgba(0,174,239,.15);
-  border-bottom:6px solid rgba(0,174,239,.15);
-  border-top:6px solid rgba(0,174,239,.8);
-  border-radius:100%;
+  // height: 60px;
+  // width: 60px;
+  margin: 0px auto;
+  -webkit-animation: rotation 0.6s infinite linear;
+  animation: rotation 0.6s infinite linear;
+  border-left: 6px solid #ffffff00;
+  border-right: 6px solid #ffffff00;
+  border-bottom: 6px solid #1b671de0;
+  border-top: 6px solid #1b671de0;
+  border-radius: 100%;
 }
+
+
+.myError{
+  box-shadow: 0px 0px 1px 0px red;
+}
+
+.editable_div {
+  padding-top: 0px;
+  /* padding-bottom: 20px; */
+  background: #ececec;
+  color: green;
+  /* font-size: 15px; */
+}
+// .placeholder
+// {
+//     position: relative;
+// }
+
+// .placeholder::after
+// {
+//     position: absolute;
+//     left: 5px;
+//     top: 3px;
+//     content: attr(data-placeholder);
+//     pointer-events: none;
+//     opacity: 0.6;
+// }
+
+.img-wrap {
+  position: relative;
+}
+.img-wrap .close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+}
+
 
 @-webkit-keyframes rotation {
   from {-webkit-transform: rotate(0deg);}
