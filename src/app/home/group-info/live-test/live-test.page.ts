@@ -32,12 +32,12 @@ export class LiveTestPage implements OnInit {
   
             this.testRoomModel = JSON.parse(params.roomInfo);
           
-            this.testRoomService.getQuestions(this.testRoomModel.quiz_id).subscribe((res:UserQuestionModel[])=>{
+            this.testRoomService.getQuestions(this.testRoomModel.quizId).subscribe((res:UserQuestionModel[])=>{
                  console.log('Hi this is questions',res);
                  this.questionList = res;
-                 let now = moment(this.testRoomModel.quiz_created_date);
+                 let now = moment(this.testRoomModel.quizCreatedDate);
 
-                 this.duration = this.testRoomModel.quiz_duration;
+                 this.duration = this.testRoomModel.quizDuration;
 
                  let now1 = moment();
 
@@ -49,10 +49,10 @@ export class LiveTestPage implements OnInit {
                  }else{
                     console.log('Test Ended');
                     this.isTestEnded = true;
-                    this.updateQuizInfo(this.testRoomModel.quiz_id);
+                    this.updateQuizInfo(this.testRoomModel.quizId);
                  }
 
-                 var d = new Date(this.testRoomModel.quiz_published_date);
+                 var d = new Date(this.testRoomModel.quizPublishedDate);
                  console.log("Test Publish Date",now)
                  console.log("Test Publish Time",now1);
                  

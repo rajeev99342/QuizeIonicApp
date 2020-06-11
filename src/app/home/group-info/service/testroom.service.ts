@@ -17,9 +17,9 @@ export class TestRoomService {
        
   }
 
-  getTestRoomByGroupId(groupId : number)
+  getTestRoomByGroupIdAndUsersByGroupId(groupId : number)
   {
-      return this.http.get(this.baseApiUrl+"/getTestRoomsByGroupId"+"/"+`${groupId}`);
+      return this.http.get(this.baseApiUrl+"/fetchTest"+"/"+`${groupId}`);
   }
 
   getQuestions(quizId : number)

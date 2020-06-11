@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { AddImageQuestionPage } from './add-image-question/add-image-question.page';
 import { UserQuestionModel } from './models/QuestModel';
 import { QuizService } from 'src/app/services/quiz.service';
@@ -7,7 +7,7 @@ import { PopoverController, NavParams } from '@ionic/angular';
 import { QuestSettingPage } from './quest-setting/quest-setting.page';
 import { QuizModel } from './models/QuizModel';
 import { QuizDetailModel } from './models/QuizDetailModel';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { userModel } from '../../user/userModel';
 import { Storage } from '@ionic/storage';
@@ -32,6 +32,11 @@ export class CreateQuizPage implements OnInit {
     zoom:false,
   }
 
+  durationError : boolean ;
+  testStartDateError : boolean ;
+  quizNameError : boolean ;
+  // myDate : Date;
+  testStartDate : any;
   questionList : KiKidderQuestModel[] = [];
   username : string ="dummyUser";
   grp_name : string = "dummyGrp";
@@ -53,8 +58,13 @@ export class CreateQuizPage implements OnInit {
   testRoom : QuizModel;
   isAdmin : boolean = false;
   isTestRoomCreator : boolean = false;
+  quizModel : QuizModel;
+  quizDuration : number;
+  quizName : string;
+  isEdit : boolean = false;
 
   constructor(
+    private toastController : ToastController,
     private router : Router,
     private testRoomService: TestRoomService,
     private storage :Storage,
@@ -63,7 +73,8 @@ export class CreateQuizPage implements OnInit {
     private popOverController : PopoverController,
     public modalController: ModalController) {
 
-      
+      // let currentDate = Date.now();
+      // this.myDate = new Date(currentDate);
     
   }
 
@@ -90,14 +101,20 @@ export class CreateQuizPage implements OnInit {
         if(createQuizModel.room)
         {
           this.testRoom = createQuizModel.room;
-          this.storage.get("kidder_user").then((admin:userModel)=>{
-            if(admin.user_username == this.testRoom.userModel.user_username)
-            {
+          this.quizName = this.testRoom.quizName;
+          this.quizDuration = this.testRoom.quizDuration;
+          this.testStartDate = this.testRoom.quizPublishedDate;
+          this.isEdit = true;
+          this.isTestroomCreator(this.testRoom.userModel).then((val)=>{
+              if(val === 'done')
+              {
                 this.isTestRoomCreator = true;
-            }
-        })
 
-          this.testRoomService.getQuestions(this.testRoom.quiz_id).subscribe((res:KiKidderQuestModel[])=>{
+              }
+          })
+          
+          
+          this.testRoomService.getQuestions(this.testRoom.quizId).subscribe((res:KiKidderQuestModel[])=>{
                console.log('Hi this is questions',res);
                this.questionList = res;
 
@@ -107,10 +124,9 @@ export class CreateQuizPage implements OnInit {
         }
        
       }
+
+  
     });
-
-
-
     this.storage.get('kidder_user').then((userData)=>{
       if(userData)
       {
@@ -119,6 +135,25 @@ export class CreateQuizPage implements OnInit {
       }
   })
     
+  }
+
+  isTestroomCreator(user: userModel)
+  {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.storage.get('kidder_user').then((userData)=>{
+          if(userData)
+          {     
+              if(userData.user_username == user.user_username)
+              {
+                this.userObject = userData;
+                  resolve('done')
+              }
+             
+          }
+      })
+      }, 1000);
+    })
   }
 
 
@@ -161,11 +196,15 @@ export class CreateQuizPage implements OnInit {
                 let  textQuestModel : TxtQuesInfoModel = new TxtQuesInfoModel(); 
                 let imgs : DgrmImageInfoModel[]=[];
                 
-                if(dataRetured.data.txtQuesInfoModel)
+                if(dataRetured.data.txtQuesInfoModel && dataRetured.data.txtQuesInfoModel.quesTxt)
                 {
                   textQuestModel.uniqueCode = dataRetured.data.txtQuesInfoModel.uniqueCode;
                   textQuestModel.quesTxt = dataRetured.data.txtQuesInfoModel.quesTxt;
                   textQuestModel.txt_ques_id = dataRetured.data.txtQuesInfoModel.txt_ques_id;
+                  quest.txtQuesInfoModel = textQuestModel;
+
+                }else{
+                  quest.txtQuesInfoModel = null;
 
                 }
 
@@ -185,7 +224,6 @@ export class CreateQuizPage implements OnInit {
                 quest.ki_kidder_quest_optionB = dataRetured.data.ki_kidder_quest_optionB
                 quest.ki_kidder_quest_optionC = dataRetured.data.ki_kidder_quest_optionC
                 quest.ki_kidder_quest_optionD = dataRetured.data.ki_kidder_quest_optionD
-                quest.txtQuesInfoModel = textQuestModel;
                 quest.ki_kidder_quest_marks = dataRetured.data.ki_kidder_quest_marks;
                 quest.dgrmImageInfoModels = dataRetured.data.dgrmImageInfoModels;
                 this.questionList.push(quest);
@@ -225,15 +263,23 @@ export class CreateQuizPage implements OnInit {
   getQuizModel()
   {
     let quiz_model : QuizModel = new QuizModel();
-    quiz_model.quiz_created_date = null;
-    quiz_model.quiz_duration = 5; // min
-    quiz_model.quiz_marks = 5;
-    quiz_model.quiz_name = this.quiz_name;
-    quiz_model.quiz_num_of_ques = this.questionList.length;
-    quiz_model.quiz_published_date = null; // server side
-    if(this.testRoom && this.testRoom.quiz_id)
+    quiz_model.quizCreatedDate = null;
+    quiz_model.quizMarks = 0;
+    quiz_model.quizNoOfQuest = this.questionList.length;
+    quiz_model.quizDuration = this.quizDuration;
+    quiz_model.quizPublishedDate = this.testStartDate;
+    if(this.isEdit)
     {
-      quiz_model.quiz_id = this.testRoom.quiz_id;
+        quiz_model.uniqueCode = this.testRoom.uniqueCode;
+    }
+    this.questionList.forEach(element => {
+      quiz_model.quizMarks = quiz_model.quizMarks + element.ki_kidder_quest_marks
+    });
+    quiz_model.quizCreatedDate = null; // server side
+    quiz_model.quizSub = "subject";
+    if(this.testRoom && this.testRoom.quizId)
+    {
+      quiz_model.quizId = this.testRoom.quizId;
 
     }
     quiz_model.userModel = this.userObject;
@@ -284,28 +330,78 @@ export class CreateQuizPage implements OnInit {
   {
     if(this.questionList.length == 0)
     {
-        console.log('slkdfjls')
+      this.presentToast("Atleast one question required for Testroom")
+
     }else{
 
 
       let quiz_model : QuizModel = this.getQuizModel();
       if(quiz_model != null)
       {
-        let quizDetails : QuizDetailModel = new QuizDetailModel();
-        quizDetails.questions = this.questionList;
-        quizDetails.quizModel  = quiz_model;
-          console.log('save quiz model',quiz_model)
-          this.quizService.saveQuizModel(quizDetails).subscribe((response:QuizModel)=>{
-              console.log(response);
-             if(response["status"] == "Success")
-             {
-                this.router.navigate(['/group-info',{grp:response.grpModel}]);
-             }
-              
-          })
+
+
+
+          if(this.isValidateForm())
+          {
+            quiz_model.quizName = this.quizName;
+            quiz_model.quizDuration;
+            quiz_model.kidderQuestModels = this.questionList;
+            this.quizService.saveQuizModel(quiz_model).subscribe((response:QuizModel)=>{
+                console.log(response);
+               if(response["status"] == "Success")
+               {
+                let navigationExtras: NavigationExtras = {
+                  queryParams: {
+                    group: JSON.stringify(response.grpModel)
+                  }
+                };
+                  this.router.navigate(['/group-info']);
+               }
+                
+            })
+          }else{
+            return;
+          }
+          
+        
       }
         
     }
+  }
+
+
+  isValidateForm()
+  {
+      let flag = true;
+      this.durationError = false;
+      this.quizNameError = false;
+      this.testStartDateError = false;
+
+       if(!this.quizDuration)
+      {
+          this.durationError = true;
+          flag = false;
+
+      }
+      if(!this.quizName)
+      {
+   
+        this.quizNameError = true;
+        flag = false;
+      }
+      if(!this.testStartDate)
+      {         
+         this.testStartDateError = true;
+         flag = false;
+
+      }
+      if(flag == false)
+      {
+        this.presentToast("All fields are mandatory")
+
+      }
+
+      return flag;
   }
 
   openPreview(img)
@@ -318,4 +414,13 @@ export class CreateQuizPage implements OnInit {
       }).then(modal=>modal.present());
   }
 
+  async presentToast(ev) {
+    const toast = await this.toastController.create({
+      message: ev,
+      duration: 2000,
+      position:'top',
+      color:'warning'
+    });
+    toast.present();
+  }
 }

@@ -135,13 +135,14 @@
     <ion-row style="padding-left: 6px;
     padding-right: 6px;">
       <!-- <input  > -->
+      <!-- <input [(ngModel)]="questMarks" (keyup)="validate($event)" type=number step=0.01 /> -->
       <ion-input [ngClass]="{'myError':isMarksError}" style="width: 100%;
       padding: 12px 20px;
       margin: 8px 0;
       display: inline-block;
       border: .5px solid #ccc;
       border-radius: 4px;
-      box-sizing: border-box;" type="number" (keyup)="validateNumberOnKeyUp()" (keypress)="numberOnlyValidation($event)" [(ngModel)]="questMarks" placeholder="Question Marks"></ion-input>
+      box-sizing: border-box;" type="text"  (keyup)="validate($event)"  [(ngModel)]="questMarks" placeholder="Question Marks"></ion-input>
 
     </ion-row>
 

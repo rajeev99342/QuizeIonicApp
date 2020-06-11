@@ -18,12 +18,12 @@ export class QuizService {
         // });
    }
 
-   saveQuizModel(userData : QuizDetailModel)
+   saveQuizModel(quizModel : QuizModel)
    {
 
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json'});  
 
-      return   this.http.post(this.baseApiUrl+"/saveQuiz",userData,{responseType: 'json', headers})
+      return   this.http.post(this.baseApiUrl+"/saveQuiz",quizModel,{responseType: 'json', headers})
    }
 }

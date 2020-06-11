@@ -52,6 +52,7 @@ export class AddImageQuestionPage implements OnInit {
   isImageTextCorrect: boolean = false;
   isImageProcessing: boolean = false;
   questMarks : number ;
+  RegExp = new RegExp(/^\d*\.?\d*$/);
   cameraOptions: CameraOptions = {
     quality: 50,
     targetWidth: 800,
@@ -74,6 +75,7 @@ export class AddImageQuestionPage implements OnInit {
   isOptionErrorD : boolean = false;
   isCorrectOptionError : boolean = false;
   
+  validNumeric : number ;
 
   userModel: userModel;
   constructor(
@@ -106,7 +108,7 @@ export class AddImageQuestionPage implements OnInit {
       this.cOption = this.questObject.ki_kidder_quest_optionC;
       this.dOption = this.questObject.ki_kidder_quest_optionD;
       this.optionModel.correctOption = this.questObject.ki_kidder_quest_ans;
-      this.questMarks = this.questObject.ki_kidder_quest_marks
+      this.questMarks = this.questObject.ki_kidder_quest_marks;
       this.optionModel.aOption = this.aOption;
       this.optionModel.bOption = this.bOption;
       this.optionModel.cOption = this.cOption;
@@ -280,39 +282,6 @@ export class AddImageQuestionPage implements OnInit {
     this.capturedSnapURL = null;
   }
 
-  async addOptions(ev) {
-
-    if (this.aOption && this.bOption && this.cOption && this.dOption) {
-      console.log('can not add more than 4 optiono');
-    } else {
-      this.openPopOver = await this.popoverController.create({
-        component: AddOptionsPage,
-        event: ev,
-        animated: true,
-        showBackdrop: true,
-      });
-      this.openPopOver.onDidDismiss().then(dataReturned => {
-        if (dataReturned.data != null) {
-          console.log('options added', dataReturned.data)
-          this.optionModel = new OptionModel();
-          this.optionModel = dataReturned.data;
-          this.aOption = this.optionModel.aOption;
-          this.bOption = this.optionModel.bOption;
-          this.cOption = this.optionModel.cOption;
-          this.dOption = this.optionModel.dOption;
-          this.correctOption = this.optionModel.correctOption;
-          // this.isEdit =true;
-          this.isOptionsAdded = true;
-
-        } else {
-          console.log('option added canceled');
-        }
-      });
-      return await this.openPopOver.present();
-    }
-
-  }
-
 
   valideForm ()
   {
@@ -397,6 +366,10 @@ export class AddImageQuestionPage implements OnInit {
       txtQuestModel.txt_ques_id = null;
       txtQuestModel.uniqueCode = null;
       imgInfoTbl = null;
+      if(this.isEdit)
+      {
+          txtQuestModel.uniqueCode = this.questObject.txtQuesInfoModel.uniqueCode;
+      }
     }
 
   
@@ -420,12 +393,15 @@ export class AddImageQuestionPage implements OnInit {
     kidderQuestModel.ki_kidder_quest_name = "kuch nhi";
     kidderQuestModel.ki_kidder_quest_sub = null;
     kidderQuestModel.ki_kidder_quest_topic = null;
-    kidderQuestModel.ki_kidder_quest_marks = this.questMarks;
+    kidderQuestModel.ki_kidder_quest_marks = +this.questMarks;
     if(this.isEdit)
     {
         kidderQuestModel.isEdit = this.isEdit;
+        kidderQuestModel.uniqueCode= this.questObject.uniqueCode;
+    }else{
+      kidderQuestModel.uniqueCode = null;
+
     }
-    kidderQuestModel.uniqueCode = null;
     if(this.dgrmList.length != 0 )
     {
       kidderQuestModel.dgrmImageInfoModels = this.dgrmList;
@@ -478,8 +454,6 @@ export class AddImageQuestionPage implements OnInit {
   }
 
   recognizeImage() {
-
-
 
     this.startImageProcessing().then((val) => {
       if (val == 'done') {
@@ -578,29 +552,47 @@ export class AddImageQuestionPage implements OnInit {
     const pattern = /[0-9.,]/;
     let inputChar = String.fromCharCode(event.charCode);
     // inputChar = this.financial(inputChar);
-    if(this.questMarks > 100)
-    {
-        this.questMarks = 100;
-    }
+ 
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input
       event.preventDefault();
     }
   }
-   financial(x) {
-    return Number.parseFloat(x).toFixed(2);
-  }
+  roundToXDigits(value: number, digits: number) {
+    value = value * Math.pow(10, digits);
+    value = Math.round(value);
+    value = value / Math.pow(10, digits);
+    return value;
+}
 
-  validateNumberOnKeyUp()
+  validate(event)
   {
-      if(this.questMarks > 100)
-      {
-          this.questMarks = 100;
-      }else{
-        let num = this.financial(this.questMarks);
-        console.log(this.financial(this.questMarks));
-        this.questMarks = +num;
-      }
+    let r = new RegExp("f")
+    this.questMarks = null;
+    if(this.RegExp.test(event.target.value))
+    {
+      this.questMarks = event.target.value;
+      this.validNumeric = event.target.value;
+      
+      console.log('###',this.questMarks)
+    }else{
+      this.questMarks = this.validNumeric;
+      event.target.value = this.validNumeric;
+      console.log('###',this.questMarks)
+
+    }
+
+    // if(event.target.value > 100)
+    // {
+    //     this.questMarks = 100;
+    //     event.target.value = 100;
+    // }
+    // if(event.target.value <= 0)
+    // {
+    //     event.target.value = 1;
+    //     this.questMarks = event.target.value;
+    // }
+    console.log('###',event.target.value)
   }
 
 }

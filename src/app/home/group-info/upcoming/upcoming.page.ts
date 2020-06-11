@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GroupInfoPage } from '../group-info.page';
+import { TestRoomService } from '../service/testroom.service';
 
 @Component({
   selector: 'app-upcoming',
@@ -11,7 +12,7 @@ export class UpcomingPage implements OnInit {
 
 
   cities2 : any = [];
-  constructor() { }
+  constructor(    private testRoomService:TestRoomService ) { }
 
   ngOnInit() {
 

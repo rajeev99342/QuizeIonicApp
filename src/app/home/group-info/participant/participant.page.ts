@@ -3,6 +3,7 @@ import { GroupModel } from 'src/app/models/GroupModel';
 import { QuizModel } from '../create-quiz/models/QuizModel';
 import { AddParticipantPage } from '../add-participant/add-participant.page';
 import { ModalController } from '@ionic/angular';
+import { TestRoomService } from '../service/testroom.service';
 
 @Component({
   selector: 'app-participant',
@@ -21,7 +22,9 @@ export class ParticipantPage implements OnInit {
   popoverParticipantRqstList : any;
   testRoomList : QuizModel[] = [];
   cities2 : any = [];
-  constructor( private modalController : ModalController) { }
+  constructor(
+    private testRoomService:TestRoomService ,
+     private modalController : ModalController) { }
 
   ngOnInit() {
     this.cities2 = [

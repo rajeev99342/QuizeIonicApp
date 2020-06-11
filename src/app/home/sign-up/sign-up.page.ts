@@ -132,7 +132,7 @@ export class SignUpPage implements OnInit {
               user_name:result.body["user_name"],
               user_password : result.body["user_password"],
               user_id : result.body["user_id"],
-              user_unique_code:result.body["user_unique_code"],
+              uniqueCode :result.body["uniqueCode"],
             });
             console.log('Fomr submitted');
             this.username = result.body["user_username"];

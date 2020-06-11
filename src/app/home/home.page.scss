@@ -1,5 +1,10 @@
 
 
+@import url('https://fonts.googleapis.com/css?family=Roboto|Sriracha&display=swap');
+$background: #fffffb;
+$accent: #ff6b6c;
+$otherAccent: #ffc145;
+$darkBackground: #5b5f97;
  .header{
 
 }
@@ -38,21 +43,172 @@ Blink {
     
 }
 
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  width: 100%;
-}
+.card_design{
+  border: 1px solid #cccbcb;
+      border-radius: 5px;
+      box-shadow: 2px 2px 2px #e4e2e2;
+    margin-top: 6px;
+  }
+  .public_button {
+    width: 85%;
+    height: 31px;
+    font-size: 1rem;
+    margin: 30px 10% 0 10%;
+    color: $background;
+    border: none;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    border-radius: 5px;
+    background: linear-gradient(45deg, $accent, $otherAccent, $otherAccent, $accent);
+    background-size: 300% 300%;
+    outline: none;
+    transition: all 200ms ease-in-out;
+    &:hover{
+      box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+      transform: translateY(2px);
+      -webkit-animation: gradientBG 1.5s ease-in-out forwards;
+      animation: gradientBG 1.5s ease-in-out forwards;
+      cursor: pointer;
+    }
+    &:active {
+      box-shadow: 3px 3px 3px rgba(0,0,0,0.5);
+      transform: translateY(4px);
+    }
+  }
+  .card_design h3{
+    color: orange;
+      text-align: center;
+    margin-bottom:0;
+    font-size: 18px;
+  }
+  .card_design p{
+    
+      text-align: center;
+  }
+  .card_design img{
+         width: 130px;
+      height: 130px;
+      display: block;
+      margin: 1.5rem auto;
+      border-radius: 5rem;
+      border: 2px solid #cecece;
+      padding: 5px;
+   }
+   .social_media {
+     display:flex;
+     justify-content:space-evenly;
+     margin-top:2rem;
+     
+   }
+   
+    .social_media i{
+    color:red;
+    cursor:pointer;
+        font-size: 1.2rem;
+    }
+    
+    .dot{
+      position: absolute;
+      right: 15%;
+      bottom: 9%;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #dedcdc;
+      background: green;
+      border-radius: 10px;
+    }
+    
+    .relative_pos{
+      position:relative;
+    }
+    
+    .border-right_line{
+      border-right: 1px solid #dad8d8;
+    }
+    
 
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
 
-.container {
-  padding: 2px 16px;
-}
 
-.group_info{
-  font-size: 12px;
-        color: #8c8c8c;
+
+    .glow-on-hover {
+      width: 100%;
+      height: 50px;
+      /* border: none; */
+      /* outline: steelblue; */
+      color: #000000;
+      background: #ffffff;
+      cursor: pointer;
+     
+      border: 1 rebeccapurple;
+      border-radius: 9px;
+      border: 1px solid #bdcada;
+  }
+  
+  .glow-on-hover:before {
+      content: '';
+      background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+      position: absolute;
+      top: -2px;
+      left:-2px;
+      background-size: 400%;
+      z-index: -1;
+      filter: blur(5px);
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      animation: glowing 20s linear infinite;
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+      border-radius: 10px;
+  }
+  
+  .glow-on-hover:active {
+      color: #000
+  }
+  
+  .glow-on-hover:active:after {
+      background: transparent;
+  }
+  
+  .glow-on-hover:hover:before {
+      opacity: 1;
+  }
+  
+  .glow-on-hover:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      left: 0;
+      top: 0;
+      border-radius: 10px;
+  }
+  
+  @keyframes glowing {
+      0% { background-position: 0 0; }
+      50% { background-position: 400% 0; }
+      100% { background-position: 0 0; }
+  }
+    
+@-webkit-keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+  // 100% {
+  //   background-position: 0% 50%;
+  // }
+}
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+  // 100% {
+  //   background-position: 0% 50%;
+  // }
 }

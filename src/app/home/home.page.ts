@@ -67,6 +67,7 @@ dummyUser : string;
           {
               this.authenticated = false;
               this.groupList = [];
+              this.userObject = null;
           }
       })
      }

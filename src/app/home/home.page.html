@@ -30,21 +30,18 @@
 
 
 
-<ion-content padding  [fullscreen]="true">
+<ion-content padding >
 
 
 
 
   <!-- <button ion-button full (click)="selectSource()">Select Image</button> -->
- 
+
   <!-- <img [src]="selectedImage" *ngIf="selectedImage"> -->
 
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-dropdown"
-      pullingText="Pull to refresh"
-      refreshingSpinner="circles"
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
@@ -52,9 +49,40 @@
 
 
 
+    <ion-item *ngFor="let group of groupList" class="col-12 card_design mt-12">
+      <div class="row">
+        <div class="col-6 border-right_line">
+          <div class="relative_pos">
+            <img  src="assets/imgs/people.png" >
+            <div class="dot"> </div>
+          </div>
+          <h3 class="mt-5">{{group.grp_name}}</h3>
+          <p><strong>{{group.grp_admin}}</strong></p>
 
+        </div>
+
+
+        <div class="col-6">
+
+          <p class="my-5">Better visuals Better visuals</p>
+
+          <div class="social_media mb-1 mt-5">
+            <i class="fa fa-facebook"></i>
+            <i class="fa fa-github"></i>
+            <i class="fa fa-twitter"></i>
+            <i class="fa fa-youtube"></i>
+          </div>
+          <!-- <a>
+            <button ion-button type="submit" (click)="onClickGroup(group)" class="glow-on-hover" >Click</button>    
+          </a> -->
+            <button class="public_button" clickable   (click)="onClickGroup(group)" >View</button>
+
+
+      </div>
+    </div>
+  </ion-item>
   
-  <ion-item  *ngFor="let group of groupList">
+  <!-- <ion-item *ngFor="let group of groupList">
     <ion-avatar slot="start">
       <img src="assets/imgs/peopel.png">
     </ion-avatar>
@@ -66,39 +94,12 @@
 
     </ion-label>
     <a clickable class="view_text_class" (click)="onClickGroup(group)" slot="end">View</a>
-  </ion-item> 
-  
+  </ion-item> -->
 
- <!-- Multi-line sliding item with icon options on both sides -->
- <!-- <ion-item-sliding id="item100">
-  <ion-item href="#">
-    <ion-label>
-      <h2>HubStruck Notifications</h2>
-      <p>A new message in your network</p>
-      <p>Oceanic Next has joined your network</p>
-    </ion-label>
-    <ion-note slot="end">
-      10:45 AM
-    </ion-note>
-  </ion-item>
 
-  <ion-item-options side="start">
-    <ion-item-option>
-      <ion-icon slot="icon-only" name="heart"></ion-icon>
-    </ion-item-option>
-  </ion-item-options>
 
-  <ion-item-options side="end">
-    <ion-item-option color="danger">
-      <ion-icon slot="icon-only" name="trash"></ion-icon>
-    </ion-item-option>
-    <ion-item-option>
-      <ion-icon slot="icon-only" name="star"></ion-icon>
-    </ion-item-option>
-  </ion-item-options>
-</ion-item-sliding> -->
 
-<ion-router-outlet></ion-router-outlet>
+  <ion-router-outlet></ion-router-outlet>
 
 </ion-content>
 

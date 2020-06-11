@@ -17,6 +17,7 @@ import { CompletedPage } from './completed/completed.page';
 
 import {DraftPage} from './draft/draft.page'
 import { SetSelectedGroup } from './staticData/GroupInfo';
+import { GroupDetailsModel } from './groupDetailModel';
 
 @Component({
   selector: 'app-group-info',
@@ -44,6 +45,8 @@ export class GroupInfoPage implements OnInit {
   upcomingPage = UpcomingPage;
   draftPage = DraftPage;
 
+
+  groupDetailsModel : GroupDetailsModel = new GroupDetailsModel();
 
   constructor(
     private route: ActivatedRoute,
@@ -92,14 +95,16 @@ export class GroupInfoPage implements OnInit {
             this.isAdmin = false;
         }
     })
-    this.testRoomService.getTestRoomByGroupId(this.selectedGroup.grp_id).subscribe((res:QuizModel[])=>{
+
+    this.testRoomService.getTestRoomByGroupIdAndUsersByGroupId(this.selectedGroup.grp_id).subscribe((res:GroupDetailsModel)=>{
       console.log("test room ",res);
-      this.testRoomList = res
+     this.groupDetailsModel = res;
+     this.testRoomList = this.groupDetailsModel.quizList;
 
       this.testRoomList.forEach(element => {
-          element.quiz_created_date_string = moment(element.quiz_created_date).format('MMMM Do YYYY');
-          if(element.quiz_published_date){
-            element.quiz_publish_date_string = moment(element.quiz_published_date).format('MMMM Do YYYY HH:MM:ss a');
+          element.quiz_created_date_string = moment(element.quizCreatedDate).format('MMMM Do YYYY');
+          if(element.quizPublishedDate){
+            element.quiz_publish_date_string = moment(element.quizPublishedDate).format('MMMM Do YYYY HH:MM:ss a');
 
           }else{ 
           
@@ -107,20 +112,20 @@ export class GroupInfoPage implements OnInit {
 
           }
 
-          if(element.quiz_status == 0)
-          {
-            element.quiz_status_string = "Not stared"
-          }else if(element.quiz_status == 1)
-          {
-            element.quiz_status_string = "Live"
+          // if(element.quiz_status == 0)
+          // {
+          //   element.quiz_status_s = "Not stared"
+          // }else if(element.quiz_status == 1)
+          // {
+          //   element.quiz_status_string = "Live"
 
-          }else{
-            element.quiz_status_string = "Ended"
+          // }else{
+          //   element.quiz_status_string = "Ended"
 
-          }
+          // }
       });
 
-      this.testRoomList.sort((a, b) => a.quiz_created_date > b.quiz_created_date ? -1 : a.quiz_created_date < b.quiz_created_date ? 1 : 0)
+      this.testRoomList.sort((a, b) => a.quizCreatedDate > b.quizCreatedDate ? -1 : a.quizCreatedDate < b.quizCreatedDate ? 1 : 0)
 
     
     })
@@ -287,7 +292,7 @@ export class GroupInfoPage implements OnInit {
         this.router.navigate(['/create-quiz'],navigationExtras);
       }else{
 
-        if(room.quiz_status == 1)
+        if(room.quizStatus == 1)
         {
           let navigationExtras: NavigationExtras = {
             queryParams: {

@@ -1,19 +1,53 @@
+<!-- <ion-searchbar no-border placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar> -->
 
-    <!-- <ion-searchbar no-border placeholder="Search groups" (ionInput)="filterGroup($event)"  showCancelButton="never"></ion-searchbar> -->
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div style="padding: 6px;" class="row">
+    <div *ngFor="let draft of draftTest" id="login-container">
+      <!-- <div class="profile-img"></div> -->
+      <h1>
+        {{draft.quizName}}
+      </h1>
+      <div class="description">
+        Created date :  {{draft.created_string_date}}
+      </div>
+      <div class="description">
+        To be publish :  {{draft.publish_string_date}}
+      </div>
+      <div class="social">
+       <a> T : {{draft.quizDuration}} Min</a>
+        <a>M : {{draft.quizMarks}}</a>
+        <a>Q : {{draft.quizNoOfQuest}}</a>
+      </div>
+      <button class="public_button">Public</button>
+      <div>
+        <button (click)="onClickEdit(draft)" class="edit_button">Edit</button>
+        
+      </div>
+      <!-- <footer>
+        <div class="likes">
+          <p><i class='fa fa-heart'></i></p>
+          <p>1.5K</p>
+        </div>
+        <div class="projects">
+          <p>Projects</p>
+          <p>154</p>
+        </div>
+      </footer> -->
+    </div>
+  </div>
 
 
-    <ion-content>
-      <!-- <ion-list *ngFor="let k of cities2">
-      <ion-item>
-        <ion-label>{{k.name}}</ion-label>
-    
-      </ion-item>
-      </ion-list> -->
-    
-    
-      <ion-grid>
+  <!-- <ion-grid>
       <ion-row >
-        <ion-col size="6" *ngFor="let k of cities2" >
+        <ion-col size="6" *ngFor="let draft of draftTest" >
         <div class="card">
           <div class="additional">
           <div class="user-card">
@@ -21,7 +55,7 @@
             Mathematics, Linear Equation
             </div>
             <div class="date center">
-            3:00 AM ;<br> 20 march 2020
+                {{draft.created_string_date}}
             </div>
             <div class="points center">
             Marks : 30 <br> Question : 40 <br>Type : MCQ <br>Duration : 30 Min
@@ -37,14 +71,14 @@
         </ion-col>
       </ion-row>
       </ion-grid>
-    
-       <!-- fab placed to the bottom end -->
+     -->
+
+  <!-- fab placed to the bottom end -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="onClickCreateQuiz()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-    
-    </ion-content>
-    
+
+</ion-content>
