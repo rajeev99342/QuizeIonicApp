@@ -15,6 +15,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { HttpClientModule } from '@angular/common/http';
 import { AppService } from './services/app.service';
 import { SignUpPage } from './home/sign-up/sign-up.page';
+import { NotificationService } from './notification.service';
 
 @NgModule({
 
@@ -40,6 +41,7 @@ import { SignUpPage } from './home/sign-up/sign-up.page';
     StatusBar,
     Camera,
     IonicStorageModule,
+    NotificationService,
     SplashScreen,
     FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

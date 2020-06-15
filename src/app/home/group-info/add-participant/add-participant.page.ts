@@ -4,6 +4,7 @@ import { userModel } from '../../user/userModel';
 import { PopoverController, NavParams, ModalController } from '@ionic/angular';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { GroupParticipantModel } from './groupPartiModet';
+import { NotificationService } from 'src/app/notification.service';
 
 @Component({
   selector: 'app-add-participant',
@@ -25,7 +26,7 @@ export class AddParticipantPage implements OnInit {
   constructor(
     private modalController : ModalController,
     private navParams: NavParams,
-
+    private notification : NotificationService,
     private userService : UserService) { 
     this.selectedGroup = navParams.data['groupInfo'].group;
       this.participants = navParams.data['groupInfo'].participant
@@ -106,6 +107,10 @@ export class AddParticipantPage implements OnInit {
         if(res)
         {
             // call notification service
+            this.notification.addParticipantNotification(this.user.user_token).subscribe((res)=>{
+                console.log('Sent notification successfully')
+            })
+
         }
     })
 
@@ -129,5 +134,13 @@ export class AddParticipantPage implements OnInit {
         this.isFound == false;
     }
   }
+
+  
+  
+close()
+{
+    this.modalController.dismiss();
+}  
+
 
 }

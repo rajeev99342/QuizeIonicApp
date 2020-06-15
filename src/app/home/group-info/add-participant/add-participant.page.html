@@ -25,7 +25,7 @@
   </div>
 
   <div *ngIf="isFound" style="padding:5px;float:right">
-    <button class="float-right" (click)="add()" type="button" class="btn btn-dark">Add</button>
+    <button class="float-right" ccccc type="button" class="btn btn-dark">Add</button>
   </div> -->
   <ion-row>
     <ion-icon class="close_icon" (click)="close()" name="close-outline"></ion-icon>
@@ -55,11 +55,20 @@
 
 
         <div *ngIf="isFound" style="padding:5px">
-          <p>Name : {{user_name}}</p>
-          <p>Username : {{user_username}}</p>
-        </div>
-
-
+          <a *ngIf="isFound" style="padding-right: 3rem;"  class="item item-icon-left">
+            <ion-avatar slot="start">
+              <img  src="assets/imgs/people.png">
+            </ion-avatar>
+        
+          
+        
+          </a>
+  
+          <h1 *ngIf="isFound" class="participant_name">  {{user_name}}</h1>
+  
+  
+        </div> 
+    
         <div style="margin-top: 1rem;" *ngIf="error_message">
           <p class="error_message">{{error_message}}</p>
         </div>
@@ -71,7 +80,7 @@
         </div>
 
         <div style="margin-top: 1rem;">
-          <button type="submit" *ngIf="isFound" (click)="login()"
+          <button type="submit" *ngIf="isFound" (click)="add()"
             [disabled]="login_user_username == null || login_user_password == null" expand="block"
             class="login_btn">Add</button>
 
