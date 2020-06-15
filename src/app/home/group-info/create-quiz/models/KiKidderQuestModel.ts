@@ -20,6 +20,8 @@ export class KiKidderQuestModel{
 	
 	 ki_kidder_quest_level : number;
 
+	 deleteFl : boolean;
+
 	 questType : number;
 	
 	 ki_kidder_quest_ans : string;
@@ -34,4 +36,6 @@ export class KiKidderQuestModel{
 	 txtQuesInfoModel : TxtQuesInfoModel;
 
 	 dgrmImageInfoModels : Array<DgrmImageInfoModel>;
+
+
 }

@@ -16,6 +16,7 @@ export class QuizModel
 	quizMarks  : number;
 	quizNoOfQuest : number;
 	quizSub : string;
+	quizDesc : string;
 	quizStatus : number;
 	quizPublishedDate : Date;
 	userModel : userModel;
@@ -24,6 +25,7 @@ export class QuizModel
 	status : string;
 	grpModel: GroupModel;
 	uniqueCode : string;
+	deleteFl : boolean = false;
 
 	kidderQuestModels : Array<KiKidderQuestModel>
 

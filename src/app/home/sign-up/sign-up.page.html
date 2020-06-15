@@ -1,33 +1,17 @@
 
-<ion-card style="margin-top: 0px;margin-left: -10px;box-shadow: 1px 2px 1px 1px white;">
-  <!-- <ion-item>
-
-  </ion-item> -->
-
-  <ion-buttons>
-    <ion-tab-button>
-      <!-- <ion-icon (click)="closeDialog()" style="color: red;"  name="close-outline"></ion-icon> -->
-
-    </ion-tab-button>
-  </ion-buttons>
-
-</ion-card>
-<ion-row style="margin-bottom: 5px;margin-top: -7px;">
-  <ion-col class="signUpSignIn" size="6">
-    
-    <button type="submit" id="signuptab" [ngStyle]="{'background-color':selectedTab ==='signuptab'?'red':'black'}" (click)="SelectTab('signuptab')" class="registerbtn">Sign Up</button>
-  
-  </ion-col>
-  <ion-col  size="6">
-    
-    <button type="submit" [ngStyle]="{'background-color':selectedTab ==='signintab'?'red':'black'}" (click)="SelectTab('signintab')" class="signintab" id="signintab">Sign In</button>
-  
-  </ion-col>
-</ion-row>
 
 <ion-content >
-  <form *ngIf="selectedTab ==='signuptab'"  [formGroup]="myform" >
+  <!-- <ion-tab-button style="float: right;" (click)="close()">
+    <ion-icon style="color: red;" name="close-outline"></ion-icon>
+  </ion-tab-button> -->
     
+  <ion-row >
+    <ion-icon class="close_icon" (click)="close()" name="close-outline"></ion-icon>
+
+  </ion-row>
+  <form *ngIf="modal_type == 'SIGN_UP'" [formGroup]="myform" >
+
+
       <ion-row justify-content-center>
         <ion-col align-self-center size="12">
           <div text-center>
@@ -39,19 +23,7 @@
             <ion-item>
               <ion-input formControlName="user_username"  type="text" placeholder="warAlgo" ></ion-input>
             </ion-item>
-            <!-- <ion-row>
-              <ion-label>Exam</ion-label>
-        
-              <ion-item>
-                <ion-select [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedExamList" placeholder="Exam" multiple="true" cancelText="cancel" okText="ok">
-                  <ion-select-option *ngFor="let exam of examList; let i = index" [value]="{name: exam.name, code: exam.code}" selected="false">
-                    {{exam.name}}
-        
-                  </ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-row>  -->
-
+          
             <ion-list style="border-radius: 2px;
              padding-bottom: 0px;">
         
@@ -62,9 +34,7 @@
                  <ion-select-option *ngFor="let exam of examList; let i = index"  [value]="{name: exam.name, code: exam.code}" selected="false">
                    {{exam.name}}
                   </ion-select-option>
-                 <!-- <ion-select-option value="B">B</ion-select-option>
-                 <ion-select-option value="C">C</ion-select-option>
-                 <ion-select-option value="D">D</ion-select-option> -->
+           
                </ion-select>
              </ion-item>
            
@@ -87,16 +57,14 @@
               <p>{{error_message}}</p>
           </div>
           <div padding>
-            <button type="submit" (click)="register()" [disabled]="myform.invalid" expand="block" class="registerbtn">Register</button>
-
-            <!-- <ion-button  size="large" (click)="register()" [disabled]="myform.invalid" expand="block">Register</ion-button> -->
+            <button type="submit" (click)="register()" [disabled]="myform.invalid" expand="block" class="registerbtn">Sign Up</button>
           </div>
         </ion-col>
       </ion-row>
   
   </form>
 
-  <div *ngIf="selectedTab ==='signintab'">
+  <div *ngIf="modal_type == 'SIGN_IN'">
     <ion-row justify-content-center>
       <ion-col>
         <div text-center>
@@ -113,15 +81,14 @@
        
         </div>
   
-          <div *ngIf="password_error_flag">
-            <p>{{error_message}}</p>
+          <div  style="margin-top: 1rem;" *ngIf="error_message">
+            <p class="error_message">{{error_message}}</p>
           </div>
 
-    
-        <div padding>
-          <button type="submit" (click)="login()" [disabled]="login_user_username == null || login_user_password == null" expand="block" class="registerbtn">Login</button>
+      
+        <div style="margin-top: 1rem;">
+          <button type="submit" (click)="login()" [disabled]="login_user_username == null || login_user_password == null" expand="block" class="login_btn">Login</button>
   
-          <!-- <ion-button  size="large" (click)="register()" [disabled]="myform.invalid" expand="block">Register</ion-button> -->
         </div>
       </ion-col>
     </ion-row>

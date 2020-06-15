@@ -166,7 +166,12 @@
 }
 
 
-
+.center {
+  position: absolute;
+  white-space: pre;
+  font-size: 14px;
+  color: #ea1010;
+}​v
 
 .sc-ion-searchbar-md-h {
     --background: #fff;
@@ -242,30 +247,40 @@ body {
       }
     }
   }
+
+  .social_span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    a {
+      text-align: center;
+      width: 75px;
+      padding: 5px 0;
+      color: blue;
+      white-space: pre;
+    font-size: 11px;
+      &:hover {
+        background: $accent;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
   .public_button {
-    width: 80%;
-    height: 53px;
-    font-size: 2rem;
+    width: 79%;
+    height: 25px;
+    font-size: 1rem;
     margin: 30px 10% 0 10%;
-    color: $background;
+    color: #fffffb;
     border: none;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    background: linear-gradient(45deg, $accent, $otherAccent, $otherAccent, $accent);
+    background: linear-gradient(45deg, #ff6b6c, #ffc145, #ffc145, #ff6b6c);
     background-size: 300% 300%;
     outline: none;
     transition: all 200ms ease-in-out;
-    &:hover{
-      box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
-      transform: translateY(2px);
-      -webkit-animation: gradientBG 1.5s ease-in-out forwards;
-      animation: gradientBG 1.5s ease-in-out forwards;
-      cursor: pointer;
-    }
-    &:active {
-      box-shadow: 3px 3px 3px rgba(0,0,0,0.5);
-      transform: translateY(4px);
-    }
   }
 
   .edit_button{

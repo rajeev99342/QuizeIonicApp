@@ -8,31 +8,33 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageModule } from './home/home.module';
 import { IonicStorageModule } from '@ionic/storage';
-import {FCM} from '@ionic-native/fcm/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 import { Camera } from '@ionic-native/camera/ngx';
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppService } from './services/app.service';
+import { SignUpPage } from './home/sign-up/sign-up.page';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    
-  ],
-  entryComponents: [],
+
   imports: [
     BrowserModule,
-    
+
     IonicModule.forRoot(),
     AppRoutingModule,
     HomePageModule,
     RouterModule,
-    
+
     HttpClientModule,
     IonicStorageModule.forRoot()
-    
+
   ],
+  declarations: [
+    AppComponent,
+    SignUpPage,
+  ],
+  entryComponents: [SignUpPage],
   providers: [
     AppService,
     StatusBar,
@@ -44,4 +46,4 @@ import { AppService } from './services/app.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

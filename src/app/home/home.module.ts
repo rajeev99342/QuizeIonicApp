@@ -14,6 +14,11 @@ import {GroupInfoPageModule} from "./group-info/group-info.module"
 import { YourOrganizationComponent } from './your-organization/your-organization.component';
 import {YourGroupsComponent} from './your-groups/your-groups.component';
 import { ImageModalPageModule } from './image-modal/image-modal.module';
+import { SuperTabsModule } from '@ionic-super-tabs/angular';
+import {SharedTabService} from './sharedTabService'
+import { MyGroupsPageModule } from './my-groups/my-groups.module';
+import { JoinedGroupsPageModule } from './joined-groups/joined-groups.module';
+
 
 @NgModule({
   imports: [
@@ -23,17 +28,19 @@ import { ImageModalPageModule } from './image-modal/image-modal.module';
     HomePageRoutingModule,
     ReactiveFormsModule,
     GroupInfoPageModule,
-  
+    SuperTabsModule.forRoot(),
+    MyGroupsPageModule,
+    JoinedGroupsPageModule,
     ImageModalPageModule,
   ],
-  entryComponents:[SubjectConfirmPage,SignUpPage,CreateGroupPage],
+  entryComponents:[SubjectConfirmPage,CreateGroupPage],
   declarations: [HomePage,
     SubjectConfirmPage,
-    SignUpPage,
     YourGroupsComponent,
     YourOrganizationComponent,
     CreateGroupPage,
     ],
+    providers:[SharedTabService],
   exports:[ReactiveFormsModule,FormsModule,GroupInfoPageModule]
 })
 export class HomePageModule {}

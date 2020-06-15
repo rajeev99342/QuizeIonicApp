@@ -6,21 +6,11 @@
     <ion-title>Groups</ion-title>
     <ion-buttons class="request" slot="primary">
       <ion-tab-button>
-        <!-- <ion-icon style="margin-left: 3px;
-        font-size: 25px;" name="easel-outline"></ion-icon> -->
+
         <div><i class="fa fa-circle text-danger Blink"></i>&nbsp; LIVE </div>
 
-        <!-- <p>Request</p> -->
       </ion-tab-button>
     </ion-buttons>
-    <!-- <ion-list >
-      <ion-item>
-        <ion-select placeholder="Standard" multiple="false" [(ngModel)]="selectedValue" (ionChange)="onChangeClass($event)" cancelText="Nah" okText="Okay!">
-          <ion-select-option *ngFor="let item of cities2" [value]="item.name">{{item.name}}</ion-select-option>
-          
-        </ion-select>
-      </ion-item>
-    </ion-list>  -->
 
 
 
@@ -30,58 +20,77 @@
 
 
 
-<ion-content padding >
+<ion-content padding>
 
 
-
-
-  <!-- <button ion-button full (click)="selectSource()">Select Image</button> -->
-
-  <!-- <img [src]="selectedImage" *ngIf="selectedImage"> -->
-
-
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *ngIf="authenticated" slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
       refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
 
 
+  <super-tabs>
+    <super-tabs-toolbar slot="top">
 
-
-    <ion-item *ngFor="let group of groupList" class="col-12 card_design mt-12">
-      <div class="row">
-        <div class="col-6 border-right_line">
-          <div class="relative_pos">
-            <img  src="assets/imgs/people.png" >
-            <div class="dot"> </div>
-          </div>
-          <h3 class="mt-5">{{group.grp_name}}</h3>
-          <p><strong>{{group.grp_admin}}</strong></p>
-
-        </div>
-
-
-        <div class="col-6">
-
-          <p class="my-5">Better visuals Better visuals</p>
-
-          <div class="social_media mb-1 mt-5">
-            <i class="fa fa-facebook"></i>
-            <i class="fa fa-github"></i>
-            <i class="fa fa-twitter"></i>
-            <i class="fa fa-youtube"></i>
-          </div>
-          <!-- <a>
-            <button ion-button type="submit" (click)="onClickGroup(group)" class="glow-on-hover" >Click</button>    
-          </a> -->
-            <button class="public_button" clickable   (click)="onClickGroup(group)" >View</button>
-
-
-      </div>
-    </div>
-  </ion-item>
+      <super-tab-button >
+        <p color="primary" class="tab_p">Groups</p >
   
+      </super-tab-button>
+      <super-tab-button >
+        <p class="tab_p">My Groups</p>
+  
+      </super-tab-button>
+    </super-tabs-toolbar>
+  
+  <super-tabs-container>
+    <super-tab>
+      <ion-content>
+        <ion-nav [root]="joinedGroupPage" (change)="changeUpcomingFunction()" [rootParams]="{'user': userObject}"></ion-nav>
+      </ion-content>
+    </super-tab>
+    <super-tab>
+      <ion-content>
+        <ion-nav [root]="myGroupsPage"  (change)="changeCompleteFunction()" [rootParams]="{'user': userObject}"></ion-nav>
+      </ion-content>
+    </super-tab>
+ 
+  </super-tabs-container>
+  </super-tabs>
+  
+
+<!-- 
+  <ion-item *ngFor="let group of groupList">
+
+
+    <ion-row>
+      <ion-col size="6" class="border-right_line">
+        <div class="relative_pos">
+          <img src="assets/imgs/people.png">
+          <div class="dot"> </div>
+        </div>
+        <h3 class="mt-5">{{group.grp_name}}</h3>
+        <p><strong>{{group.grp_admin}}</strong></p>
+
+
+      </ion-col>
+      <ion-col size="6">
+        <p class="my-5">{{group.grp_desc}}</p>
+
+        <div class="social_media mb-1 mt-5">
+          <i class="fa fa-facebook"></i>
+          <i class="fa fa-github"></i>
+          <i class="fa fa-twitter"></i>
+          <i class="fa fa-youtube"></i>
+        </div>
+        <button class="public_button" clickable (click)="onClickGroup(group)">View</button>
+
+
+      </ion-col>
+    </ion-row>
+
+  </ion-item> -->
+
   <!-- <ion-item *ngFor="let group of groupList">
     <ion-avatar slot="start">
       <img src="assets/imgs/peopel.png">
@@ -103,13 +112,3 @@
 
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar style="text-align: center;" class="home-footer">
-
-    <button *ngIf="!authenticated" (click)="OpenSignUpPopUP($event)" type="submit" expand="block"
-      class="registerbtn">Join</button>
-    <button *ngIf="authenticated" type="submit" expand="block" class="registerbtn"><span
-        (click)="createGroup($event)">Create Group</span></button>
-
-  </ion-toolbar>
-</ion-footer>

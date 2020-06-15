@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ParticipantPage } from './participant/participant.page';
 import { PopoverController, ModalController } from '@ionic/angular';
@@ -24,7 +24,12 @@ import { GroupDetailsModel } from './groupDetailModel';
   templateUrl: './group-info.page.html',
   styleUrls: ['./group-info.page.scss'],
 })
-export class GroupInfoPage implements OnInit {
+export class GroupInfoPage implements OnInit,OnChanges {
+
+
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    console.log("HHHHHHHHHHHHh")
+  }
 
   selectedTab = 0;
 
@@ -81,6 +86,7 @@ export class GroupInfoPage implements OnInit {
 
    
     }
+
 
 
 
@@ -325,6 +331,12 @@ export class GroupInfoPage implements OnInit {
                 }, duration);
             }
         })
+    }
+
+
+    changeUpcomingFunction()
+    {
+        console.log('CHANGING UPCOMING FUNCTION');
     }
 
 }

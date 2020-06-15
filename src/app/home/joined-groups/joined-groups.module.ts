@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TopicPageRoutingModule } from './topic-routing.module';
 
-import { TopicPage } from './topic.page';
+import { JoinedGroupsPage } from './joined-groups.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
-    TopicPageRoutingModule
+    IonicModule
+    
   ],
-  declarations: [TopicPage]
+  declarations: [JoinedGroupsPage],
+  entryComponents:[JoinedGroupsPage]
 })
-export class TopicPageModule {}
+export class JoinedGroupsPageModule {}

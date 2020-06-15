@@ -9,22 +9,10 @@
     <ion-buttons *ngIf="isTestRoomCreator" class="request" slot="primary">
       <ion-tab-button (click)="addYourOwnQuestioin(null)">
         <ion-icon name="add-circle-outline"></ion-icon>
-
+        <p>Add question</p>
       </ion-tab-button>
     </ion-buttons>
-    <ion-buttons slot="primary">
-      <ion-tab-button>
-        <ion-icon name="reorder-four-outline"></ion-icon>
-
-      </ion-tab-button>
-    </ion-buttons>
-
-    <ion-buttons slot="primary">
-      <ion-tab-button (click)="saveQuizWithQuest()">
-        <ion-icon name="reorder-four-outline"></ion-icon>
-
-      </ion-tab-button>
-    </ion-buttons>
+  
 
   </ion-toolbar>
 </ion-header>
@@ -33,79 +21,114 @@
   <ion-row>
 
     <ion-col size="12">
+      <span style="margin-left: 2px;
+      color: blue;">Test Name</span>
       <input type="text" [(ngModel)]="quizName" [ngClass]="{'myError':quizNameError}" placeholder="Test Room Name">
 
     </ion-col>
 
   </ion-row>
   <ion-row>
-    <ion-col size="12">
+    <ion-col size="6">
+      <span style="margin-left: 2px;
+      color: blue;">Test Duration ( Min ) </span>
       <input type="text" id="fname" [(ngModel)]="quizDuration" [ngClass]="{'myError':durationError}"
         placeholder="Test Duration">
 
     </ion-col>
+    <ion-col size="6">
+      <span style="margin-left: 2px;
+      color: blue;">Total Points</span>
+      <input type="text" id="fname" readonly [(ngModel)]="quizPoints" [ngClass]="{'myError':durationError}"
+        placeholder="Total Points">
 
+    </ion-col>
 
   </ion-row>
+
+
+  <ion-row>
+
+    <ion-col size="12">
+      <span style="margin-left: 2px;
+      color: blue;">Test Description</span>
+      <!-- <input type="textarea" [(ngModel)]="quizDesc" [ngClass]="{'myError':quizNameError}" placeholder="Test Room Name"> -->
+      <ion-textarea  [(ngModel)]="quizDesc" placeholder="Enter more information here..."></ion-textarea>
+
+    </ion-col>
+
+  </ion-row>
+
+
   <ion-item [ngClass]="{'myError':testStartDateError}">
-    <ion-label>Start Date</ion-label>
+    <ion-label style="color: blue;">Start Date</ion-label>
     <ion-datetime displayFormat="MMM DD, h:mm A" [(ngModel)]="testStartDate"></ion-datetime>
 
 
   </ion-item>
 
-  <ion-card tappable style="cursor: pointer;
-  width: 98%;
-  /* left: 0%; */
-  /* right: 0%; */
-  margin-left: 1%;
-  padding: 5px;" *ngFor="let quest of questionList;let i = index">
 
-    <ion-item>
-      <p slot="start">{{i+1}}</p>
-      <ion-icon name="trash"></ion-icon>
+  <ng-container *ngFor="let quest of questionList;let i = index">
+    <ion-card tappable style="cursor: pointer;
+    width: 98%;
+    /* left: 0%; */
+    /* right: 0%; */
+    margin-left: 1%;
+    padding: 5px;" *ngIf="quest.deleteFl != true">
 
-      <ion-icon *ngIf="isTestRoomCreator" slot="end" (click)="EditQustion(quest)" style="float:right;" name="create">
-      </ion-icon>
+      <ion-item>
+  
+        <p slot="start">{{i+1}}</p>
+        <ion-icon  (click)="deleteQuestion(quest)" name="trash"></ion-icon>
+  
+        <ion-icon *ngIf="isTestRoomCreator" slot="end" (click)="EditQustion(quest)" style="float:right;" name="create">
+        </ion-icon>
+  
+      </ion-item>
+  
+  
+      <p *ngIf="quest.txtQuesInfoModel">{{quest.txtQuesInfoModel.quesTxt}}</p>
+  
+  
+      <ng-container *ngFor="let img of quest.dgrmImageInfoModels" >
+        <ion-card-content *ngIf="img.deleteFl != true">
+          <img  [src]="img.dgrm_img_base64" tappable>
+    
+        </ion-card-content>
+      </ng-container>
+  
+  
+  
+  
+  
+      <ion-row style="white-space: nowrap;">
+        <ion-col>
+          <p>A. {{quest.ki_kidder_quest_optionA}}</p>
+  
+        </ion-col>
+        <ion-col>
+          <p>B. {{quest.ki_kidder_quest_optionB}}</p>
+  
+        </ion-col>
+        <ion-col>
+          <p>C. {{quest.ki_kidder_quest_optionC}}</p>
+  
+        </ion-col>
+        <ion-col>
+          <p>D. {{quest.ki_kidder_quest_optionD}}</p>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        Answer : {{quest.ki_kidder_quest_ans}}
+      </ion-row>
+      <ion-row>
+        Marks : {{quest.ki_kidder_quest_marks}}
+      </ion-row>
+    </ion-card>
+  </ng-container>
 
-    </ion-item>
 
-
-    <p *ngIf="quest.txtQuesInfoModel">{{quest.txtQuesInfoModel.quesTxt}}</p>
-
-
-    <ion-card-content *ngFor="let img of quest.dgrmImageInfoModels">
-      <img [src]="img.dgrm_img_base64" tappable>
-
-    </ion-card-content>
-
-
-
-    <ion-row style="white-space: nowrap;">
-      <ion-col>
-        <p>A. {{quest.ki_kidder_quest_optionA}}</p>
-
-      </ion-col>
-      <ion-col>
-        <p>B. {{quest.ki_kidder_quest_optionB}}</p>
-
-      </ion-col>
-      <ion-col>
-        <p>C. {{quest.ki_kidder_quest_optionC}}</p>
-
-      </ion-col>
-      <ion-col>
-        <p>D. {{quest.ki_kidder_quest_optionD}}</p>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      Answer : {{quest.ki_kidder_quest_ans}}
-    </ion-row>
-    <ion-row>
-      Marks : {{quest.ki_kidder_quest_marks}}
-    </ion-row>
-  </ion-card>
 </ion-content>
 <ion-footer>
   <ion-toolbar style="text-align: center;" class="home-footer">

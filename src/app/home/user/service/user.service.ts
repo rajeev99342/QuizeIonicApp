@@ -24,7 +24,7 @@ export class UserService {
    {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json'});  
 
-    UrlConstant
+    
       return   this.http.post(this.baseApiUrl+"/saveUserData",userData,{observe:'response'})
    }
 

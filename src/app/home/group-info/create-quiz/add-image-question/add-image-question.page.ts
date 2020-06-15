@@ -346,6 +346,13 @@ export class AddImageQuestionPage implements OnInit {
       return ;
     }
 
+    if(this.questMarks > 100)
+    {
+        this.presentToast("Question points should not greater than 100");
+        this.isMarksError = true;
+        return;
+    }
+
     const user_quest_img_model: ImageInfoModel = new ImageInfoModel();
     user_quest_img_model.img_base64 = this.croppedImage;
     user_quest_img_model.img_desc = "this is question image";
@@ -370,6 +377,8 @@ export class AddImageQuestionPage implements OnInit {
       {
           txtQuestModel.uniqueCode = this.questObject.txtQuesInfoModel.uniqueCode;
       }
+    }else{
+      txtQuestModel = null;
     }
 
   
@@ -393,6 +402,7 @@ export class AddImageQuestionPage implements OnInit {
     kidderQuestModel.ki_kidder_quest_name = "kuch nhi";
     kidderQuestModel.ki_kidder_quest_sub = null;
     kidderQuestModel.ki_kidder_quest_topic = null;
+    
     kidderQuestModel.ki_kidder_quest_marks = +this.questMarks;
     if(this.isEdit)
     {
@@ -546,6 +556,14 @@ export class AddImageQuestionPage implements OnInit {
   {
       let index = this.dgrmList.indexOf(dgrm);
       this.dgrmList.splice(index,1);
+
+      if(dgrm.uniqueCode != null)
+      {
+        dgrm.deleteFl = true;
+        this.dgrmList.push(dgrm);
+      }
+
+
   }
 
   numberOnlyValidation(event: any) {

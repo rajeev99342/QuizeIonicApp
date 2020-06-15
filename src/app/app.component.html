@@ -15,14 +15,21 @@
         </ion-list>
 
         <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
 <!-- 
            <ion-item *ngFor="let label of labels" lines="none">
             <ion-icon name="power-outline"></ion-icon>
             <ion-label>{{ label }}</ion-label> -->
-            <ion-item>
-              <ion-icon (click)="logout()" name="power-outline"></ion-icon>
-              <ion-label>Log out</ion-label>
+            <ion-item  *ngIf="username == null" >
+              <!-- <ion-icon (click)="signIn()" name="power-outline"></ion-icon> -->
+              <button (click)="signUp('SIGN_UP')" class="style_button">Sign Up</button>
+              <button (click)="signIn('SIGN_IN')" class="style_button">Sign In</button>
+
+          </ion-item> 
+
+
+            <ion-item *ngIf="username">
+              <ion-icon style="color: red;padding-right: 5px;" (click)="logout(null)" name="power-outline"></ion-icon>
+              <ion-label>Sign out</ion-label>
           </ion-item> 
         </ion-list>
       </ion-content>

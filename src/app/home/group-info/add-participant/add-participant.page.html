@@ -4,8 +4,8 @@
   </ion-toolbar>
 </ion-header> -->
 
-<ion-content style="padding:5px">
-  <div style="padding:5px">
+<ion-content>
+  <!-- <div style="padding:5px">
 
     <div class="input-group mb-3">
       <input type="text" class="form-control" [(ngModel)]="usernameKey" placeholder="Username" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -26,5 +26,62 @@
 
   <div *ngIf="isFound" style="padding:5px;float:right">
     <button class="float-right" (click)="add()" type="button" class="btn btn-dark">Add</button>
+  </div> -->
+  <ion-row>
+    <ion-icon class="close_icon" (click)="close()" name="close-outline"></ion-icon>
+
+  </ion-row>
+  <div>
+    <ion-row justify-content-center>
+      <ion-col>
+        <div text-center>
+        </div>
+        <div padding>
+
+          <ion-item>
+            <ion-input [(ngModel)]="usernameKey" (keyup)="onKeyupUsername()" type="text" placeholder="warAlgo">
+            </ion-input>
+            <ion-button (click)="searchParticipant()" color="white" class="search_button">
+              Search 
+              <ion-icon name="search-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <!-- <ion-item>
+            <ion-input [(ngModel)]="login_user_password" type="password" placeholder="Password"></ion-input>
+          </ion-item>
+        -->
+        </div>
+
+
+        <div *ngIf="isFound" style="padding:5px">
+          <p>Name : {{user_name}}</p>
+          <p>Username : {{user_username}}</p>
+        </div>
+
+
+        <div style="margin-top: 1rem;" *ngIf="error_message">
+          <p class="error_message">{{error_message}}</p>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <button type="submit" *ngIf="!isFound" (click)="searchParticipant()" expand="block"
+            class="login_btn">Search</button>
+
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <button type="submit" *ngIf="isFound" (click)="login()"
+            [disabled]="login_user_username == null || login_user_password == null" expand="block"
+            class="login_btn">Add</button>
+
+        </div>
+
+      </ion-col>
+    </ion-row>
+
   </div>
+
+
+
 </ion-content>

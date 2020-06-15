@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,54 +25,103 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
-
-
 .sign-up-custom-popover .popover-content {
- 
+  left: 0px;
+  min-width: 80%;
+  width: 100%;
+  top: 118.5px;
+  position: absolute;
+  /* left: 12px; */
+  transform-origin: left top;
+}
 
-    left: 0px;
-    min-width: 80%;
-    width: 100%;
-    top: 118.5px;
-    position: absolute;
-    /* left: 12px; */
-    transform-origin: left top;
-   
-  } 
+.my-custom-add-member-modal-css .modal-wrapper {
+  height: 41%;
+  /* top: 80%; */
+  width: 96%;
+  position: absolute;
+  display: block;
+}
 
-  .my-custom-add-member-modal-css .modal-wrapper {
-    height: 41%;
-    /* top: 80%; */
-    position: absolute;
-    display: block;
- }
+.signup-custom-modal-css .modal-wrapper {
+  max-height: 22.5rem;
+  /* top: 80%; */
+  position: absolute;
+  width: 96%;
+  display: block;
+}
+.signin-custom-modal-css .modal-wrapper {
+  max-height: 16.5rem;
+  /* top: 80%; */
+  position: absolute;
+  width: 96%;
+  display: block;
+}
+
 
 //  .ion-color-primary {
 //   background-color: #ffffff;
 //   height: 31px;
 //  }
 
-    .sign-up-custom-popover .popover-content .sc-ion-popover-md{
-      top: 124px;
-    left: 0 !important;
-    transform-origin: left top;
-    }
+.sign-up-custom-popover .popover-content .sc-ion-popover-md {
+  top: 124px;
+  left: 0 !important;
+  transform-origin: left top;
+}
 
+.custom-toast-css-warning.toast-wrapper {
+  background-color: red;
+}
 
-    .custom-toast-css-warning.toast-wrapper {
-        background-color: red;
-      
-    }
+ion-header {
+  display: block;
+  position: relative;
+  -ms-flex-order: -1;
+  order: -1;
+  width: 100%;
+  z-index: 10;
+}
 
-    
-
-    ion-header {
-      display: block;
-      position: relative;
-      -ms-flex-order: -1;
-      order: -1;
-      width: 100%;
-      z-index: 10;
-     
+.style_button {
+  width: 80%;
+  height: 25px;
+  font-size: 11px;
+  margin: 30px 10% 0 10%;
+  color: var(--ion-color-medium-shade);
+  border: 1px solid #e8e8e8;
+  /* box-shadow: 2px 3px 10px 1px rgba(0, 0, 0, 0.5); */
+  border-radius: 2px;
+  /* background: linear-gradient(45deg, #ffffff, #dedede, #ffffff, #ff6b6c); */
+  background: #846e6e;
+  /* background-size: 300% 300%; */
+  outline: none;
+  transition: all 200ms ease-in-out;
+  background-color: white;
+  &:hover {
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    transform: translateY(2px);
+    -webkit-animation: gradientBG 1.5s ease-in-out forwards;
+    animation: gradientBG 1.5s ease-in-out forwards;
+    cursor: pointer;
   }
+  &:active {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+    transform: translateY(4px);
+  }
+}
+
+
+.error_message{
+  font-size: 10px;
+    color: red;
+}
+
+.ion-color-primary {
+  --ion-color-base: #ffffff !important;
+  /* --ion-color-base-rgb: var(--ion-color-primary-rgb, 56, 128, 255) !important; */
+  --ion-color-contrast: #848484 !important;
+  /* --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb, 255, 255, 255) !important; */
+  /* --ion-color-shade: var(--ion-color-primary-shade, #3171e0) !important; */
+  /* --ion-color-tint: var(--ion-color-primary-tint, #4c8dff) !important; */
+}

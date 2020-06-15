@@ -6,6 +6,8 @@ export class userModel
     user_password:string
     user_email :string
    user_phone_number : number
+   admin : boolean;
+   user_token : string;
    uniqueCode:string
    error:string
    status:string

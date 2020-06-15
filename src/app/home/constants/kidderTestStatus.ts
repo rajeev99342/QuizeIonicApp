@@ -1,6 +1,6 @@
 export class TestStatus {
-    public  TEST_IN_DRAFT = 0;
-    public TEST_IN_UPCOMMING = 1;
-    public TEST_IN_PROGRESS = 2;
-    public TEST_COMPLETED = 3;
+    public static  TEST_IN_DRAFT = 0;
+    public static TEST_IN_UPCOMMING = 1;
+    public static TEST_IN_PROGRESS = 2;
+    public static TEST_COMPLETED = 3;
 }

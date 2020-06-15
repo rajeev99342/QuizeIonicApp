@@ -63,6 +63,8 @@ ion-menu.md ion-item ion-icon {
 
 ion-menu.md ion-item ion-label {
   font-weight: 500;
+    font-size: small;
+    color: var(--ion-color-medium-shade);
 }
 
 ion-menu.ios ion-content {
@@ -116,4 +118,9 @@ ion-note {
 
 ion-item.selected {
   --color: var(--ion-color-primary);
+}
+
+ion-menu.md[_ngcontent-tjt-c0] ion-item[_ngcontent-tjt-c0] ion-icon[_ngcontent-tjt-c0] {
+  color: #70a3e2;
+  padding-right: 9px;
 }

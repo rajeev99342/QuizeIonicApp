@@ -17,27 +17,66 @@ export class AddParticipantPage implements OnInit {
   user_username : string;
   isFound :boolean = false;
   isKeyDown :boolean = false;
-
+  participants : userModel [] = [];
   groupInfo : GroupModel;
+  selectedGroup : GroupModel;
 
   user : userModel;
   constructor(
     private modalController : ModalController,
     private navParams: NavParams,
 
-    private userService : UserService) { }
+    private userService : UserService) { 
+    this.selectedGroup = navParams.data['groupInfo'].group;
+      this.participants = navParams.data['groupInfo'].participant
+    }
 
   ngOnInit() {
-    this.groupInfo = this.navParams.get('groupInfo');
+    console.log('Graft',this.selectedGroup)
+  }
+
+
+  validateUsername()
+  {
+      if(this.usernameKey == this.selectedGroup.grp_admin)
+      {
+          return false;
+      }else{
+        const memes =   this.participants.filter((mem : userModel)=>{
+              this.usernameKey == mem.user_username
+          })
+
+          if(memes.length == 0)
+          {
+              return true;
+          }else{
+              return false;
+          }
+      }
+
+
 
   }
 
 
   searchParticipant()
   {
+
+     if(this.validateUsername())
+     {
+        console.log('valid')
+     }else{
+        console.log('this is a memeber of you group');
+        return;
+     }
     
       this.userService.getUserByUsername(this.usernameKey).subscribe((response:userModel)=>{
           console.log("searched user",response);
+          if(response == null)
+          {
+              console.log('user not found');
+              return;
+          }
           if(response["status"] == "Success")
           {
             this.user = response;
@@ -58,15 +97,37 @@ export class AddParticipantPage implements OnInit {
 
      let groupPartiModel :GroupParticipantModel = new GroupParticipantModel();
 
-     groupPartiModel.groupModel = this.groupInfo;
+     groupPartiModel.groupModel = this.selectedGroup;
      groupPartiModel.userModel = this.user;
      groupPartiModel.isAdmin = 0;
 
     this.userService.addGroupParticipant(groupPartiModel).subscribe((res)=>{
         console.log('saved data',res);
+        if(res)
+        {
+            // call notification service
+        }
     })
 
       this.modalController.dismiss();
+  }
+
+
+  onTypeUsername()
+  {
+      if(this.usernameKey == null || this.usernameKey.length == 0)
+      {
+          this.isFound == false;
+      }
+  }
+
+
+  onKeyupUsername()
+  {
+    if(this.usernameKey == null || this.usernameKey.length == 0)
+    {
+        this.isFound == false;
+    }
   }
 
 }

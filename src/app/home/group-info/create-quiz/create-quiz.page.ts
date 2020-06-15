@@ -19,6 +19,7 @@ import { TxtQuesInfoModel } from './models/TxtQuesInfoModel';
 
 import {KiKidderQuestModel} from './models/KiKidderQuestModel'
 import { DgrmImageInfoModel } from './models/DgrmImageInfoModel';
+import { KidderQuestionModel } from './models/KidderQuestionModel';
 
 @Component({
   selector: 'app-create-quiz',
@@ -32,10 +33,12 @@ export class CreateQuizPage implements OnInit {
     zoom:false,
   }
 
+  quizPoints : number;
   durationError : boolean ;
   testStartDateError : boolean ;
   quizNameError : boolean ;
   // myDate : Date;
+  quizDesc : string;
   testStartDate : any;
   questionList : KiKidderQuestModel[] = [];
   username : string ="dummyUser";
@@ -104,7 +107,10 @@ export class CreateQuizPage implements OnInit {
           this.quizName = this.testRoom.quizName;
           this.quizDuration = this.testRoom.quizDuration;
           this.testStartDate = this.testRoom.quizPublishedDate;
+          this.quizDesc = this.testRoom.quizDesc;
           this.isEdit = true;
+          this.quizPoints = null;
+          this.quizPoints = this.testRoom.quizMarks;
           this.isTestroomCreator(this.testRoom.userModel).then((val)=>{
               if(val === 'done')
               {
@@ -135,6 +141,25 @@ export class CreateQuizPage implements OnInit {
       }
   })
     
+  }
+
+  deleteQuestion(quest : KiKidderQuestModel)
+  {
+
+        let index =  this.questionList.indexOf(quest);
+
+        if(index > -1)
+        {
+            this.questionList.splice(index,1);
+
+        }
+        if(quest.uniqueCode != null)
+        {
+                      
+          quest.deleteFl = true;
+
+          this.questionList.push(quest);
+        }
   }
 
   isTestroomCreator(user: userModel)
@@ -182,7 +207,7 @@ export class CreateQuizPage implements OnInit {
                   console.log('before update',this.questionList)
                   let index = this.questionList.indexOf(questObject);
                   this.questionList.splice(index,1);
-                  this.questionList[index] = dataRetured.data;
+                  this.questionList.push(dataRetured.data);
 
                   console.log('updated questino',this.questionList);
               }else{
@@ -231,6 +256,11 @@ export class CreateQuizPage implements OnInit {
 
 
               }
+              this.quizPoints = null;
+
+              this.questionList.forEach(element => {
+                this.quizPoints = this.quizPoints + element.ki_kidder_quest_marks;
+              });
               console.log('question added')
           }
       })
@@ -345,6 +375,8 @@ export class CreateQuizPage implements OnInit {
           {
             quiz_model.quizName = this.quizName;
             quiz_model.quizDuration;
+            quiz_model.quizStatus = 0;
+            quiz_model.quizDesc = this.quizDesc
             quiz_model.kidderQuestModels = this.questionList;
             this.quizService.saveQuizModel(quiz_model).subscribe((response:QuizModel)=>{
                 console.log(response);

@@ -1,0 +1,54 @@
+
+
+<ion-content>
+  <ng-container>
+    <ion-card *ngFor="let group of groupList">
+      <ion-item (click)="onClickGroup(group)">
+        <ion-avatar slot="start">
+          <img  src="assets/imgs/people.png">
+        </ion-avatar>
+        <ion-label>
+          <h3>{{group.grp_name}}</h3>
+          <p>Magadh Coaching Center</p>
+        </ion-label>
+      </ion-item>
+    
+      <ion-card-header>
+      </ion-card-header>
+      <ion-card-content>
+       {{group.grp_desc}}
+      </ion-card-content>
+    
+      <ion-footer>
+        <ion-row>
+          <ion-col center text-center>
+            <button class="info_button">
+              <p class="info_text">Members</p>
+              <div>1.5k</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+            <button class="info_button">
+              <p class="info_text">Quizes</p>
+              <div>40</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+            <button class="info_button">
+              <p class="info_text">Admin</p>
+              <div>Rajeev Kumar</div>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-card>
+  </ng-container>
+</ion-content>
+<ion-footer>
+  <ion-toolbar style="text-align: center;" class="home-footer">
+
+    <button (click)="OpenSignUpPopUP($event)" type="submit" expand="block"
+      class="registerbtn">Create Group</button>
+
+  </ion-toolbar>
+</ion-footer>

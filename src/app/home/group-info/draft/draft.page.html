@@ -9,70 +9,51 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div style="padding: 6px;" class="row">
-    <div *ngFor="let draft of draftTest" id="login-container">
-      <!-- <div class="profile-img"></div> -->
-      <h1>
-        {{draft.quizName}}
-      </h1>
-      <div class="description">
-        Created date :  {{draft.created_string_date}}
-      </div>
-      <div class="description">
-        To be publish :  {{draft.publish_string_date}}
-      </div>
-      <div class="social">
-       <a> T : {{draft.quizDuration}} Min</a>
-        <a>M : {{draft.quizMarks}}</a>
-        <a>Q : {{draft.quizNoOfQuest}}</a>
-      </div>
-      <button class="public_button">Public</button>
-      <div>
-        <button (click)="onClickEdit(draft)" class="edit_button">Edit</button>
-        
-      </div>
-      <!-- <footer>
-        <div class="likes">
-          <p><i class='fa fa-heart'></i></p>
-          <p>1.5K</p>
+  <ng-container *ngIf="userObject && selectedGroup &&  userObject.user_username ==  selectedGroup.grp_admin">
+    <div  style="padding: 6px;" *ngFor="let draft of draftTest" class="row">
+      <div *ngIf="draft.quizStatus == 0"  id="login-container">
+        <!-- <div class="profile-img"></div> -->
+        <h1>
+          {{draft.quizName}}
+        </h1>
+        <div class="description">
+          Created date :  {{draft.created_string_date}}
         </div>
-        <div class="projects">
-          <p>Projects</p>
-          <p>154</p>
+        <div class="description">
+          To be publish :  {{draft.publish_string_date}}
         </div>
-      </footer> -->
-    </div>
-  </div>
-
-
-  <!-- <ion-grid>
-      <ion-row >
-        <ion-col size="6" *ngFor="let draft of draftTest" >
-        <div class="card">
-          <div class="additional">
-          <div class="user-card">
-            <div class="level center">
-            Mathematics, Linear Equation
-            </div>
-            <div class="date center">
-                {{draft.created_string_date}}
-            </div>
-            <div class="points center">
-            Marks : 30 <br> Question : 40 <br>Type : MCQ <br>Duration : 30 Min
-            </div>
-            <div class="duration center">
-            Status : Not Started
-            </div>
-          </div>
+        <div class="social">
+         <a>{{draft.quizDuration}}</a>
+          <a>{{draft.quizMarks}}</a>
+          <a>{{draft.quizNoOfQuest}}</a>
+        </div>
+        <div class="social_span">
+          <a>
+            Duration ( Min )
+          </a>
+          <a>
+            Points
+          </a>
+          <a>
+            Question
+          </a>
+        </div>
+        <button (click)="onClickPublish(draft)" class="public_button">Public</button>
+        <div>
+          <button (click)="onClickEdit(draft)" class="edit_button">Edit</button>
           
-          </div>
-        
         </div>
-        </ion-col>
-      </ion-row>
-      </ion-grid>
-     -->
+   
+      </div>
+    </div>
+  </ng-container>
 
+
+
+
+<div *ngIf="userObject && selectedGroup && userObject.user_username !=  selectedGroup.grp_admin">
+  <p class="center">You don't have access to create test in this group</p>
+</div>
   <!-- fab placed to the bottom end -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="onClickCreateQuiz()">
@@ -80,5 +61,5 @@
     </ion-fab-button>
   </ion-fab>
 
-
 </ion-content>
+

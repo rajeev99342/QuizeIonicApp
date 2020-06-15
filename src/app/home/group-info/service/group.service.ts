@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppService } from 'src/app/services/app.service';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { UrlConstant } from '../../constants/URL';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -37,6 +38,11 @@ export class GroupService {
   getGroupByUserId(user_id)
   {
     return this.http.get(this.baseApiUrl+"/getGrpsByUserId"+"/"+`${user_id}`);
+  }
+
+  userByGroupId(grpId : number)
+  {
+      return this.http.get(this.baseApiUrl+"/getParticipantByGroup"+"/"+`${grpId}`);
   }
 
 }

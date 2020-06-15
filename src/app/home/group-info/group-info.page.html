@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
  
-    <ion-title class="group-info-title">{{selectedGroup.grp_name}}</ion-title>
+    <ion-title *ngIf="selectedGroup" class="group-info-title">{{selectedGroup.grp_name}}</ion-title>
 
   </ion-toolbar>
 
@@ -36,22 +36,22 @@
 <super-tabs-container>
   <super-tab>
     <ion-content>
-      <ion-nav [root]="upcomingPage" #upcomingNav></ion-nav>
+      <ion-nav [root]="upcomingPage" (change)="changeUpcomingFunction()"  [rootParams]="{'group': selectedGroup}" ></ion-nav>
     </ion-content>
   </super-tab>
   <super-tab>
     <ion-content>
-      <ion-nav [root]="completedPage"></ion-nav>
+      <ion-nav [root]="completedPage"  (change)="changeCompleteFunction()"  [rootParams]="{'group': selectedGroup}" ></ion-nav>
     </ion-content>
   </super-tab>
   <super-tab>
     <ion-content>
-      <ion-nav [root]="participantPage"></ion-nav>
+      <ion-nav [root]="participantPage"    (change)="changeParticipantFunction()"  [rootParams]="{'group': selectedGroup}" ></ion-nav>
     </ion-content>
   </super-tab>
   <super-tab>
     <ion-content>
-      <ion-nav [root]="draftPage"  [rootParams]="{'group': selectedGroup}"></ion-nav>
+      <ion-nav [root]="draftPage"   (change)="changeDraftFunction()"  [rootParams]="{'group': selectedGroup}"></ion-nav>
     </ion-content>
   </super-tab>
 </super-tabs-container>
