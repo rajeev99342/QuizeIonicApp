@@ -44,11 +44,16 @@
     </ion-card>
   </ng-container>
 </ion-content>
-<ion-footer>
+<!-- <ion-footer>
   <ion-toolbar style="text-align: center;" class="home-footer">
 
-    <button (click)="OpenSignUpPopUP($event)" type="submit" expand="block"
-      class="registerbtn">Create Group</button>
-
+      <ion-button (click)="createGroup($event)" color="white" class="search_button">
+        New house
+       
+      </ion-button>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
+<ion-button (click)="createGroup($event)" color="white" class="search_button">
+  New house
+ 
+</ion-button>

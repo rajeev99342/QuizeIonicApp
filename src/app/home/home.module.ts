@@ -9,7 +9,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { SubjectConfirmPage } from './subject-confirm/subject-confirm.page';
 import { SignUpPage } from './sign-up/sign-up.page';
-import { CreateGroupPage } from './create-group/create-group.page';
+// import { CreateGroupPage } from './create-group/create-group.page';
 import {GroupInfoPageModule} from "./group-info/group-info.module"
 import { YourOrganizationComponent } from './your-organization/your-organization.component';
 import {YourGroupsComponent} from './your-groups/your-groups.component';
@@ -33,12 +33,12 @@ import { JoinedGroupsPageModule } from './joined-groups/joined-groups.module';
     JoinedGroupsPageModule,
     ImageModalPageModule,
   ],
-  entryComponents:[SubjectConfirmPage,CreateGroupPage],
+  entryComponents:[SubjectConfirmPage],
   declarations: [HomePage,
     SubjectConfirmPage,
     YourGroupsComponent,
     YourOrganizationComponent,
-    CreateGroupPage,
+    
     ],
     providers:[SharedTabService],
   exports:[ReactiveFormsModule,FormsModule,GroupInfoPageModule]

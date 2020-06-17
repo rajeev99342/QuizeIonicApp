@@ -18,9 +18,9 @@ ion-menu.md ion-note {
 }
 
 ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
-}
+// ion-menu.md ion-note {
+//   padding-left: 10px;
+// }
 
 ion-menu.md ion-list#inbox-list {
   border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
@@ -123,4 +123,20 @@ ion-item.selected {
 ion-menu.md[_ngcontent-tjt-c0] ion-item[_ngcontent-tjt-c0] ion-icon[_ngcontent-tjt-c0] {
   color: #70a3e2;
   padding-right: 9px;
+}
+
+.note{
+  padding-left: 6rem;
+    /* float: left; */
+    font-size: 13px;
+}
+
+.profile{
+  border: 1px solid #e4e4e4;
+  padding-top: 22px;
+  padding-left: 5px;
+}
+
+ion-menu.md[_ngcontent-pmx-c0] ion-note[_ngcontent-pmx-c0] {
+  padding-left: 6rem;
 }

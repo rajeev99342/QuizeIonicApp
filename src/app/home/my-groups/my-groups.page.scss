@@ -1,20 +1,24 @@
-.info_button{
-    width: 100px;
-    border: 1px solid #efefef;
-    border-radius: 3px;
-    font-size: 11px;
-    background: white;
-    color: #525252;
+.info_button {
+  width: 100px;
+  // border: 1px solid #efefef;
+  border-radius: 3px;
+  font-size: 11px;
+  background: white;
+  color: #525252;
 }
 
-.info_text{
-    color: blue;
-    padding-top: 2px;
+.info_text {
+  color: blue;
+  padding-top: 2px;
 }
-
 
 .registerbtn {
-    background-color:rgb(255, 255, 255);
-    color: var(--ion-color-medium-shade);
-      
-    }
+  background-color: rgb(255, 255, 255);
+  color: var(--ion-color-medium-shade);
+}
+
+.search_button {
+  text-transform: none;
+  background: #ffffff;
+  color: #8e8888;
+}

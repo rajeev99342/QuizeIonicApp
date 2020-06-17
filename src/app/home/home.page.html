@@ -12,8 +12,6 @@
       </ion-tab-button>
     </ion-buttons>
 
-
-
   </ion-toolbar>
   <ion-icon slot="end" name="star"></ion-icon>
 </ion-header>
@@ -33,82 +31,34 @@
   <super-tabs>
     <super-tabs-toolbar slot="top">
 
-      <super-tab-button >
-        <p color="primary" class="tab_p">Groups</p >
-  
+      <super-tab-button>
+        <p color="primary" class="tab_p">Houses</p>
+
       </super-tab-button>
-      <super-tab-button >
-        <p class="tab_p">My Groups</p>
-  
+      <super-tab-button>
+        <p class="tab_p">My houses</p>
+
       </super-tab-button>
     </super-tabs-toolbar>
-  
-  <super-tabs-container>
-    <super-tab>
-      <ion-content>
-        <ion-nav [root]="joinedGroupPage" (change)="changeUpcomingFunction()" [rootParams]="{'user': userObject}"></ion-nav>
-      </ion-content>
-    </super-tab>
-    <super-tab>
-      <ion-content>
-        <ion-nav [root]="myGroupsPage"  (change)="changeCompleteFunction()" [rootParams]="{'user': userObject}"></ion-nav>
-      </ion-content>
-    </super-tab>
- 
-  </super-tabs-container>
+
+    <super-tabs-container>
+      <super-tab>
+        <ion-content>
+          <ion-nav [root]="joinedGroupPage" (change)="changeUpcomingFunction()" [rootParams]="{'user': userObject}">
+          </ion-nav>
+        </ion-content>
+      </super-tab>
+      <super-tab>
+        <ion-content>
+          <ion-nav [root]="myGroupsPage" (change)="changeCompleteFunction()" [rootParams]="{'user': userObject}">
+          </ion-nav>
+        </ion-content>
+      </super-tab>
+
+    </super-tabs-container>
   </super-tabs>
-  
-
-<!-- 
-  <ion-item *ngFor="let group of groupList">
-
-
-    <ion-row>
-      <ion-col size="6" class="border-right_line">
-        <div class="relative_pos">
-          <img src="assets/imgs/people.png">
-          <div class="dot"> </div>
-        </div>
-        <h3 class="mt-5">{{group.grp_name}}</h3>
-        <p><strong>{{group.grp_admin}}</strong></p>
-
-
-      </ion-col>
-      <ion-col size="6">
-        <p class="my-5">{{group.grp_desc}}</p>
-
-        <div class="social_media mb-1 mt-5">
-          <i class="fa fa-facebook"></i>
-          <i class="fa fa-github"></i>
-          <i class="fa fa-twitter"></i>
-          <i class="fa fa-youtube"></i>
-        </div>
-        <button class="public_button" clickable (click)="onClickGroup(group)">View</button>
-
-
-      </ion-col>
-    </ion-row>
-
-  </ion-item> -->
-
-  <!-- <ion-item *ngFor="let group of groupList">
-    <ion-avatar slot="start">
-      <img src="assets/imgs/peopel.png">
-    </ion-avatar>
-    <ion-label>
-      <h3 style="color: blue;">{{group.grp_name}}</h3>
-      <p>{{group.grp_admin}}</p>
-      <p style="font-size: 10px;">Rooms : 4</p>
-      <p style="font-size: 10px;">Members : 4</p>
-
-    </ion-label>
-    <a clickable class="view_text_class" (click)="onClickGroup(group)" slot="end">View</a>
-  </ion-item> -->
-
-
 
 
   <ion-router-outlet></ion-router-outlet>
 
 </ion-content>
-

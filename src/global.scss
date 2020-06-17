@@ -125,3 +125,36 @@ ion-header {
   /* --ion-color-shade: var(--ion-color-primary-shade, #3171e0) !important; */
   /* --ion-color-tint: var(--ion-color-primary-tint, #4c8dff) !important; */
 }
+
+.search_button
+{
+    text-transform: none;
+    background: #ffffff;
+    color: #8e8888;
+}
+
+.disable_class {
+  pointer-events: none;
+  opacity: .4;
+}
+
+.footer_button {
+  text-transform: none;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #d8d8d8;
+}
+
+.close_icon{
+  color: red;
+  float: left;
+  font-size: 21px;
+  padding: 3px;
+}
+
+.small_form_margin {
+  /* top: 50%; */
+  /* padding-top: 29%; */
+  border: 1px solid #e0e0e0;
+  margin-top: 30%;
+}

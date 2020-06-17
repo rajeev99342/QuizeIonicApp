@@ -4,9 +4,10 @@ import { userModel } from '../user/userModel';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { StorageService } from '../storage.service';
 import { GroupService } from '../group-info/service/group.service';
-import { NavParams } from '@ionic/angular';
+import { NavParams, ModalController } from '@ionic/angular';
 import { SharedTabService } from '../sharedTabService';
 import { NavigationExtras, Router } from '@angular/router';
+import {CreateGroupPage} from '../create-group/create-group.page'
 
 @Component({
   selector: 'app-my-groups',
@@ -38,7 +39,7 @@ export class MyGroupsPage implements OnInit {
     private sharedTabService: SharedTabService,
     public navParams: NavParams,
     private router : Router,
-
+    private modalCtrl : ModalController,
     public groupService: GroupService) {
 
 
@@ -99,4 +100,22 @@ export class MyGroupsPage implements OnInit {
     this.router.navigate(['/group-info'], navigationExtras);
   }
 
+
+  async createGroup(ev: any) {
+    this.popoverForCreateGroup = await this.modalCtrl.create({
+      component: CreateGroupPage,
+      // cssClass: 'custom-css-signUp-popover',
+      animated: true,
+      showBackdrop: true,
+
+    });
+    this.popoverForCreateGroup.onDidDismiss().then(dataReturned => {
+      if (dataReturned.data != false) {
+        this.groupCreatedByYou = true;
+      } else {
+        console.log('failed', dataReturned.data);
+      }
+    });
+    return await this.popoverForCreateGroup.present();
+  }
 }

@@ -28,6 +28,13 @@ export class UserService {
       return   this.http.post(this.baseApiUrl+"/saveUserData",userData,{observe:'response'})
    }
 
+   // fb id and username is both same
+   findUserByFbIdOrUsername(username)
+   {
+    return this.http.get(this.baseApiUrl+"/participant"+"/searchUser"+"/"+`${username}`);
+
+   }
+
    getUserByUsername(username)
    {
      return this.http.get(this.baseApiUrl+"/participant"+"/searchParticipant"+"/"+`${username}`);

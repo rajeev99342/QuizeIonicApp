@@ -9,7 +9,7 @@
     <ion-icon class="close_icon" (click)="close()" name="close-outline"></ion-icon>
 
   </ion-row>
-  <form *ngIf="modal_type == 'SIGN_UP'" [formGroup]="myform" >
+  <!-- <form *ngIf="modal_type == 'SIGN_UP'" [formGroup]="myform" >
 
 
       <ion-row justify-content-center>
@@ -64,36 +64,77 @@
   
   </form>
 
-  <div *ngIf="modal_type == 'SIGN_IN'">
-    <ion-row justify-content-center>
-      <ion-col>
-        <div text-center>
-        </div>
-        <div padding>
-        
-          <ion-item>
-            <ion-input [(ngModel)]="login_user_username"  type="text" placeholder="warAlgo" ></ion-input>
-          </ion-item>
-        
-          <ion-item>
-            <ion-input [(ngModel)]="login_user_password" type="password" placeholder="Password"></ion-input>
-          </ion-item>
-       
-        </div>
-  
-          <div  style="margin-top: 1rem;" *ngIf="error_message">
-            <p class="error_message">{{error_message}}</p>
-          </div>
+ -->
 
+ <div *ngIf="false">
+  <ion-row justify-content-center>
+    <ion-col>
+      <div text-center>
+      </div>
+      <div padding>
       
-        <div style="margin-top: 1rem;">
-          <button type="submit" (click)="login()" [disabled]="login_user_username == null || login_user_password == null" expand="block" class="login_btn">Login</button>
-  
+        <ion-item>
+          <ion-input style="text-transform: lowercase;" [(ngModel)]="login_user_username"  type="text" placeholder="warAlgo" ></ion-input>
+        </ion-item>
+      
+        <ion-item>
+          <ion-input [(ngModel)]="login_user_password" type="password" placeholder="Password"></ion-input>
+        </ion-item>
+     
+      </div>
+
+        <div  style="margin-top: 1rem;" *ngIf="error_message">
+          <p class="error_message">{{error_message}}</p>
         </div>
-      </ion-col>
-    </ion-row>
+
+    
+      <div style="margin-top: 1rem;">
+        <button type="submit" (click)="login()" [disabled]="login_user_username == null || login_user_password == null" expand="block" class="login_btn">Login</button>
+
+      </div>
+    </ion-col>
+  </ion-row>
+
+</div>
+  <ion-card>
+    <div class="profile-picture big-profile-picture">
+      <img [src]="userData.picture">
+    </div>
+    <!-- <img [src]="userData.picture" alt="ion"> -->
+    <ion-card-header>
+      <ion-card-title style="text-align: center;">{{userData.username}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="text-align: center;">
+      {{userData.email}}
+    </ion-card-content>
   
-  </div>
+    <ion-card-content style="text-align: center;">
+      {{userData.id}}
+    </ion-card-content>
+  
+    <!-- <span style="color: blue;">Please give unique username*</span>
+    <ion-item>
+      <ion-input [(ngModel)]="login_user_username"  type="text" placeholder="Ex :  raj_001" ></ion-input>
+    </ion-item> -->
+
+
+  </ion-card>
+
+
+  <ion-item [ngClass]="{'disable_class':disableUserType}">
+    <ion-label style="color: blue;">User type</ion-label>
+
+    <ion-select  [(ngModel)]="userType" okText="Okay" cancelText="Dismiss">
+      <ion-select-option value="Student">Student</ion-select-option>
+      <ion-select-option value="Teacher">Teacher</ion-select-option>
+    
+    </ion-select>
+  </ion-item>
+
+
+
+  <ion-button (click)="register()" class="search_button"  color="white" expand="block">Login</ion-button>
+
 
 </ion-content>
 <!-- 

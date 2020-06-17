@@ -29,11 +29,24 @@ export class SharedTabService {
   }
 
   public changeAfterRefreshParent(newValue):void{
+    try{
       this.parentDataObserver.next(newValue);
+
+    }catch(e)
+    {
+
+    }
   }
 
   public changeOneToSecond(newValue):void{
+
+    try{
       this.oneToSecondTabObserver.next(newValue);
+
+    }catch(e)
+    {
+
+    }
 
   }
 

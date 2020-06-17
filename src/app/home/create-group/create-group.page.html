@@ -1,11 +1,17 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title class="center">Create Group</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 
 <ion-content>
-  <form  [formGroup]="groupForm" >
+
+      
+  <ion-row >
+    <ion-icon class="close_icon" (click)="close()" name="close-outline"></ion-icon>
+
+  </ion-row>
+
+
+
+
+  <form class="small_form_margin" [formGroup]="groupForm" >
     
     <ion-row justify-content-center>
       <ion-col align-self-center size="12">
@@ -15,15 +21,18 @@
           <ion-item>
             <ion-input  formControlName="grp_name" type="text" placeholder="Group Name" ></ion-input>
           </ion-item>
-          <ion-item>
+          <!-- <ion-item>
             <ion-input formControlName="grp_desc"  type="text" placeholder="Give Brief Description" ></ion-input>
-          </ion-item>
+          </ion-item> -->
    
-
+          <ion-item>
+            <ion-textarea  type="text"  formControlName="grp_desc" placeholder="Enter some information here..."></ion-textarea>
+          </ion-item>
+          
           <ion-list style="border-radius: 2px;
            padding-bottom: 0px;">
       
-           <ion-item>
+           <ion-item *ngIf="false">
              <ion-label>Group For</ion-label>
       
              <ion-select [(ngModel)]="selectedExamList"   [ngModelOptions]="{standalone: true}" multiple="true" okText="Okay" cancelText="Dismiss">
@@ -44,13 +53,13 @@
           <div *ngIf="validGrpFlg">
             <p>{{eror_message}}</p>
           </div>
-        <div padding>
-          <button type="submit" (click)="createGroup()" [disabled]="groupForm.invalid" expand="block" class="registerbtn">Create</button>
-
-        </div>
+  
       </ion-col>
     </ion-row>
 
 </form>
 
 </ion-content>
+  <!-- <button type="submit" (click)="createGroup()" [disabled]="groupForm.invalid" expand="block" class="registerbtn">Create</button> -->
+  <ion-button (click)="createGroup()"  class="search_button"  color="white" expand="block">Create house</ion-button>
+

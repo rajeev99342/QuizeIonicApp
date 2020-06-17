@@ -3,8 +3,25 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Hi, {{username}}</ion-list-header>
-          <ion-note>Kidder Welcome You !</ion-note>
+
+          <ion-row class="profile">
+            <ion-list-header *ngIf="!username">Kidder</ion-list-header>
+
+
+            <a *ngIf="pic != null" style="display: flex;"  class="item item-icon-left">
+              <ion-avatar slot="start">
+                <img  [src]="pic">
+              </ion-avatar>
+          
+              <h1 style="padding-left: 2rem;font-size: 20px;" class="participant_name">{{username}}</h1>
+  
+          
+            </a>
+    
+  
+            <ion-note *ngIf="!username" >A vertual testroom.</ion-note>
+          </ion-row>
+ 
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
@@ -15,22 +32,37 @@
         </ion-list>
 
         <ion-list id="labels-list">
-<!-- 
-           <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon name="power-outline"></ion-icon>
-            <ion-label>{{ label }}</ion-label> -->
-            <ion-item  *ngIf="username == null" >
-              <!-- <ion-icon (click)="signIn()" name="power-outline"></ion-icon> -->
+
+            <ion-item  *ngIf="false" >
               <button (click)="signUp('SIGN_UP')" class="style_button">Sign Up</button>
               <button (click)="signIn('SIGN_IN')" class="style_button">Sign In</button>
 
-          </ion-item> 
+          </ion-item>  
 
 
             <ion-item *ngIf="username">
               <ion-icon style="color: red;padding-right: 5px;" (click)="logout(null)" name="power-outline"></ion-icon>
               <ion-label>Sign out</ion-label>
           </ion-item> 
+          <ion-item *ngIf="!username">
+            <ion-icon style="color: red;padding-right: 5px;" (click)="facebookLogin(null)" name="logo-facebook"></ion-icon>
+            <ion-label>Login via facebook</ion-label>
+
+          </ion-item>
+          <ion-item *ngIf="!username">
+            <ion-icon style="color: red;padding-right: 5px;" (click)="GoogleLogin()" name="logo-google"></ion-icon>
+
+            <!-- <ion-icon  name="logo-facebook"></ion-icon> -->
+            <ion-label>Login via Google</ion-label>
+
+          </ion-item>
+
+          <ion-item *ngIf="!username">
+
+            <!-- <ion-icon  name="logo-facebook"></ion-icon> -->
+            <ion-label (click)="login()">Login</ion-label>
+
+          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

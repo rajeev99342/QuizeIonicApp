@@ -11,11 +11,23 @@ import { IonicStorageModule } from '@ionic/storage';
 import { FCM } from '@ionic-native/fcm/ngx';
 
 import { Camera } from '@ionic-native/camera/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AppService } from './services/app.service';
 import { SignUpPage } from './home/sign-up/sign-up.page';
-import { NotificationService } from './notification.service';
+import { CreateGroupPage } from './home/create-group/create-group.page';
+import { NotificationService } from './home/notifications/notification.service';
+import {GooglePlus} from '@ionic-native/google-plus/ngx'
+import {AngularFireModule} from 'angularfire2'
+
+import {AngularFireAuthModule} from 'angularfire2/auth'
+
+
+const firebaseConfig = {
+  //your config
+  apiKey:"AIzaSyCfsSueaefV3apTmfxIVuwiRnf_OBU7P4w"
+}
 
 @NgModule({
 
@@ -26,25 +38,32 @@ import { NotificationService } from './notification.service';
     AppRoutingModule,
     HomePageModule,
     RouterModule,
-
+    AngularFireModule.initializeApp(firebaseConfig),
     HttpClientModule,
+    AngularFireAuthModule,
     IonicStorageModule.forRoot()
 
   ],
   declarations: [
     AppComponent,
     SignUpPage,
+    CreateGroupPage,
   ],
-  entryComponents: [SignUpPage],
+  entryComponents: [SignUpPage,CreateGroupPage],
   providers: [
+    GooglePlus,
+
     AppService,
     StatusBar,
     Camera,
-    IonicStorageModule,
     NotificationService,
+    Facebook,
     SplashScreen,
+
     FCM,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    IonicStorageModule,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    
   ],
   bootstrap: [AppComponent]
 })

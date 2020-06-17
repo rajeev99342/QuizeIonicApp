@@ -4,7 +4,7 @@ import { userModel } from '../../user/userModel';
 import { PopoverController, NavParams, ModalController } from '@ionic/angular';
 import { GroupModel } from 'src/app/models/GroupModel';
 import { GroupParticipantModel } from './groupPartiModet';
-import { NotificationService } from 'src/app/notification.service';
+import { NotificationService } from '../../notifications/notification.service';
 
 @Component({
   selector: 'app-add-participant',
@@ -112,9 +112,10 @@ export class AddParticipantPage implements OnInit {
             })
 
         }
+    },err=>{
+
     })
 
-      this.modalController.dismiss();
   }
 
 
