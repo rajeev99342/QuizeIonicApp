@@ -25,6 +25,9 @@
 
         <h1 class="participant_name">  {{parti.user_name}}</h1>
 
+        <p *ngIf="isAdmin && parti.user_username != userObject.user_username"  class="remove_text">Remove</p>
+
+
     </ion-row>
   </ion-grid>
 

@@ -3,7 +3,13 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
- 
+    <ion-buttons class="request" slot="primary">
+      <ion-tab-button>
+
+        <!-- <div><i ></i>&nbsp;  </div> -->
+        <p (click)="onClickLeaveGroup()" *ngIf="!isAdmin" style="color: red;">Leave</p>
+      </ion-tab-button>
+    </ion-buttons>
     <ion-title *ngIf="selectedGroup" class="group-info-title">{{selectedGroup.grp_name}}</ion-title>
 
   </ion-toolbar>

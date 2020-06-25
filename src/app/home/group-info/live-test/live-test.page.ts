@@ -22,17 +22,20 @@ export class LiveTestPage implements OnInit {
   timeLeft : any;
   isTestEnded : boolean = false;
 
+  quizId : number;
+
   constructor( 
     private testRoomService: TestRoomService,
     private activateRoute : ActivatedRoute,
     private quizService : QuizService) {
-      
+      this.quizId = this.activateRoute.snapshot.params['price'];
+
       this.activateRoute.queryParams.subscribe(params => {
         if (params.roomInfo) {
   
             this.testRoomModel = JSON.parse(params.roomInfo);
           
-            this.testRoomService.getQuestions(this.testRoomModel.quizId).subscribe((res:UserQuestionModel[])=>{
+            this.testRoomService.getQuestions(this.quizId).subscribe((res:UserQuestionModel[])=>{
                  console.log('Hi this is questions',res);
                  this.questionList = res;
                  let now = moment(this.testRoomModel.quizCreatedDate);

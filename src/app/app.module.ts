@@ -23,6 +23,7 @@ import {AngularFireModule} from 'angularfire2'
 
 import {AngularFireAuthModule} from 'angularfire2/auth'
 
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 const firebaseConfig = {
   //your config
@@ -52,7 +53,7 @@ const firebaseConfig = {
   entryComponents: [SignUpPage,CreateGroupPage],
   providers: [
     GooglePlus,
-
+    Clipboard,
     AppService,
     StatusBar,
     Camera,

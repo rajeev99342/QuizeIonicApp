@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PopoverController, ModalController, NavParams } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import {USER_TYPE_NUMBER,USER_TYPE_STRING} from '../constants/UserType'
+import { USER_TYPE_NUMBER, USER_TYPE_STRING } from '../constants/UserType'
 import {
   FormGroup,
   FormControl,
@@ -18,6 +18,7 @@ import { userModel } from '../user/userModel';
 import { UserService } from '../user/service/user.service';
 import { StorageService } from '../storage.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { FCM } from '@ionic-native/fcm/ngx';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.page.html',
@@ -53,15 +54,16 @@ export class SignUpPage implements OnInit {
   userType = null;
   login_user_username: string;
   login_user_password: string;
-  userData  = null;
-  modal_type : string;
-  disableUserType : boolean = false;
+  userData = null;
+  modal_type: string;
+  disableUserType: boolean = false;
 
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
     private storage: Storage,
     private navParams: NavParams,
+    private fcm: FCM,
 
     private storageService: StorageService,
     private messageEventEmitterService: MesssageServicesService) { }
@@ -69,48 +71,56 @@ export class SignUpPage implements OnInit {
   ngOnInit() {
     this.modal_type = this.navParams.get('MODAL_TYPE');
     let from = this.navParams.get('FROM')
-    console.log('USER DATA ',this.modal_type)
-    console.log('FROM ',from)
+    console.log('USER DATA ', this.modal_type)
+    console.log('FROM ', from)
     this.userData = {}
-    if(this.modal_type != 'SIGN_UP' && this.modal_type != 'SIGN_IN')
-    {
+    if (this.modal_type != 'SIGN_UP' && this.modal_type != 'SIGN_IN') {
 
-      if(from == "FROM_GOOGLE")
-      {
-          this.userData.username = this.modal_type["displayName"];
-          this.userData.email = this.modal_type["email"]
-          this.userData.id = this.modal_type["uid"]
-          this.userData.picture = this.modal_type["photoURL"]
-          console.log('INSIDE FROM GOOGLE')
-          console.log(this.modal_type["displayName"],this.modal_type["email"],this.modal_type["uid"],this.modal_type["photoURL"],);
+      if (from == "FROM_GOOGLE") {
+        this.userData.username = this.modal_type["displayName"];
+        this.userData.email = this.modal_type["email"]
+        this.userData.id = this.modal_type["uid"]
+        this.userData.picture = this.modal_type["photoURL"]
+        console.log('INSIDE FROM GOOGLE')
+        console.log(this.modal_type["displayName"], this.modal_type["email"], this.modal_type["uid"], this.modal_type["photoURL"],);
 
-      }else{
+      } else {
         this.userData = this.modal_type;
         console.log('INSIDE FROM FB')
 
         // console.log('USER DATA',this.userData)
       }
- 
+
 
       // console.log('USER DATA',this.userData)
 
-      this.userService.findUserByFbIdOrUsername(this.userData.id).subscribe((res:userModel)=>{
-          console.log('USER DATA FROM DB',res);
-          if(res)
-          {
-              if(res.user_type == USER_TYPE_NUMBER.STUDENT)
-              {
-                  this.userType = USER_TYPE_STRING.STUDENT;
-              }else if(res.user_type == USER_TYPE_NUMBER.TEACHER)
-              {
-                this.userType = USER_TYPE_STRING.TEACHER;
+      this.userService.findUserByFbIdOrUsername(this.userData.id).subscribe((res: userModel) => {
+        console.log('USER DATA FROM DB', res);
+        if (res) {
+          if (res.user_type == USER_TYPE_NUMBER.STUDENT) {
+            this.userType = USER_TYPE_STRING.STUDENT;
+          } else if (res.user_type == USER_TYPE_NUMBER.TEACHER) {
+            this.userType = USER_TYPE_STRING.TEACHER;
 
-              }
-              this.disableUserType = true;
           }
+          this.fcm.getToken().then(token => {
+            console.log('Hi there')
+            this.storage.set("kidder001_fcm_token", token);
+            console.log(token);
+          })
+          this.fcm.onTokenRefresh().subscribe(token => {
+            console.log(token);
+            this.storage.set("kidder001_fcm_token", token);
+            console.log(token);
+          });
+
+          this.disableUserType = true;
+        }
+      }, error => {
+        console.log(error)
       })
 
-    }else{
+    } else {
       console.log('NOT GOOGLE NOT FB')
     }
 
@@ -163,12 +173,13 @@ export class SignUpPage implements OnInit {
 
 
 
-      if(this.userType == null)
-      {
+      if (this.userType == null) {
         this.error_message_flag = true;
         return;
-      }else{
+      } else {
         this.storage.get("kidder001_fcm_token").then((token) => {
+
+
           this.user_model.user_token = token;
           this.error_message = null;
           this.username = null;
@@ -183,18 +194,16 @@ export class SignUpPage implements OnInit {
           this.user_model.user_fb_pic = this.userData.picture;
           this.user_model.user_password = "pass";
 
-          if(this.userType == USER_TYPE_STRING.STUDENT)
-          {
-              this.user_model.user_type = USER_TYPE_NUMBER.STUDENT;
-          }else if(this.userType == USER_TYPE_STRING.TEACHER)
-          {
+          if (this.userType == USER_TYPE_STRING.STUDENT) {
+            this.user_model.user_type = USER_TYPE_NUMBER.STUDENT;
+          } else if (this.userType == USER_TYPE_STRING.TEACHER) {
             this.user_model.user_type = USER_TYPE_NUMBER.TEACHER;
 
           }
 
           this.user_model.user_name = this.userData.username;
 
-          console.log('SAVING USER DATA',this.user_model)
+          console.log('SAVING USER DATA', this.user_model)
           this.userService.saveUserData(this.user_model).subscribe((result) => {
             console.log('save user information', result);
             if (result.body["status"] == "Success") {
@@ -203,10 +212,10 @@ export class SignUpPage implements OnInit {
                 user_name: result.body["user_name"],
                 user_password: result.body["user_password"],
                 user_id: result.body["user_id"],
-                user_fb_id : result.body["user_fb_id"],
-                user_fb_pic : result.body["user_fb_pic"],
-                user_type : result.body["user_type"],
-                user_token : result.body["user_token"],
+                user_fb_id: result.body["user_fb_id"],
+                user_fb_pic: result.body["user_fb_pic"],
+                user_type: result.body["user_type"],
+                user_token: result.body["user_token"],
                 uniqueCode: result.body["uniqueCode"],
               });
               console.log('Fomr submitted');
@@ -216,21 +225,21 @@ export class SignUpPage implements OnInit {
             } else if (result.body["status"] == "Failed" && result.body["error"] != "Username already exits") {
               this.username_error_flg = true;
               this.error_message = result.body["error"];
-  
+
             }
             if (this.disableUserType == true) {
               this.modalCtrl.dismiss(result.body);
-  
+
             }
-  
+
           })
-        },err=>{
-            console.log('error while login')
+        }, err => {
+          console.log('error while login')
         })
       }
       // get token from local storage
 
-    
+
 
 
 
@@ -253,13 +262,13 @@ export class SignUpPage implements OnInit {
           this.storage.set("kidder_user", {
             user_username: result["user_username"],
             user_name: result["user_name"],
-            user_fb_id : result["user_fb_id"],
-            user_fb_pic : result["user_fb_pic"],
-            user_type : result["user_type"],
+            user_fb_id: result["user_fb_id"],
+            user_fb_pic: result["user_fb_pic"],
+            user_type: result["user_type"],
             user_password: result["user_password"],
             user_id: result["user_id"],
 
-            user_token : result["user_token"],
+            user_token: result["user_token"],
             uniqueCode: result["uniqueCode"],
           });
           console.log('Fomr submitted');
@@ -283,7 +292,7 @@ export class SignUpPage implements OnInit {
 
 
 
-   close() {
+  close() {
     this.modalCtrl.dismiss(null);
   }
   setUserData() {

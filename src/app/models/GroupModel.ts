@@ -4,5 +4,5 @@ export class GroupModel
 	  grp_name : string;
 	  grp_admin : string;
 	  grp_desc : string;
-	  grp_unique_code : string;
+	  uniqueCode : string;
 }

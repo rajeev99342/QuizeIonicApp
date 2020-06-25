@@ -45,4 +45,10 @@ export class GroupService {
       return this.http.get(this.baseApiUrl+"/getParticipantByGroup"+"/"+`${grpId}`);
   }
 
+  removeUserOrLeaveGroup(username,grpId,actionBy)
+  {
+    return this.http.post(this.baseApiUrl+"/removeParticipantOrLeaveGroup"+"/"+`${username}`+"/"+`${grpId}`+"/"+`${actionBy}`,{},{observe:'response'})
+
+  }
+
 }

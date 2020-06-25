@@ -18,6 +18,7 @@ import { CompletedPage } from './completed/completed.page';
 import {DraftPage} from './draft/draft.page'
 import { SetSelectedGroup } from './staticData/GroupInfo';
 import { GroupDetailsModel } from './groupDetailModel';
+import { GroupService } from './service/group.service';
 
 @Component({
   selector: 'app-group-info',
@@ -56,6 +57,7 @@ export class GroupInfoPage implements OnInit,OnChanges {
   constructor(
     private route: ActivatedRoute,
     private storage : Storage,
+    private groupService : GroupService,
     private testRoomService:TestRoomService,
     private activateRoute : ActivatedRoute,
     private popoverController: PopoverController, 
@@ -337,6 +339,18 @@ export class GroupInfoPage implements OnInit,OnChanges {
     changeUpcomingFunction()
     {
         console.log('CHANGING UPCOMING FUNCTION');
+    }
+
+    onClickLeaveGroup()
+    {
+        this.groupService.removeUserOrLeaveGroup(this.user.user_username,this.selectedGroup.grp_id,"PARTICIPANT").subscribe((res)=>{
+            if(res.body == true)
+            {
+                console.log('PARTICIPANT REMOVED');
+            }else{
+                console.log('NOT ABLE TO REMOVE PARTICIPANT');
+            }
+        })
     }
 
 }

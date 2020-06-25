@@ -21,7 +21,7 @@ export class AddParticipantPage implements OnInit {
   participants : userModel [] = [];
   groupInfo : GroupModel;
   selectedGroup : GroupModel;
-
+  pic = null;
   user : userModel;
   constructor(
     private modalController : ModalController,
@@ -85,6 +85,7 @@ export class AddParticipantPage implements OnInit {
             this.isKeyDown = false;
             this.user_name = response["user_name"];
             this.user_username = response["user_username"];
+            this.pic = response["user_fb_pic"];
           }else{
             this.isKeyDown = true;
             this.isFound = false;
@@ -107,8 +108,9 @@ export class AddParticipantPage implements OnInit {
         if(res)
         {
             // call notification service
-            this.notification.addParticipantNotification(this.user.user_token).subscribe((res)=>{
+            this.notification.addParticipantNotification(this.user,this.selectedGroup).subscribe((res)=>{
                 console.log('Sent notification successfully')
+                this.modalController.dismiss();
             })
 
         }

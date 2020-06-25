@@ -26,8 +26,9 @@ export class ParticipantPage implements OnInit {
   selectedGroup: GroupModel;
   popoverParticipantRqstList: any;
   testRoomList: QuizModel[] = [];
-  userObject : userModel;
+  userObject: userModel;
   cities2: any = [];
+  isAdmin : boolean = false;
   constructor(
     private testRoomService: TestRoomService,
     public navParams: NavParams,
@@ -40,12 +41,63 @@ export class ParticipantPage implements OnInit {
 
   ngOnInit() {
 
-    this.storage.get('kidder_user').then((userData)=>{
-      if(userData)
-      {
-          this.userObject = userData;
+    this.storage.get('kidder_user').then((userData) => {
+      if (userData) {
+        this.userObject = userData;
+        if(this.userObject.user_username == this.selectedGroup.grp_admin)
+        {
+            this.isAdmin = true;
+        }
       }
-  })
+    })
+
+
+    this.getParticipants();
+
+  }
+
+  filterGroup(ent) {
+    this.ngOnInit();
+    const searchItem = ent.srcElement.value;
+    if (!searchItem) {
+      return;
+    }
+    this.cities2 = this.cities2.filter((val) => {
+      if (val.name && searchItem) {
+        if (val.name.toLowerCase().indexOf(searchItem.toLowerCase()) > -1) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    })
+
+  }
+
+  async addParticipant() {
+    this.addParticipantModel = await this.modalController.create({
+      component: AddParticipantPage,
+      animated: true,
+      showBackdrop: true,
+      cssClass: 'my-custom-add-member-modal-css',
+      componentProps: {
+        groupInfo: { 'group': this.selectedGroup, 'participant': this.participants }
+      }
+
+    });
+    this.addParticipantModel.onDidDismiss().then(dataReturned => {
+      if (dataReturned.data) {
+          this.getParticipants();
+      } else {
+        console.log('add group member');
+      }
+    });
+    return await this.addParticipantModel.present();
+  }
+
+
+  getParticipants()
+  {
 
     this.groupService.userByGroupId(this.selectedGroup.grp_id).subscribe((res: userModel[]) => {
       if (res) {
@@ -69,48 +121,6 @@ export class ParticipantPage implements OnInit {
         console.log('PARTICIPANT', this.participants)
       }
     })
-  }
-
-  filterGroup(ent) {
-    this.ngOnInit();
-    const searchItem = ent.srcElement.value;
-    if (!searchItem) {
-      return;
-    }
-    this.cities2 = this.cities2.filter((val) => {
-      if (val.name && searchItem) {
-        if (val.name.toLowerCase().indexOf(searchItem.toLowerCase()) > -1) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    })
-
-  }
-
-  async addParticipant() {
-
-
-
-    this.addParticipantModel = await this.modalController.create({
-      component: AddParticipantPage,
-      animated: true,
-      showBackdrop: true,
-      cssClass: 'my-custom-add-member-modal-css',
-      componentProps: {
-        groupInfo: { 'group': this.selectedGroup, 'participant': this.participants }
-      }
-
-    });
-    this.addParticipantModel.onDidDismiss().then(dataReturned => {
-      if (dataReturned.data) {
-
-      } else {
-        console.log('add group member');
-      }
-    });
-    return await this.addParticipantModel.present();
   }
 
 }

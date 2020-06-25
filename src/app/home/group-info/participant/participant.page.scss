@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Abel");
 
 .participant_grid {
-  border-top: 1px solid #cecece;
-  border-bottom: 1px solid #b7b3b3;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #e4e4e4;
   height: 5rem;
   padding-top: 0.4rem;
 }
@@ -26,4 +26,12 @@
   padding-top: 8px;
   padding-bottom: 8px;
   background: inherit;
+}
+
+
+.remove_text{
+  color: red;
+    padding: 28px;
+    font-size: 11px;
+    margin-left: 2rem;
 }

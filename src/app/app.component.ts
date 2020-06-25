@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Platform, MenuController, ModalController, NavController } from '@ionic/angular';
+import { Platform, MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
@@ -9,15 +9,16 @@ import { StorageService } from './home/storage.service';
 import { Router } from '@angular/router';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import * as firebase from 'firebase/app'
-import {AngularFireAuth} from 'angularfire2/auth'
+import { AngularFireAuth } from 'angularfire2/auth'
 // import {Observable} from 'rxjs/Observable'
 import { FCM } from '@ionic-native/fcm/ngx';
 import { SignUpPage } from './home/sign-up/sign-up.page';
-import {GooglePlus} from '@ionic-native/google-plus/ngx'
+import { GooglePlus } from '@ionic-native/google-plus/ngx'
 import { Observable } from 'rxjs';
 import { AngularFireModule } from 'angularfire2';
 import { UserService } from './home/user/service/user.service';
-
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+var $  : any;
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -25,8 +26,8 @@ import { UserService } from './home/user/service/user.service';
 })
 export class AppComponent implements OnInit {
 
-  user : Observable<firebase.User>;
-
+  user: Observable<firebase.User>;
+  sharableId = null;
   public selectedIndex = 0;
   username: string;
   userData = null;
@@ -42,7 +43,7 @@ export class AppComponent implements OnInit {
     }
   ];
   public labels = ['log out'];
-  pic : any;
+  pic: any;
   constructor(
     public menuCtrl: MenuController,
     private fcm: FCM,
@@ -51,11 +52,13 @@ export class AppComponent implements OnInit {
     private splashScreen: SplashScreen,
     public navCtrl: NavController,
     public afAuth: AngularFireAuth,
-    public gplus : GooglePlus,
-    public modalCtrl:ModalController,
-    public platform : Platform,
-    public userService : UserService,
+    public gplus: GooglePlus,
+    public modalCtrl: ModalController,
+    public platform: Platform,
+    private clipboard: Clipboard,
+    public userService: UserService,
     public fb: Facebook,
+    private toastController : ToastController,
     private statusBar: StatusBar,
     private storageService: StorageService,
     private storage: Storage
@@ -73,82 +76,76 @@ export class AppComponent implements OnInit {
 
 
 
-  GoogleLogin()
- {
-    if(this.platform.is('cordova'))
-    {
-        this.nativeGoogleLogin();
-        console.log('USER DATA FROM GOOGLE',this.user)
-    }else{
-        this.webGoogleLogin();
+  GoogleLogin() {
+    if (this.platform.is('cordova')) {
+      this.nativeGoogleLogin();
+      console.log('USER DATA FROM GOOGLE', this.user)
+    } else {
+      this.webGoogleLogin();
     }
- }
-
-//  async nativeGoogleLogin(): Promise<any>{
-//     try{
-
-//           const gPlusUser = await this.gplus.login({
-//               'webClientId':'34056290890-ps9628l6qifti1g16qe8677rm6i4mpi5.apps.googleusercontent.com',
-//               'offline':true,
-//               'scopes':'profile email'
-//           })
-
-//           return await this.afAuth.auth.signInWithCredential(
-//             firebase.auth.GoogleAuthProvider.credential(gPlusUser.idToken)
-//           )
-
-//     }catch(e)
-//     {
-//         console.log(e)
-//     }
-//  }
-nativeGoogleLogin(){
-  try{
-
-        const gPlusUser =  this.gplus.login({
-            'webClientId':'34056290890-ps9628l6qifti1g16qe8677rm6i4mpi5.apps.googleusercontent.com',
-            'offline':true,
-            'scopes':'profile email'
-        }).then(res=>{
-          const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
-          firebase.auth().signInWithCredential(googleCredential)
-          .then(res=>{
-            console.log('Firebase success',res.user.providerData);
-            this.userData =res.user.providerData[0];
-            this.signUp(this.userData,"FROM_GOOGLE")
-          })
-        })
-
-
-  }catch(e)
-  {
-      console.log(e)
   }
-}
+
+  //  async nativeGoogleLogin(): Promise<any>{
+  //     try{
+
+  //           const gPlusUser = await this.gplus.login({
+  //               'webClientId':'34056290890-ps9628l6qifti1g16qe8677rm6i4mpi5.apps.googleusercontent.com',
+  //               'offline':true,
+  //               'scopes':'profile email'
+  //           })
+
+  //           return await this.afAuth.auth.signInWithCredential(
+  //             firebase.auth.GoogleAuthProvider.credential(gPlusUser.idToken)
+  //           )
+
+  //     }catch(e)
+  //     {
+  //         console.log(e)
+  //     }
+  //  }
+  nativeGoogleLogin() {
+    try {
+
+      const gPlusUser = this.gplus.login({
+        'webClientId': '34056290890-ps9628l6qifti1g16qe8677rm6i4mpi5.apps.googleusercontent.com',
+        'offline': true,
+        'scopes': 'profile email'
+      }).then(res => {
+        const googleCredential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
+        firebase.auth().signInWithCredential(googleCredential)
+          .then(res => {
+            console.log('Firebase success', res.user.providerData);
+            this.userData = res.user.providerData[0];
+            this.signUp(this.userData, "FROM_GOOGLE")
+          })
+      })
 
 
- async webGoogleLogin():Promise<any>{
-    try{
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
+  async webGoogleLogin(): Promise<any> {
+    try {
       const provider = new firebase.auth.GoogleAuthProvider();
       const credential = await this.afAuth.auth.signInWithPopup(provider)
-    }catch(e)
-    {
-        console.log(e);
+    } catch (e) {
+      console.log(e);
     }
- }
+  }
 
 
- signOut()
- {
+  signOut() {
 
-    console.log('USER INFO FROM GOOGLE',this.user)
+    console.log('USER INFO FROM GOOGLE', this.user)
     this.afAuth.auth.signOut();
 
-    if(this.platform.is('cordova'))
-    {
-        this.gplus.logout();
+    if (this.platform.is('cordova')) {
+      this.gplus.logout();
     }
- }
+  }
 
   updateUserName(userOBject) {
 
@@ -158,11 +155,25 @@ nativeGoogleLogin(){
       this.username = userOBject.user_name;
 
       this.pic = userOBject.user_fb_pic;
+      this.sharableId = userOBject.user_username;
     }
 
 
   }
 
+  copyToClipboard(event) {
+    this.clipboard.copy(this.sharableId);
+    this.presentToast('Copied')
+  }
+  async presentToast(ev) {
+    const toast = await this.toastController.create({
+      message: ev,
+      duration: 1000,
+      position:'middle',
+      color:'success'
+    });
+    toast.present();
+  }
   initializeApp() {
     // let status bar overlay webview
     this.statusBar.overlaysWebView(true);
@@ -190,10 +201,10 @@ nativeGoogleLogin(){
       this.fcm.onNotification().subscribe(data => {
         console.log(data);
         if (data.wasTapped) {
-          console.log('Received in background');
+          console.log('Received in background',data);
           this.router.navigate([data.landing_page, data.price]);
         } else {
-          console.log('Received in foreground');
+          console.log('Received in foreground',data);
           this.router.navigate([data.landing_page, data.price]);
         }
       });
@@ -215,6 +226,7 @@ nativeGoogleLogin(){
       if (userObject != null) {
         this.username = userObject.user_name;
         this.pic = userObject.user_fb_pic;
+        this.sharableId = userObject.user_username;
         console.log("username exits", this.username)
         if (this.username != null) {
           UserInfo.setUserName(this.username);
@@ -240,6 +252,8 @@ nativeGoogleLogin(){
 
     this.updateUserName(null);
     this.pic = null;
+
+    this.sharableId = null
     this.menuCtrl.close();
     this.storageService.changeAfterLogout(null);
     this.storageService.changeStorageValue(null);
@@ -248,14 +262,14 @@ nativeGoogleLogin(){
 
 
 
-  async signUp(env,from) {
+  async signUp(env, from) {
     const modal = await this.modalController.create({
       component: SignUpPage,
       backdropDismiss: true,
       // cssClass: 'signup-custom-modal-css',
       componentProps: {
         MODAL_TYPE: env,
-        FROM :from
+        FROM: from
       }
 
     });
@@ -263,6 +277,8 @@ nativeGoogleLogin(){
       if (dataReturned.data) {
         this.username = dataReturned.data.user_name;
         this.pic = dataReturned.data.user_fb_pic;
+
+        this.sharableId = dataReturned.data.user_username;
         this.storageService.changeStorageValue(dataReturned.data);
 
       } else {
@@ -291,6 +307,7 @@ nativeGoogleLogin(){
         this.username = dataReturned.data.user_name;
 
         this.pic = dataReturned.data.user_fb_pic;
+        this.sharableId = dataReturned.data.user_username;
       } else {
         console.log('add group member');
       }
@@ -300,47 +317,47 @@ nativeGoogleLogin(){
     return await modal.present();
   }
 
- 
- login() {
-      this.userService.loginUser("2711345942466921", "pass").subscribe((result) => {
-        console.log('user Logged in', result);
 
-        if (result["status"] != "Failed") {
-          this.storage.set("kidder_user", {
-            user_username: result["user_username"],
-            user_name: result["user_name"],
-            user_fb_id : result["user_fb_id"],
-            user_fb_pic : result["user_fb_pic"],
-            user_type : result["user_type"],
-            user_password: result["user_password"],
-            user_id: result["user_id"],
+  login() {
+    this.userService.loginUser("sonu", "123").subscribe((result) => {
+      console.log('user Logged in', result);
 
-            user_token : result["user_token"],
-            uniqueCode: result["uniqueCode"],
-          });
-          console.log('Fomr submitted');
-          this.username = result["user_username"];
-          this.storageService.changeStorageValue(result);
-        } else {
-          
-        }
+      if (result["status"] != "Failed") {
+        this.storage.set("kidder_user", {
+          user_username: result["user_username"],
+          user_name: result["user_name"],
+          user_fb_id: result["user_fb_id"],
+          user_fb_pic: result["user_fb_pic"],
+          user_type: result["user_type"],
+          user_password: result["user_password"],
+          user_id: result["user_id"],
 
-        if (this.username != null) {
-          this.modalCtrl.dismiss(result);
+          user_token: result["user_token"],
+          uniqueCode: result["uniqueCode"],
+        });
+        console.log('Fomr submitted');
+        this.username = result["user_username"];
+        this.storageService.changeStorageValue(result);
+      } else {
 
-        }
+      }
 
-      })
+      if (this.username != null) {
+        this.modalCtrl.dismiss(result);
+
+      }
+
+    })
   }
 
   facebookLogin(env) {
     this.fb.login(['public_profile', 'email'])
-      .then((res: FacebookLoginResponse) =>{
-  // alert(JSON.stringify(res))
-        this.fb.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)',[]).then(profile =>{
-          this.userData = {email:profile['email'],first_name:profile['first_name'],picture:profile['picture_large']['data']['url'],username:profile['name'],id:profile["id"]};
-          console.log('PROFILE',profile)
-          this.signUp(this.userData,"FROM_FB");
+      .then((res: FacebookLoginResponse) => {
+        // alert(JSON.stringify(res))
+        this.fb.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+          this.userData = { email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name'], id: profile["id"] };
+          console.log('PROFILE', profile)
+          this.signUp(this.userData, "FROM_FB");
         })
       }
       )

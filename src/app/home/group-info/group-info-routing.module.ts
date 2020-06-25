@@ -21,7 +21,7 @@ const routes: Routes = [
     loadChildren: () => import('./add-participant/add-participant.module').then( m => m.AddParticipantPageModule)
   },
   {
-    path: 'live-test',
+    path: 'live-test/:quizId',
     loadChildren: () => import('./live-test/live-test.module').then( m => m.LiveTestPageModule)
   }
 ];
